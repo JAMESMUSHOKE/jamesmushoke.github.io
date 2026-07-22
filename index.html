@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOKO LA PIONEER - GCV Store</title>
+    <title>PIONEER MARKET</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body { font-family: Arial; background: #f0f0f0; padding: 15px; margin: 0; }
@@ -11,12 +11,10 @@
        .lang { text-align: center; margin-bottom: 10px; }
        .lang button { background: #ddd; border: none; padding: 8px 15px; margin: 5px; border-radius: 5px; cursor: pointer; }
        .product { background: white; border-radius: 15px; padding: 15px; margin: 15px auto; max-width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-       .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
+       .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; background: #eee; }
        .product h3 { color: #6B46C1; margin: 10px 0 5px 0; }
        .price { font-size: 18px; color: #FF5722; font-weight: bold; }
        .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; }
-       .btn:hover { background: #553C9A; }
-       .status { font-size: 12px; color: green; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -28,31 +26,38 @@
     <h1 id="title">PIONEER MARKET</h1>
     <p style="text-align:center;" id="subtitle">GCV: 1 Pi = $314,159</p>
 
+    <!-- BIDHAA 1 -->
     <div class="product">
-        <img src="https://i.imgur.com/8Km9tLL.jpg" alt="Watch">
+        <img src="watch.jpg" alt="Watch">
         <h3 id="p1_name">Wrist Watch</h3>
         <p class="price" data-dollar="50"></p>
         <button class="btn" onclick="payWithPi(0.000159, 'Wrist Watch')" id="p1_btn">Buy with Pi</button>
-        <p class="status" id="p1_status"></p>
+    </div>
+
+    <!-- BIDHAA 2 -->
+    <div class="product">
+        <img src="shoes.jpg" alt="Shoes">
+        <h3 id="p2_name">Sports Shoes</h3>
+        <p class="price" data-dollar="300"></p>
+        <button class="btn" onclick="payWithPi(0.000955, 'Sports Shoes')" id="p2_btn">Buy with Pi</button>
     </div>
 
 <script>
 const GCV = 314159;
 let lang = 'en';
-
 const texts = {
-    en: { title: "PIONEER MARKET", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Wrist Watch", btn: "Buy with Pi", success: "Order Created! Waiting for delivery confirmation." },
-    sw: { title: "SOKO LA PIONEER", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Saa ya Mkono", btn: "Nunua kwa Pi", success: "Oda Imeundwa! Subiri uthibitisho wa mzigo." }
+    en: { title: "PIONEER MARKET", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Wrist Watch", p2_name: "Sports Shoes", btn: "Buy with Pi" },
+    sw: { title: "SOKO LA PIONEER", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Saa ya Mkono", p2_name: "Viatu vya Michezo", btn: "Nunua kwa Pi" }
 }
-
 function setLanguage(l){
     lang = l;
     document.getElementById("title").innerText = texts[l].title;
     document.getElementById("subtitle").innerText = texts[l].subtitle;
     document.getElementById("p1_name").innerText = texts[l].p1_name;
+    document.getElementById("p2_name").innerText = texts[l].p2_name;
     document.getElementById("p1_btn").innerText = texts[l].btn;
+    document.getElementById("p2_btn").innerText = texts[l].btn;
 }
-
 function formatPi(priceInDollar) { 
     let pi = priceInDollar / GCV; 
     return pi.toFixed(6) + " Pi ≈ $" + priceInDollar.toLocaleString(); 
@@ -63,27 +68,16 @@ document.addEventListener("DOMContentLoaded", function() {
         let dollar = parseFloat(p.getAttribute("data-dollar"));
         if(dollar){ p.innerHTML = formatPi(dollar); }
     });
-    Pi.init({ version: "2.0" }); // SANDBOX IMEONDOLEWA - SASA INAFUNGUA WALLET YA KWELI
+    Pi.init({ version: "2.0" }); 
 });
 
 async function payWithPi(amount, productName) {
-    const paymentData = {
-        amount: amount,
-        memo: "Order: " + productName,
-        metadata: { product: productName, status: "pending_delivery" } // Hapa tunaweka hali ya oda
-    };
+    const paymentData = { amount: amount, memo: "Order: " + productName, metadata: { product: productName } };
     const callbacks = {
-        onReadyForServerApproval: function(paymentId) { 
-            console.log("Approved:", paymentId); 
-            // Hapa server yako inapaswa kuhifadhi paymentId na kusubiri
-        },
-        onReadyForServerCompletion: function(paymentId, txid) { 
-            alert(texts[lang].success + "\nTx: " + txid); 
-            document.getElementById("p1_status").innerText = texts[lang].success;
-            // Hapa Pi inashikiliwa. Itatoka kwa muuzaji mnunuzi atakapo kubali
-        },
+        onReadyForServerApproval: function(paymentId) { console.log("Approved:", paymentId); },
+        onReadyForServerCompletion: function(paymentId, txid) { alert("Payment Sent! Tx: " + txid); },
         onCancel: function(paymentId) { alert("Cancelled"); },
-        onError: function(error) { alert("Error: " + error); }
+        onError: function(error) { alert("Error: " + error + "\nFungua ndani ya Pi Browser"); }
     };
     Pi.createPayment(paymentData, callbacks);
 }
