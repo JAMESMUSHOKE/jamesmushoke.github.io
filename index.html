@@ -25,19 +25,19 @@
     <div class="card">
       <img src="https://via.placeholder.com/250x150.png?text=Simu" alt="Simu">
       <h3>Simu ya Mkononi</h3>
-      <p class="price">50 Pi</p>
+      <p class="price" data-dollar="500"></p>
       <button class="btn" onclick="pay(50, 'Simu')">Nunua Sasa</button>
     </div>
     <div class="card">
       <img src="https://via.placeholder.com/250x150.png?text=Mafuta" alt="Mafuta">
       <h3>Mafuta ya Kupikia 5L</h3>
-      <p class="price">5 Pi</p>
+      <p class="price" data-dollar="500"></p>
       <button class="btn" onclick="pay(5, 'Mafuta')">Nunua Sasa</button>
     </div>
     <div class="card">
       <img src="https://via.placeholder.com/250x150.png?text=Nguo" alt="Nguo">
       <h3>Nguo za Watoto</h3>
-      <p class="price">10 Pi</p>
+      <p class="price" data-dollar="500"></p>
       <button class="btn" onclick="pay(10, 'Nguo')">Nunua Sasa</button>
     </div>
   </div>
@@ -60,5 +60,24 @@
     }
     function onIncompletePaymentFound(payment) { console.log(payment); }
   </script>
-</body>
+</body><script>
+// GCV Calculator - 1 Pi = $314,159
+const GCV = 314159;
+
+function formatPi(priceInDollar) {
+    let pi = priceInDollar / GCV;
+    return pi.toFixed(6) + " Pi";
+}
+
+// Mfano: Ikiwa bidhaa ni $500, itaandika 0.001591 Pi
+document.addEventListener("DOMContentLoaded", function() {
+    let prices = document.querySelectorAll(".price");
+    prices.forEach(function(p) {
+        let dollar = parseFloat(p.getAttribute("data-dollar"));
+        if(dollar){
+            p.innerHTML = formatPi(dollar) + " <br><small>≈ $" + dollar.toLocaleString() + "</small>";
+        }
+    });
+});
+</script>
 </html>
