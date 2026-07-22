@@ -4,83 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PIONEER MARKET</title>
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body { font-family: Arial; background: #f0f0f0; padding: 15px; margin: 0; }
-        h1 { text-align: center; color: #6B46C1; }
-       .lang { text-align: center; margin-bottom: 10px; }
-       .lang button { background: #ddd; border: none; padding: 8px 15px; margin: 5px; border-radius: 5px; cursor: pointer; }
-       .product { background: white; border-radius: 15px; padding: 15px; margin: 15px auto; max-width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-       .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; background: #eee; }
-       .product h3 { color: #6B46C1; margin: 10px 0 5px 0; }
-       .price { font-size: 18px; color: #FF5722; font-weight: bold; }
-       .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        body { font-family: Arial; background: #f0f0f0; padding: 15px; text-align: center; }
+        .product { background: white; border-radius: 15px; padding: 15px; max-width: 400px; margin: 20px auto; }
+        .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
+        .price { font-size: 18px; color: #FF5722; font-weight: bold; }
+        .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
-    <div class="lang">
-        <button onclick="setLanguage('en')">English</button>
-        <button onclick="setLanguage('sw')">Kiswahili</button>
-    </div>
+    <h1 style="color:#6B46C1;">PIONEER MARKET</h1>
 
-    <h1 id="title">PIONEER MARKET</h1>
-    <p style="text-align:center;" id="subtitle">GCV: 1 Pi = $314,159</p>
-
-    <!-- BIDHAA 1 -->
     <div class="product">
         <img src="watch.jpg" alt="Watch">
-        <h3 id="p1_name">Wrist Watch</h3>
-        <p class="price" data-dollar="50"></p>
-        <button class="btn" onclick="payWithPi(0.000159, 'Wrist Watch')" id="p1_btn">Buy with Pi</button>
+        <h3>Wrist Watch</h3>
+        <p class="price">0.000159 Pi ≈ $50</p>
+        <button class="btn">Buy with Pi</button>
     </div>
 
-    <!-- BIDHAA 2 -->
-    <div class="product">
-        <img src="shoes.jpg" alt="Shoes">
-        <h3 id="p2_name">Sports Shoes</h3>
-        <p class="price" data-dollar="300"></p>
-        <button class="btn" onclick="payWithPi(0.000955, 'Sports Shoes')" id="p2_btn">Buy with Pi</button>
-    </div>
-
-<script>
-const GCV = 314159;
-let lang = 'en';
-const texts = {
-    en: { title: "PIONEER MARKET", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Wrist Watch", p2_name: "Sports Shoes", btn: "Buy with Pi" },
-    sw: { title: "SOKO LA PIONEER", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Saa ya Mkono", p2_name: "Viatu vya Michezo", btn: "Nunua kwa Pi" }
-}
-function setLanguage(l){
-    lang = l;
-    document.getElementById("title").innerText = texts[l].title;
-    document.getElementById("subtitle").innerText = texts[l].subtitle;
-    document.getElementById("p1_name").innerText = texts[l].p1_name;
-    document.getElementById("p2_name").innerText = texts[l].p2_name;
-    document.getElementById("p1_btn").innerText = texts[l].btn;
-    document.getElementById("p2_btn").innerText = texts[l].btn;
-}
-function formatPi(priceInDollar) { 
-    let pi = priceInDollar / GCV; 
-    return pi.toFixed(6) + " Pi ≈ $" + priceInDollar.toLocaleString(); 
-}
-document.addEventListener("DOMContentLoaded", function() { 
-    let prices = document.querySelectorAll(".price");
-    prices.forEach(function(p) { 
-        let dollar = parseFloat(p.getAttribute("data-dollar"));
-        if(dollar){ p.innerHTML = formatPi(dollar); }
-    });
-    Pi.init({ version: "2.0" }); 
-});
-
-async function payWithPi(amount, productName) {
-    const paymentData = { amount: amount, memo: "Order: " + productName, metadata: { product: productName } };
-    const callbacks = {
-        onReadyForServerApproval: function(paymentId) { console.log("Approved:", paymentId); },
-        onReadyForServerCompletion: function(paymentId, txid) { alert("Payment Sent! Tx: " + txid); },
-        onCancel: function(paymentId) { alert("Cancelled"); },
-        onError: function(error) { alert("Error: " + error + "\nFungua ndani ya Pi Browser"); }
-    };
-    Pi.createPayment(paymentData, callbacks);
-}
-</script>
 </body>
 </html>
