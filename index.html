@@ -1,51 +1,58 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOKO LA PIONEER</title>
+    <title>SOKO LA PIONEER - GCV Store</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body { font-family: Arial; background: #f0f0f0; padding: 15px; margin: 0; }
         h1 { text-align: center; color: #6B46C1; }
-        .product { background: white; border-radius: 15px; padding: 15px; margin: 15px auto; max-width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
-        .product h3 { color: #6B46C1; margin: 10px 0 5px 0; }
-        .price { font-size: 18px; color: #FF5722; font-weight: bold; }
-        .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .btn:hover { background: #553C9A; }
+       .lang { text-align: center; margin-bottom: 10px; }
+       .lang button { background: #ddd; border: none; padding: 8px 15px; margin: 5px; border-radius: 5px; cursor: pointer; }
+       .product { background: white; border-radius: 15px; padding: 15px; margin: 15px auto; max-width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+       .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
+       .product h3 { color: #6B46C1; margin: 10px 0 5px 0; }
+       .price { font-size: 18px; color: #FF5722; font-weight: bold; }
+       .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; }
+       .btn:hover { background: #553C9A; }
+       .status { font-size: 12px; color: green; margin-top: 5px; }
     </style>
 </head>
 <body>
-    <h1>SOKO LA PIONEER</h1>
-    <p style="text-align:center;">GCV: 1 Pi = $314,159</p>
+    <div class="lang">
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('sw')">Kiswahili</button>
+    </div>
 
-    <!-- BIDHAA 1 -->
+    <h1 id="title">PIONEER MARKET</h1>
+    <p style="text-align:center;" id="subtitle">GCV: 1 Pi = $314,159</p>
+
     <div class="product">
-        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" alt="Saa">
-        <h3>Saa ya Mkono</h3>
+        <img src="https://i.imgur.com/8Km9tLL.jpg" alt="Watch">
+        <h3 id="p1_name">Wrist Watch</h3>
         <p class="price" data-dollar="50"></p>
-        <button class="btn" onclick="payWithPi(0.000159, 'Saa ya Mkono')">Nunua kwa Pi</button>
-    </div>
-
-    <!-- BIDHAA 2 -->
-    <div class="product">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="Viatu">
-        <h3>Viatu vya Michezo</h3>
-        <p class="price" data-dollar="300"></p>
-        <button class="btn" onclick="payWithPi(0.000955, 'Viatu vya Michezo')">Nunua kwa Pi</button>
-    </div>
-
-    <!-- BIDHAA 3 -->
-    <div class="product">
-        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400" alt="Laptop">
-        <h3>Laptop</h3>
-        <p class="price" data-dollar="15000"></p>
-        <button class="btn" onclick="payWithPi(0.047747, 'Laptop')">Nunua kwa Pi</button>
+        <button class="btn" onclick="payWithPi(0.000159, 'Wrist Watch')" id="p1_btn">Buy with Pi</button>
+        <p class="status" id="p1_status"></p>
     </div>
 
 <script>
 const GCV = 314159;
+let lang = 'en';
+
+const texts = {
+    en: { title: "PIONEER MARKET", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Wrist Watch", btn: "Buy with Pi", success: "Order Created! Waiting for delivery confirmation." },
+    sw: { title: "SOKO LA PIONEER", subtitle: "GCV: 1 Pi = $314,159", p1_name: "Saa ya Mkono", btn: "Nunua kwa Pi", success: "Oda Imeundwa! Subiri uthibitisho wa mzigo." }
+}
+
+function setLanguage(l){
+    lang = l;
+    document.getElementById("title").innerText = texts[l].title;
+    document.getElementById("subtitle").innerText = texts[l].subtitle;
+    document.getElementById("p1_name").innerText = texts[l].p1_name;
+    document.getElementById("p1_btn").innerText = texts[l].btn;
+}
+
 function formatPi(priceInDollar) { 
     let pi = priceInDollar / GCV; 
     return pi.toFixed(6) + " Pi ≈ $" + priceInDollar.toLocaleString(); 
@@ -56,24 +63,30 @@ document.addEventListener("DOMContentLoaded", function() {
         let dollar = parseFloat(p.getAttribute("data-dollar"));
         if(dollar){ p.innerHTML = formatPi(dollar); }
     });
+    Pi.init({ version: "2.0" }); // SANDBOX IMEONDOLEWA - SASA INAFUNGUA WALLET YA KWELI
 });
 
 async function payWithPi(amount, productName) {
-    Pi.init({ version: "2.0", sandbox: true });
     const paymentData = {
         amount: amount,
-        memo: "Kununua: " + productName,
-        metadata: { product: productName }
+        memo: "Order: " + productName,
+        metadata: { product: productName, status: "pending_delivery" } // Hapa tunaweka hali ya oda
     };
     const callbacks = {
-        onReadyForServerApproval: function(paymentId) { console.log("Approved:", paymentId); },
-        onReadyForServerCompletion: function(paymentId, txid) { alert("Asante! Umenunua " + productName + "\nTx: " + txid); },
-        onCancel: function(paymentId) { alert("Umeaghairi ununuzi"); },
-        onError: function(error) { alert("Kosa: " + error); }
+        onReadyForServerApproval: function(paymentId) { 
+            console.log("Approved:", paymentId); 
+            // Hapa server yako inapaswa kuhifadhi paymentId na kusubiri
+        },
+        onReadyForServerCompletion: function(paymentId, txid) { 
+            alert(texts[lang].success + "\nTx: " + txid); 
+            document.getElementById("p1_status").innerText = texts[lang].success;
+            // Hapa Pi inashikiliwa. Itatoka kwa muuzaji mnunuzi atakapo kubali
+        },
+        onCancel: function(paymentId) { alert("Cancelled"); },
+        onError: function(error) { alert("Error: " + error); }
     };
     Pi.createPayment(paymentData, callbacks);
 }
-Pi.init({ version: "2.0", sandbox: true });
 </script>
 </body>
 </html>
