@@ -1,26 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIONEER MARKET</title>
-    <style>
-        body { font-family: Arial; background: #f0f0f0; padding: 15px; text-align: center; }
-        .product { background: white; border-radius: 15px; padding: 15px; max-width: 400px; margin: 20px auto; }
-        .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
-        .price { font-size: 18px; color: #FF5722; font-weight: bold; }
-        .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; font-size: 16px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOKO LA PIONEER</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f5f0ff; padding: 20px; }
+    h1 { color: #6a0dad; }
+    .product { background: white; padding: 15px; border-radius: 10px; margin: 20px; }
+    button { background: #6a0dad; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; }
+  </style>
 </head>
 <body>
-    <h1 style="color:#6B46C1;">PIONEER MARKET</h1>
 
-    <div class="product">
-        <img src="watch.jpg" alt="Watch">
-        <h3>Wrist Watch</h3>
-        <p class="price">0.000159 Pi ≈ $50</p>
-        <button class="btn">Buy with Pi</button>
-    </div>
+  <h1>SOKO LA PIONEER</h1>
+  <p>Nunua na Uuze kwa Pi - GCV 1π = 314159</p>
+
+  <div class="product">
+    <h3>Asali Asili</h3>
+    <p>Bei: 1.5 π</p>
+    <button onclick="buyWithPi(1.5, 'Asali Asili')">BUY WITH PI</button>
+  </div>
+
+  <div class="product">
+    <h3>Earbuds Wireless</h3>
+    <p>Bei: 2.0 π</p>
+    <button onclick="buyWithPi(2.0, 'Earbuds Wireless')">BUY WITH PI</button>
+  </div>
+
+<script>
+  // 1. Anzisha Pi SDK na Client ID yako
+  Pi.init({ version: "2.0", clientId: "r-VpJRLIt_Dg6zUIOZDUoWDeW7yEEas69ok" });
+
+  // 2. Function ya kulipa
+  function buyWithPi(amount, productName) {
+    const paymentData = {
+      amount: amount, 
+      memo: "Kununua: " + productName,
+      metadata: { product: productName }
+    };
+
+    const callbacks = {
+      onReadyForServerApproval: function(paymentId) {
+        alert("Tunasubiri uthibitisho wa malipo...");
+      },
+      onReadyForServerCompletion: function(paymentId, txid) {
+        alert("Hongera! Umenunua " + productName + " kwa mafanikio.");
+      },
+      onCancel: function(paymentId) {
+        alert("Umefuta malipo");
+      },
+      onError: function(error) {
+        alert("Kuna hitilafu: " + error);
+      }
+    };
+
+    Pi.createPayment(paymentData, callbacks);
+  }
+</script>
 
 </body>
 </html>
