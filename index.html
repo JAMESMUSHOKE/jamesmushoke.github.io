@@ -18,27 +18,58 @@
   </style>
 </head>
 <body>
-  <h1>KARIBU SOKO LA PIONEER</h1>
-  <p>Mahali pa Wapainia Kununua na Kuuza kwa Pi</p>
-  <button class="btn" onclick="login()">Ingia na Pi Wallet</button>
-  <div class="products">
-    <div class="card">
-      <img src="https://via.placeholder.com/250x150.png?text=Simu" alt="Simu">
-      <h3>Simu ya Mkononi</h3>
-      <p class="price" data-dollar="500"></p>
-      <button class="btn" onclick="pay(50, 'Simu')">Nunua Sasa</button>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/250x150.png?text=Mafuta" alt="Mafuta">
-      <h3>Mafuta ya Kupikia 5L</h3>
-      <p class="price" data-dollar="500"></p>
-      <button class="btn" onclick="pay(5, 'Mafuta')">Nunua Sasa</button>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/250x150.png?text=Nguo" alt="Nguo">
-      <h3>Nguo za Watoto</h3>
-      <p class="price" data-dollar="500"></p>
-<button class="btn" onclick="payWithPi(500, 'Simu ya Mkononi')">Nunua Sasa kwa Pi</button>
+<script>
+let currentLang = 'sw';
+
+function setLanguage(lang){
+    currentLang = lang;
+    document.querySelectorAll('[data-sw]').forEach(el => {
+        el.innerText = el.getAttribute('data-' + lang);
+    });
+}
+
+const GCV = 314159;
+function formatPi(priceInDollar) {
+    let pi = priceInDollar / GCV;
+    return pi.toFixed(6) + " Pi";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    setLanguage('sw'); // anza na Kiswahili
+    let prices = document.querySelectorAll(".price");
+    prices.forEach(function(p) {
+        let dollar = parseFloat(p.getAttribute("data-dollar"));
+        if(dollar){
+            p.innerHTML = formatPi(dollar) + " <br><small>≈ $" + dollar.toLocaleString() + "</small>";
+        }
+    });
+});
+
+function payWithPi(amount, memo) {
+    const piAmount = amount / 314159;
+    alert("Utatumia: " + piAmount.toFixed(6) + " Pi \nKwa: " + memo);
+}
+</script>
+</body>
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+      
+      
+      
+    
+    
+      
+      
+      
+
       <img src="images/house1.jpg">
     </div>
 <img src="./house1.jpg">
