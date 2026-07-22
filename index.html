@@ -90,7 +90,10 @@ document.addEventListener("DOMContentLoaded", function() {
         let dollar = parseFloat(p.getAttribute("data-dollar"));
         if(dollar){
             p.innerHTML = formatPi(dollar) + " <br><small>≈ $" + dollar.toLocaleString() + "</small>";
-        }
+        } <div style="text-align:center; margin:10px;">
+  <button onclick="setLanguage('sw')">Kiswahili</button>
+  <button onclick="setLanguage('en')">English</button>
+</div>
     });
 });
 </script>
