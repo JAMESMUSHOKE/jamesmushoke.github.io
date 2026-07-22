@@ -70,32 +70,69 @@ function payWithPi(amount, memo) {
       
       
 
-      <img src="images/house1.jpg">
+<img src="./house2.jpg">
     </div>
 <img src="./house1.jpg">
 <img src="./car1.jpg">
 <img src="./men's%20clothing.jpg">
   </div>
-  <script>
-    Pi.init({ version: "2.0", sandbox: true });
-    async function login() {
-      const scopes = ['username', 'payments'];
-      const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
-      alert("Karibu " + auth.user.username);
-    }
-    async function pay(amount, item) {
-      const paymentData = { amount: amount, memo: "Kununua " + item, metadata: { item: item } };
-      const callbacks = {
-        onReadyForServerApproval: function(paymentId) { alert("Tuma paymentId kwa server: " + paymentId); },
-        onReadyForServerCompletion: function(paymentId, txid) { alert("Malipo yamefaulu!"); },
-        onCancel: function(paymentId) { alert("Umekanseli"); },
-        onError: function(error) { alert("Kosa: " + error); }
-      };
-      Pi.createPayment(paymentData, callbacks);
-    }
-    function onIncompletePaymentFound(payment) { console.log(payment); }
-  </script>
-</body><script>
+<script>
+// 1. SYSTEM YA LUGHA
+let currentLang = 'sw';
+function setLanguage(lang){
+    currentLang = lang;
+    document.querySelectorAll('[data-sw]').forEach(el => {
+        el.innerText = el.getAttribute('data-' + lang);
+    });
+}
+
+// 2. CALCULATOR YA PI GCV
+const GCV = 314159;
+function formatPi(priceInDollar) {
+    let pi = priceInDollar / GCV;
+    return pi.toFixed(6) + " Pi";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    setLanguage('sw'); // Anza na Kiswahili
+    let prices = document.querySelectorAll(".price");
+    prices.forEach(function(p) {
+        let dollar = parseFloat(p.getAttribute("data-dollar"));
+        if(dollar){
+            p.innerHTML = formatPi(dollar) + " <br><small>≈ $" + dollar.toLocaleString() + "</small>";
+        }
+    });
+});
+
+// 3. PI SDK YAKO
+Pi.init({ version: "2.0", sandbox: true });
+
+async function login() {
+    const scopes = ['username', 'payments'];
+    const auth = await Pi.authenticate(scopes);
+    alert("Karibu " + auth.user.username);
+}
+
+async function pay(amount, item) {
+    const paymentData = { amount: amount / GCV, memo: item, metadata: { product: item } };
+    const callbacks = {
+        onReadyForServerApproval: function(paymentId) { alert("Inasubiri kuidhinishwa..."); },
+        onReadyForServerCompletion: function(paymentId, txid) { alert("Malipo yamekamilika!"); },
+        onCancel: function(paymentId) { alert("Umefunga malipo"); },
+        onError: function(error) { alert("Hitilafu: " + error); }
+    };
+    Pi.createPayment(paymentData, callbacks);
+}
+</script>
+</body>
+        
+        
+      
+      
+    
+   
+  
+
 // GCV Calculator - 1 Pi = $314,159
 const GCV = 314159;
 
