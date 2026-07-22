@@ -3,50 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOKO LA PIONEER - GCV Calculator</title>
+    <title>SOKO LA PIONEER</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body { font-family: Arial; text-align: center; padding: 20px; background: #f0f0f0; margin: 0; }
-        .container { background: white; padding: 30px; border-radius: 15px; max-width: 400px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1 { color: #6B46C1; }
-        .price { font-size: 22px; color: #6B46C1; font-weight: bold; margin: 15px 0; }
-        .btn { background: #6B46C1; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin: 5px; cursor: pointer; font-size: 16px; }
+        body { font-family: Arial; background: #f0f0f0; padding: 15px; margin: 0; }
+        h1 { text-align: center; color: #6B46C1; }
+        .product { background: white; border-radius: 15px; padding: 15px; margin: 15px auto; max-width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .product img { width: 100%; border-radius: 10px; height: 200px; object-fit: cover; }
+        .product h3 { color: #6B46C1; margin: 10px 0 5px 0; }
+        .price { font-size: 18px; color: #FF5722; font-weight: bold; }
+        .btn { background: #6B46C1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; }
         .btn:hover { background: #553C9A; }
     </style>
 </head>
 <body>
-    <div style="text-align:center; margin-bottom: 10px;">
-        <button class="btn" onclick="setLanguage('sw')">Kiswahili</button>
-        <button class="btn" onclick="setLanguage('en')">English</button>
+    <h1>SOKO LA PIONEER</h1>
+    <p style="text-align:center;">GCV: 1 Pi = $314,159</p>
+
+    <!-- BIDHAA 1 -->
+    <div class="product">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" alt="Saa">
+        <h3>Saa ya Mkono</h3>
+        <p class="price" data-dollar="50"></p>
+        <button class="btn" onclick="payWithPi(0.000159, 'Saa ya Mkono')">Nunua kwa Pi</button>
     </div>
 
-    <div class="container">
-        <h1>SOKO LA PIONEER</h1>
-        <p>GCV Calculator - 1 Pi = $314,159</p>
-        
-        <div class="price" data-dollar="300"></div>
-        <div class="price" data-dollar="15000"></div>
-        <div class="price" data-dollar="60000"></div>
-        <div class="price" data-dollar="50"></div>
+    <!-- BIDHAA 2 -->
+    <div class="product">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="Viatu">
+        <h3>Viatu vya Michezo</h3>
+        <p class="price" data-dollar="300"></p>
+        <button class="btn" onclick="payWithPi(0.000955, 'Viatu vya Michezo')">Nunua kwa Pi</button>
+    </div>
+
+    <!-- BIDHAA 3 -->
+    <div class="product">
+        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400" alt="Laptop">
+        <h3>Laptop</h3>
+        <p class="price" data-dollar="15000"></p>
+        <button class="btn" onclick="payWithPi(0.047747, 'Laptop')">Nunua kwa Pi</button>
     </div>
 
 <script>
 const GCV = 314159;
 function formatPi(priceInDollar) { 
     let pi = priceInDollar / GCV; 
-    return pi.toFixed(6) + " Pi"; 
+    return pi.toFixed(6) + " Pi ≈ $" + priceInDollar.toLocaleString(); 
 }
 document.addEventListener("DOMContentLoaded", function() { 
     let prices = document.querySelectorAll(".price");
     prices.forEach(function(p) { 
         let dollar = parseFloat(p.getAttribute("data-dollar"));
-        if(dollar){ 
-            p.innerHTML = formatPi(dollar) + "<br>≈ $" + dollar.toLocaleString(); 
-        }
+        if(dollar){ p.innerHTML = formatPi(dollar); }
     });
 });
-function setLanguage(lang){ 
-    alert("Lugha itabadilika hivi karibuni: " + lang) 
+
+async function payWithPi(amount, productName) {
+    Pi.init({ version: "2.0", sandbox: true });
+    const paymentData = {
+        amount: amount,
+        memo: "Kununua: " + productName,
+        metadata: { product: productName }
+    };
+    const callbacks = {
+        onReadyForServerApproval: function(paymentId) { console.log("Approved:", paymentId); },
+        onReadyForServerCompletion: function(paymentId, txid) { alert("Asante! Umenunua " + productName + "\nTx: " + txid); },
+        onCancel: function(paymentId) { alert("Umeaghairi ununuzi"); },
+        onError: function(error) { alert("Kosa: " + error); }
+    };
+    Pi.createPayment(paymentData, callbacks);
 }
 Pi.init({ version: "2.0", sandbox: true });
 </script>
