@@ -73,7 +73,17 @@ function formatPi(priceInDollar) {
     return pi.toFixed(6) + " Pi";
 }
 
-// Mfano: Ikiwa bidhaa ni $500, itaandika 0.001591 Pi
+// Mfano:<!-- Simu -->
+<p class="price" data-dollar="300"></p>
+
+<!-- Gari -->
+<p class="price" data-dollar="15000"></p>
+
+<!-- Nyumba -->
+<p class="price" data-dollar="60000"></p>
+
+<!-- Nguo za wanaume -->
+<p class="price" data-dollar="50"></p>
 document.addEventListener("DOMContentLoaded", function() {
     let prices = document.querySelectorAll(".price");
     prices.forEach(function(p) {
