@@ -28,7 +28,7 @@
     <p>Bei: 2.0 π</p>
     <button onclick="buyWithPi(2.0, 'Earbuds Wireless')">BUY WITH PI</button>
   </div>
-
+<button onclick="login()">LOGIN WITH PI</button>
 <script>
   // 1. Anzisha Pi SDK na Client ID yako
   Pi.init({ version: "2.0", clientId: "r-VpJRLIt_Dg6zUIOZDUoWDeW7yEEas69ok" });
@@ -58,7 +58,39 @@
 
     Pi.createPayment(paymentData, callbacks);
   }
-</script>
+</script><select onchange="changeLang(this.value)" style="padding:8px; margin:10px;">
+  <option value="sw">Kiswahili</option>
+  <option value="en">English</option>
+  <option value="fr">Français</option>
+  <option value="zh">中文</option>
+</select>
 
+<script>
+const translations = {
+  sw: { title: "SOKO LA PIONEER", subtitle: "Nunua na Uuze kwa Pi - GCV 1π = 314159", buy: "NUNUA KWA PI", honey: "Asali Asili", earbuds: "Earbuds Wireless", price: "Bei:" },
+  en: { title: "PIONEER MARKET", subtitle: "Buy & Sell with Pi - GCV 1π = 314159", buy: "BUY WITH PI", honey: "Pure Honey", earbuds: "Wireless Earbuds", price: "Price:" },
+  fr: { title: "MARCHE PIONNIER", subtitle: "Acheter et Vendre avec Pi - GCV 1π = 314159", buy: "ACHETER AVEC PI", honey: "Miel Pur", earbuds: "Écouteurs Sans Fil", price: "Prix:" },
+  zh: { title: "先锋市场", subtitle: "使用Pi买卖 - GCV 1π = 314159", buy: "用PI购买", honey: "纯蜂蜜", earbuds: "无线耳机", price: "价格:" }
+};
+
+function changeLang(lang) {
+  const t = translations[lang];
+  document.querySelector('h1').innerText = t.title;
+  document.querySelector('p').innerText = t.subtitle;
+  document.querySelectorAll('.product h3')[0].innerText = t.honey;
+  document.querySelectorAll('.product h3')[1].innerText = t.earbuds;
+  document.querySelectorAll('.product p')[0].innerText = t.price + " 1.5 π";
+  document.querySelectorAll('.product p')[1].innerText = t.price + " 2.0 π";
+  document.querySelectorAll('button')[1].innerText = t.buy;
+  document.querySelectorAll('button')[2].innerText = t.buy;
+}
+</script>
+async function login() {
+  const scopes = ['username', 'payments'];
+  const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
+  alert("Karibu " + authResult.user.username);
+}
+
+function onIncompletePaymentFound(payment) {console.log(payment);}
 </body>
 </html>
