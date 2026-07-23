@@ -38,11 +38,32 @@
 
   // 3. Function ya Kulipa
   function buyWithPi(amount, productName) {
-    const paymentData = {
-      amount: amount, 
-      memo: "Kununua: " + productName,
-      metadata: { product: productName }
+    const paymentData = { amount: amount, memo: "Kununua: " + productName, metadata: { product: productName } };
+    const callbacks = {
+      
+      // HII NDO TUNAIBADILI ILI IPITE
+      onReadyForServerApproval: function(paymentId) { 
+        console.log("Inaruka hatua ya server...");
+        Pi.approvePayment(paymentId); // <-- Mstari huu ndio ufunguo
+      },
+
+      onReadyForServerCompletion: function(paymentId, txid) { 
+        alert("Hongera! Umenunua " + productName + " kwa mafanikio");
+      },
+      onCancel: function(paymentId) { 
+        alert("Umefuta malipo");
+      },
+      onError: function(error) { 
+        alert("Kuna hitilafu: " + error);
+      }
     };
+    Pi.createPayment(paymentData, callbacks);
+  }
+    
+      
+      
+      
+ 
 
     const callbacks = {
       onReadyForServerApproval: function(paymentId) { alert("Tunasubiri uthibitisho..."); },
