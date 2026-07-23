@@ -37,35 +37,20 @@
     } catch (err) {
       alert("Login imeshindikana: " + err);
     }
-  }
-
-  function onIncompletePaymentFound(payment) { 
-    console.log(payment); 
-  }
-
-  // FUNCTION YA KUNUA - ILIYOREKEBISHWA
-  function buyWithPi(amount, productName) {
-    const paymentData = { 
-      amount: amount, 
-      memo: "Kununua: " + productName, 
-      metadata: { product: productName } 
-    };
-    const callbacks = {
-      onReadyForServerApproval: function(paymentId) { 
-        Pi.approvePayment(paymentId); // Hii inaruka hatua ya server
-      },
-      onReadyForServerCompletion: function(paymentId, txid) { 
-        alert("Hongera! Umenunua " + productName);
-      },
-      onCancel: function(paymentId) { 
-        alert("Umefuta malipo");
-      },
-      onError: function(error) { 
-        alert("Kuna hitilafu: " + error);
-      }
-    };
-    Pi.createPayment(paymentData, callbacks);
-  }
+    function buyWithPi(amount, productName) {
+  const paymentData = { 
+    amount: amount, 
+    memo: "Kununua: " + productName, 
+    metadata: { product: productName } 
+  };
+  const callbacks = {
+    onReadyForServerApproval: (paymentId) => Pi.approvePayment(paymentId),
+    onReadyForServerCompletion: (paymentId, txid) => alert("Hongera! Umenunua " + productName),
+    onCancel: (paymentId) => alert("Umefuta malipo"),
+    onError: (error) => alert("Kuna hitilafu: " + error)
+  };
+  Pi.createPayment(paymentData, callbacks);
+}
 </script>
 
 </body>
