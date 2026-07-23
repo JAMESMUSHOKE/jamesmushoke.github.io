@@ -1,56 +1,112 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SOKO LA PIONEER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOKO LA PIONEER - Web3 Store</title>
   
-  <!-- 1. HII LAZIMA IWE HAPA JUU -->
+  <!-- 1. PI SDK LAZIMA IWE HAPA -->
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   
   <style>
-    body { text-align: center; padding: 20px; font-family: Arial; }
-    button { background: #6a0dad; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; margin: 10px; cursor: pointer; }
+    body { 
+      background: #0d0d1a; color: white; text-align: center; 
+      font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0;
+    }
+    .container { max-width: 400px; margin: auto; background: #1a1a2e; padding: 25px; border-radius: 15px; border: 1px solid #6a0dad; }
+    h1 { color: #a855f7; }
+    .price { font-size: 22px; color: #fbbf24; font-weight: bold; }
+    button { 
+      background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; 
+      padding: 15px 30px; border: none; border-radius: 10px; font-size: 16px; 
+      margin: 10px; cursor: pointer; width: 80%; font-weight: bold;
+    }
+    button:hover { opacity: 0.8; }
+    select { padding: 8px; border-radius: 8px; background: #0d0d1a; color: white; border: 1px solid #6a0dad; }
+    .footer { font-size: 10px; margin-top: 20px; color: #888; }
   </style>
 </head>
 <body>
 
-  <h1>Earbuds Wireless</h1>
-  <p>Bei: 2.0 π</p>
-  
-  <!-- 2. HAPA NDO BUTTON -->
-  <button onclick="login()">LOGIN WITH PI</button>
-  <button onclick="buyWithPi(2.0, 'Earbuds Wireless')">BUY WITH PI</button>
-  
-  <p style="font-size: 11px;">By continuing you authorize a Pi payment via the Pi SDK.</p>
+  <div class="container">
+    <!-- LUGHA ITAJIBADILISHA PEKEEKE -->
+    <select id="language-select" onchange="setLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="sw">Kiswahili</option>
+      <option value="zh">中文</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+    </select>
 
-<!-- 3. HAPA CHINI NDO UBONGO -->
+    <h1 id="title">Earbuds Wireless</h1>
+    <img src="https://i.imgur.com/8Km5NwZ.png" width="150" style="border-radius: 10px;">
+    
+    <!-- BEI YA GCV -->
+    <p class="price" id="price">Price: 2.0 π ~ $628,318 GCV</p>
+    
+    <button onclick="login()" id="login-btn">LOGIN WITH PI</button>
+    <button onclick="buyWithPi(2.0, 'Earbuds Wireless')" id="buy-btn">BUY WITH PI</button>
+    
+    <p class="footer" id="footer">By continuing you authorize a Pi payment via the Pi SDK.</p>
+  </div>
+
 <script>
-  // Anzisha Pi SDK na sandbox kwa majaribio
-  Pi.init({ version: "2.0", clientId: "r-VpJRLIt_Dg6zUIOZDUoWDeW7yEEas69ok", sandbox: true });
+  // 2. ANZISHA PI SDK - SANDBOX:FALSE KWA MAINNET
+  Pi.init({ version: "2.0", clientId: "r-VpJRLIt_Dg6zUIOZDUoWDeW7yEEas69ok", sandbox: false });
 
-  // FUNCTION YA LOGIN
+  // 3. KAMUSI YA LUGHA ZA DUNIA - UNAWEZA KUONGEZA ZAIDI
+  const translations = {
+    en: { title: "Earbuds Wireless", price: "Price: 2.0 π ~ $628,318 GCV", login: "LOGIN WITH PI", buy: "BUY WITH PI", footer: "By continuing you authorize a Pi payment via the Pi SDK.", welcome: "Welcome " },
+    sw: { title: "Earbuds Bila Waya", price: "Bei: 2.0 π ~ $628,318 GCV", login: "INGIA KWA PI", buy: "NUNUA KWA PI", footer: "Kwa kuendelea unaruhusu malipo ya Pi kupitia Pi SDK.", welcome: "Karibu " },
+    zh: { title: "无线耳塞", price: "价格: 2.0 π ~ $628,318 GCV", login: "使用 PI 登录", buy: "使用 PI 购买", footer: "继续即表示您授权通过 Pi SDK 进行 Pi 支付。", welcome: "欢迎 " },
+    es: { title: "Auriculares Inalámbricos", price: "Precio: 2.0 π ~ $628,318 GCV", login: "INICIAR CON PI", buy: "COMPRAR CON PI", footer: "Al continuar autorizas un pago Pi a través del Pi SDK.", welcome: "Bienvenido " },
+    fr: { title: "Écouteurs Sans Fil", price: "Prix: 2.0 π ~ $628,318 GCV", login: "SE CONNECTER AVEC PI", buy: "ACHETER AVEC PI", footer: "En continuant, vous autorisez un paiement Pi via le Pi SDK.", welcome: "Bienvenue " }
+  };
+
+  // 4. FUNCTION YA KUBADILISHA LUGHA OTOMATIKI
+  function setLanguage(lang) {
+    document.getElementById('title').innerText = translations[lang].title;
+    document.getElementById('price').innerText = translations[lang].price;
+    document.getElementById('login-btn').innerText = translations[lang].login;
+    document.getElementById('buy-btn').innerText = translations[lang].buy;
+    document.getElementById('footer').innerText = translations[lang].footer;
+    document.documentElement.lang = lang; // Hii inasaidia Google kutafsiri
+  }
+
+  // 5. GUNDUA LUGHA YA SIMU YA MTU OTOMATIKI
+  window.onload = function() {
+    const userLang = navigator.language.slice(0,2);
+    if(translations[userLang]) { 
+      document.getElementById('language-select').value = userLang;
+      setLanguage(userLang);
+    }
+  }
+
+  // 6. FUNCTION YA LOGIN
   async function login() {
     try {
-      const scopes = ['username', 'payments'];
-      const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
-      alert("Karibu " + authResult.user.username);
-    } catch (err) {
-      alert("Login imeshindikana: " + err);
-    }
-    function buyWithPi(amount, productName) {
-  const paymentData = { 
-    amount: amount, 
-    memo: "Kununua: " + productName, 
-    metadata: { product: productName } 
-  };
-  const callbacks = {
-    onReadyForServerApproval: (paymentId) => Pi.approvePayment(paymentId),
-    onReadyForServerCompletion: (paymentId, txid) => alert("Hongera! Umenunua " + productName),
-    onCancel: (paymentId) => alert("Umefuta malipo"),
-    onError: (error) => alert("Kuna hitilafu: " + error)
-  };
-  Pi.createPayment(paymentData, callbacks);
-}
+      const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
+      const lang = document.getElementById('language-select').value;
+      alert(translations[lang].welcome + authResult.user.username);
+    } catch (err) { alert("Login failed: " + err); }
+  }
+
+  function onIncompletePaymentFound(payment) { Pi.completePayment(payment.identifier, payment.transaction.txid); }
+
+  // 7. FUNCTION YA KUNUA - IMEWEKWA ILI ISIEKE
+  function buyWithPi(amount, productName) {
+    const paymentData = { amount: amount, memo: "Buy: " + productName, metadata: { product: productName } };
+    const callbacks = {
+      onReadyForServerApproval: (paymentId) => { Pi.approvePayment(paymentId); }, // Haraka ili isimalizike
+      onReadyForServerCompletion: (paymentId, txid) => { 
+        const lang = document.getElementById('language-select').value;
+        alert("Success! You bought " + productName);
+      },
+      onCancel: (paymentId) => { alert("Payment cancelled"); },
+      onError: (error) => { alert("Error: " + error); }
+    };
+    Pi.createPayment(paymentData, callbacks);
+  }
 </script>
 
 </body>
