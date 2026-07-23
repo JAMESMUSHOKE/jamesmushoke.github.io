@@ -93,7 +93,44 @@ function changeLang(lang) {
   document.querySelectorAll('button')[1].innerText = t.buy;
   document.querySelectorAll('button')[2].innerText = t.buy;
 }
+<script>
+// 1. Weka GCV rate hapa
+const GCV_RATE = 314159; 
+
+// 2. Orodha ya bidhaa kwa bei ya Dola
+const products = [
+  { name: "Ford Explorer", priceUSD: 157079.50, image: "https://linkyaexplorer.jpg" }, // 0.50π
+  { name: "Ford Expedition", priceUSD: 219911.30, image: "https://linkyaexpedition.jpg" }, // 0.70π
+  { name: "Ford Bronco", priceUSD: 188495.40, image: "https://linkyabronco.jpg" }, // 0.60π
+  { name: "Ford Mustang", priceUSD: 282743.10, image: "https://linkyamustang.jpg" } // 0.90π
+];
+
+// 3. Function ya kubadilisha USD kwenda Pi
+function usdToPi(usd) {
+  return (usd / GCV_RATE).toFixed(2); // matokeo kwa decimal 2
+}
+
+// 4. Onyesha bidhaa kwenye ukurasa
+function loadProducts() {
+  const container = document.getElementById('product-list');
+  products.forEach(p => {
+    const piPrice = usdToPi(p.priceUSD);
+    container.innerHTML += `
+      <div class="product">
+        <img src="${p.image}" width="200">
+        <h3>${p.name}</h3>
+        <p><b>${piPrice} π</b> <span style="color:gray; font-size:12px;">PI GCV</span></p>
+        <button onclick="buyWithPi(${piPrice}, '${p.name}')">BUY WITH PI</button>
+        <p style="font-size:11px;">By continuing you authorize a Pi payment via Pi SDK</p>
+      </div>
+    `;
+  });
+}
+
+window.onload = loadProducts;
 </script>
+
+<div id="product-list"></div>
 async function login() {
   const scopes = ['username', 'payments'];
   const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
