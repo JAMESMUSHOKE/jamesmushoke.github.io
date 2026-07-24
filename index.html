@@ -1,56 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOKO LA PIONEER - GLOBAL</title>
+  <title>SOKO LA PIONEER - TESTNET</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <!-- GOOGLE TRANSLATE YA LUGHA ZOTE -->
   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <style>
     body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
-  .container { max-width: 600px; margin: auto; }
-  .banner { background: #22c55e; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
-  .goog-te-gadget { color: white!important; }
-  .goog-te-gadget.goog-te-combo { width: 100%; padding: 10px; border-radius: 8px; background: #1a1a2e; color: white; border: 1px solid #a855f7; margin-bottom: 15px; }
-  .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
+.container { max-width: 600px; margin: auto; }
+.banner { background: #fbbf24; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
+  #google_translate_element { margin-bottom: 15px; text-align: center; }
+.goog-te-gadget-simple { background: #1a1a2e!important; border: 1px solid #a855f7!important; padding: 10px!important; border-radius: 8px!important; color: white!important; }
     h1 { color: #a855f7; text-align: center; }
-  .price { font-size: 22px; color: #fbbf24; font-weight: bold; }
-  .stock { font-size: 12px; color: #22c55e; }
+.user-info { background: #22c55e; color: black; padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-bottom: 15px; display: none; }
+.product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
+.price { font-size: 22px; color: #fbbf24; font-weight: bold; }
+.stock { font-size: 12px; color: #22c55e; }
     button { background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 15px; margin: 5px; cursor: pointer; font-weight: bold; width: 95%; }
     #history, #footer { background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; }
-   .goog-te-banner-frame { display: none!important; } /* FICHA BANNER YA GOOGLE */
+ .goog-te-banner-frame { display: none!important; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="banner">✅ DEMO MODE - MALIPO YA KWELI YANAKUJA</div>
+    <div class="banner">⚠️ TESTNET MODE - HII NI MAJARIBIO TU</div>
 
-    <!-- HAPA NDIO LUGHA ZOTE ZA DUNIA ZINATOKA -->
     <div id="google_translate_element"></div>
+
+    <!-- HAPA NDIO JINA LA PI LITAONEKANA -->
+    <div class="user-info" id="userBox">
+      Umeingia kama: <span id="piUsername">...</span>
+    </div>
 
     <h1>SOKO LA PIONEER</h1>
 
-    <!-- BIDHAA 1 -->
     <div class="product-card">
       <h2>Earbuds Bila Waya</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=Earbuds" width="120" style="border-radius: 10px;">
       <p class="price">Bei: 1.0 π ~ $314,159 GCV</p>
       <p class="stock" id="stock1">Stock: 50</p>
-      <button onclick="buyDemo(1.0, 'Earbuds Bila Waya', 1)">NUNUA KWA PI</button>
+      <button onclick="buyDemo(1.0, 'Earbuds Bila Waya', 1)">NUNUA KWA PI TEST</button>
     </div>
 
-    <!-- BIDHAA 2 -->
     <div class="product-card">
       <h2>Saa Mahiri</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=SmartWatch" width="120" style="border-radius: 10px;">
       <p class="price">Bei: 1.0 π ~ $314,159 GCV</p>
       <p class="stock" id="stock2">Stock: 30</p>
-      <button onclick="buyDemo(1.0, 'Saa Mahiri', 2)">NUNUA KWA PI</button>
+      <button onclick="buyDemo(1.0, 'Saa Mahiri', 2)">NUNUA KWA PI TEST</button>
     </div>
 
-    <button onclick="login()">INGIA KWA PI</button>
+    <button onclick="login()" id="loginBtn">INGIA KWA PI</button>
     <button onclick="showHistory()">HISTORIA YANGU</button>
     <button onclick="restock()">ONGEZA MZIGO +50</button>
 
@@ -59,10 +61,9 @@
       <ul id="history-list"><li>Hakuna oda bado</li></ul>
     </div>
 
-    <!-- FOOTER YA KIMATAIFA + TAX -->
     <div id="footer">
       <h4>Kuhusu SOKO LA PIONEER</h4>
-      <p>Soko la kimataifa la kununua na kuuza bidhaa kwa Pi Coin kwa bei ya GCV. Ushuru wa 10% unakatwa moja kwa moja kwenye kila ununuzi. Tunashirikiana na kampuni za usafirishaji duniani kote zinazopokea Pi.</p>
+      <p>Soko la kimataifa la kununua na kuuza bidhaa kwa Pi Coin kwa bei ya GCV. Ushuru wa 10% unakatwa moja kwa moja. Tunashirikiana na kampuni za usafirishaji duniani kote zinazopokea Pi.</p>
       <p><b>Tax:</b> 10% Auto Deduction</p>
       <p><b>Shipping:</b> Global Delivery with Pi Partners</p>
       <a href="#" style="color:#fbbf24">Privacy Policy</a> | <a href="#" style="color:#fbbf24">Terms of Service</a>
@@ -70,47 +71,65 @@
   </div>
 
 <script>
-  // ANZISHA GOOGLE TRANSLATE
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
-      pageLanguage: 'sw', // Lugha ya msingi ni Kiswahili
-      includedLanguages: '', // Wacha iwe tupu = LUGHA ZOTE ZA GOOGLE
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: false
+      pageLanguage: 'sw',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
   }
 
-  Pi.init({ version: "2.0" });
-  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryGlobal')) || [];
-  let stock = JSON.parse(localStorage.getItem('piStock')) || {1: 50, 2: 30};
+  Pi.init({ version: "2.0", sandbox: true });
+
+  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryTest')) || [];
+  let stock = JSON.parse(localStorage.getItem('piStockTest')) || {1: 50, 2: 30};
+  let currentUser = null;
   const GCV = 314159;
 
+  // KAZI MPYA: LOGIN INAONYESHA JINA JUU
   async function login() {
-    const auth = await Pi.authenticate(['username']);
-    alert("Karibu: " + auth.user.username);
+    try {
+      const scopes = ['username', 'payments'];
+      const auth = await Pi.authenticate(scopes);
+      currentUser = auth.user;
+
+      // ONYESHA JINA JUU
+      document.getElementById('piUsername').innerText = currentUser.username;
+      document.getElementById('userBox').style.display = 'block';
+      document.getElementById('loginBtn').innerText = 'UMEINGIA ✅';
+      document.getElementById('loginBtn').disabled = true;
+
+    } catch (err) {
+      alert("Login imeshindikana: " + err);
+    }
   }
 
   function buyDemo(amount, productName, id) {
-    if(stock[id] <= 0) { alert("Samahani, stock imeisha / Sorry, out of stock"); return; }
+    if(!currentUser) { alert("Tafadhali ingia kwa Pi kwanza"); return; }
+    if(stock[id] <= 0) { alert("Samahani, stock imeisha"); return; }
+
     stock[id] -= 1;
-    localStorage.setItem('piStock', JSON.stringify(stock));
+    localStorage.setItem('piStockTest', JSON.stringify(stock));
 
-    const tax = amount * 0.10; // 10% TAX AUTO
+    const tax = amount * 0.10;
     const total = amount + tax;
-    let txid = "DEMO-" + Date.now();
+    let txid = "TEST-" + Date.now() + "-" + currentUser.username;
 
-    alert(`✅ Oda Imewekwa! / Order Placed!
+    alert(`✅ Oda Imewekwa!
+Mteja: ${currentUser.username}
+Bidhaa: ${productName}
+Bei: ${total} π
+Ushuru: ${tax} π
+Baada ya kupitishwa na Pi, malipo ya kweli yataanza`);
 
-Bidhaa / Item: ${productName}
-Bei / Amount: ${total} π
-GCV: $${total * GCV}
-Ushuru / Tax: ${tax} π
-
-Baada ya kupitishwa na Pi, malipo ya kweli yataanza
-Real payments will start after Pi approval`);
-
-    purchaseHistory.push({ product: productName, amount: total, tax: tax, date: new Date().toLocaleString(), txid: txid });
-    localStorage.setItem('piHistoryGlobal', JSON.stringify(purchaseHistory));
+    purchaseHistory.push({
+      user: currentUser.username,
+      product: productName,
+      amount: total,
+      tax: tax,
+      date: new Date().toLocaleString(),
+      txid: txid
+    });
+    localStorage.setItem('piHistoryTest', JSON.stringify(purchaseHistory));
     document.getElementById('stock1').innerText = "Stock: " + stock[1];
     document.getElementById('stock2').innerText = "Stock: " + stock[2];
     showHistory();
@@ -118,8 +137,8 @@ Real payments will start after Pi approval`);
 
   function restock() {
     stock[1] += 50; stock[2] += 50;
-    localStorage.setItem('piStock', JSON.stringify(stock));
-    alert("Mzigo umeongezwa +50 / Stock added +50");
+    localStorage.setItem('piStockTest', JSON.stringify(stock));
+    alert("Mzigo umeongezwa +50");
     document.getElementById('stock1').innerText = "Stock: " + stock[1];
     document.getElementById('stock2').innerText = "Stock: " + stock[2];
   }
@@ -127,9 +146,9 @@ Real payments will start after Pi approval`);
   function showHistory() {
     const list = document.getElementById('history-list');
     list.innerHTML = '';
-    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna oda bado / No orders yet</li>'; return; }
+    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna oda bado</li>'; return; }
     purchaseHistory.forEach(item => {
-      list.innerHTML += `<li>${item.product} - ${item.amount} π - ${item.date}</li>`;
+      list.innerHTML += `<li><b>${item.user}</b>: ${item.product} - ${item.amount} π - ${item.date}</li>`;
     });
   }
   window.onload = showHistory;
