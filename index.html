@@ -1,161 +1,49 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOKO LA PIONEER - TESTNET</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <style>
-    body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
- .container { max-width: 600px; margin: auto; }
- .banner { background: #fbbf24; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
-  .lang-select { width: 100%; padding: 10px; border-radius: 8px; background: #1a1a2e; color: white; border: 1px solid #a855f7; margin-bottom: 15px; font-size: 16px; }
-  .user-info { background: #22c55e; color: black; padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-bottom: 15px; display: none; }
-    h1 { color: #a855f7; text-align: center; }
- .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
- .price { font-size: 22px; color: #fbbf24; font-weight: bold; }
- .stock { font-size: 12px; color: #22c55e; }
-    button { background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 15px; margin: 5px; cursor: pointer; font-weight: bold; width: 95%; }
-    button:disabled { background: #555; }
-    #history, #footer { background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soko La Pioneer</title>
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <style>
+        body { background:#111; color:white; font-family:Arial; text-align:center; padding:20px; }
+        .product { background:#222; margin:15px; padding:15px; border-radius:10px; }
+        button { background:purple; color:white; border:none; padding:10px 20px; border-radius:8px; }
+        #history { margin-top:20px; text-align:left; }
+    </style>
 </head>
 <body>
+    <h1>🛒 SOKO LA PIONEER</h1>
+    <button onclick="login()">Ingia na Pi</button>
+    <div id="user"></div>
 
-  <div class="container">
-    <div class="banner">⚠️ TESTNET MODE - HII NI MAJARIBIO TU</div>
-
-    <select class="lang-select" id="language-select" onchange="setLanguage(this.value)">
-      <option value="sw">🇹🇿 Kiswahili</option>
-      <option value="en">🇺🇸 English</option>
-      <option value="zh">🇨🇳 中文 Chinese</option>
-      <option value="hi">🇮🇳 हिन्दी Hindi</option>
-      <option value="es">🇪🇸 Español</option>
-      <option value="pt">🇧🇷 Português</option>
-      <option value="fr">🇫🇷 Français</option>
-      <option value="ar">🇸🇦 العربية Arabic</option>
-      <option value="id">🇮🇩 Bahasa Indonesia</option>
-      <option value="vi">🇻🇳 Tiếng Việt</option>
-    </select>
-
-    <div class="user-info" id="userBox">
-      Umeingia kama: <span id="piUsername">...</span>
+    <div class="product">
+        <h3>SmartWatch</h3>
+        <p>Bei: 1.1 π</p>
+        <button onclick="buy('SmartWatch', 1.1)">Nunua</button>
     </div>
 
-    <h1 id="store-title">SOKO LA PIONEER</h1>
-
-    <div class="product-card">
-      <h2 id="p1-name">Earbuds Bila Waya</h2>
-      <img src="https://placehold.co/200x200/6a0dad/ffffff?text=Earbuds" width="120" style="border-radius: 10px;">
-      <p class="price" id="p1-price">Bei: 1.0 π ~ $314,159 GCV</p>
-      <p class="stock" id="stock1">Stock: 50</p>
-      <button onclick="buyDemo(1.0, 'Earbuds Bila Waya', 1)" id="p1-btn">NUNUA KWA PI TEST</button>
+    <div class="product">
+        <h3>Earbuds Bila Waya</h3>
+        <p>Bei: 1.1 π</p>
+        <button onclick="buy('Earbuds Bila Waya', 1.1)">Nunua</button>
     </div>
-
-    <div class="product-card">
-      <h2 id="p2-name">Saa Mahiri</h2>
-      <img src="https://placehold.co/200x200/6a0dad/ffffff?text=SmartWatch" width="120" style="border-radius: 10px;">
-      <p class="price" id="p2-price">Bei: 1.0 π ~ $314,159 GCV</p>
-      <p class="stock" id="stock2">Stock: 30</p>
-      <button onclick="buyDemo(1.0, 'Saa Mahiri', 2)" id="p2-btn">NUNUA KWA PI TEST</button>
-    </div>
-
-    <button onclick="login()" id="loginBtn">INGIA KWA PI</button>
-    <button onclick="showHistory()" id="historyBtn">HISTORIA YANGU</button>
-    <button onclick="restock()" id="restockBtn">ONGEZA MZIGO +50</button>
 
     <div id="history">
-      <h3 id="history-title">Historia ya Oda</h3>
-      <ul id="history-list"><li id="no-history">Hakuna oda bado</li></ul>
+        <h3>Historia ya Oda</h3>
+        <ul id="no-history"><li>Hakuna oda bado</li></ul>
     </div>
-
-    <div id="footer">
-      <h4 id="about-title">Kuhusu SOKO LA PIONEER</h4>
-      <p id="about-text">Soko la kimataifa la kununua na kuuza bidhaa kwa Pi Coin kwa bei ya GCV. Ushuru wa 10% unakatwa moja kwa moja.</p>
-      <p id="tax-note"><b>Tax:</b> 10% Auto Deduction</p>
-      <p id="ship-note"><b>Shipping:</b> Global Delivery with Pi Partners</p>
-    </div>
-  </div>
 
 <script>
-  Pi.init({ version: "2.0", sandbox: true });
-  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryFinal')) || [];
-  let stock = JSON.parse(localStorage.getItem('piStockFinal')) || {1: 50, 2: 30};
-  let currentUser = null;
-  const GCV = 314159;
-
-  const translations = {
-    sw: { store:"SOKO LA PIONEER", p1:"Earbuds Bila Waya", p2:"Saa Mahiri", price:"Bei: 1.0 π ~ $", gcv:" GCV", stock:"Stock:", buy:"NUNUA KWA PI TEST", login:"INGIA KWA PI", history:"HISTORIA YANGU", restock:"ONGEZA MZIGO +50", historyTitle:"Historia ya Oda", noHistory:"Hakuna oda bado", about:"Kuhusu SOKO LA PIONEER", aboutText:"Soko la kimataifa la kununua na kuuza bidhaa kwa Pi Coin kwa bei ya GCV. Ushuru wa 10% unakatwa moja kwa moja.", tax:"Ushuru:", ship:"Usafirishaji:", order:"✅ Oda Imewekwa!", item:"Bidhaa:", amount:"Bei:", user:"Mteja:", note:"Malipo ya kweli yataanza baada ya kupitishwa na Pi", restocked:"Mzigo umeongezwa +50", loginSuccess:"UMEINGIA ✅" },
-    en: { store:"PIONEER MARKET", p1:"Wireless Earbuds", p2:"Smart Watch", price:"Price: 1.0 π ~ $", gcv:" GCV", stock:"Stock:", buy:"BUY WITH PI TEST", login:"LOGIN WITH PI", history:"MY HISTORY", restock:"RESTOCK +50", historyTitle:"Order History", noHistory:"No orders yet", about:"About PIONEER MARKET", aboutText:"Global marketplace to buy and sell with Pi Coin at GCV price. 10% tax is auto-deducted.", tax:"Tax:", ship:"Shipping:", order:"✅ Order Placed!", item:"Item:", amount:"Amount:", user:"Customer:", note:"Real payments will start after Pi approval", restocked:"Stock added +50", loginSuccess:"LOGGED IN ✅" },
-    zh: { store:"先锋市场", p1:"无线耳机", p2:"智能手表", price:"价格: 1.0 π ~ $", gcv:" GCV", stock:"库存:", buy:"用PI购买测试", login:"用PI登录", history:"我的历史", restock:"补货 +50", historyTitle:"订单历史", noHistory:"暂无订单", about:"关于先锋市场", aboutText:"全球市场，使用GCV价格的Pi币买卖商品。每笔购买自动扣除10%的税。", tax:"税收:", ship:"运输:", order:"✅ 订单已下!", item:"商品:", amount:"金额:", user:"客户:", note:"获得Pi批准后将开始真实支付", restocked:"库存已添加 +50", loginSuccess:"已登录 ✅" }
-  };
-
-  function setLanguage(lang) {
-    const t = translations || translations['en'];
-    document.getElementById('store-title').innerText = t.store;
-    document.getElementById('p1-name').innerText = t.p1;
-    document.getElementById('p2-name').innerText = t.p2;
-    document.getElementById('p1-price').innerText = t.price + GCV + t.gcv;
-    document.getElementById('p2-price').innerText = t.price + GCV + t.gcv;
-    document.getElementById('stock1').innerText = t.stock + " " + stock[1];
-    document.getElementById('stock2').innerText = t.stock + " " + stock[2];
-    document.getElementById('p1-btn').innerText = t.buy;
-    document.getElementById('p2-btn').innerText = t.buy;
-    document.getElementById('loginBtn').innerText = currentUser ? t.loginSuccess : t.login;
-    document.getElementById('historyBtn').innerText = t.history;
-    document.getElementById('restockBtn').innerText = t.restock;
-    document.getElementById('history-title').innerText = t.historyTitle;
-    document.getElementById('no-history').innerText = t.noHistory;
-    document.getElementById('about-title').innerText = t.about;
-    document.getElementById('about-text').innerText = t.aboutText;
-    document.getElementById('tax-note').innerHTML = `<b>${t.tax}</b> 10% Auto Deduction`;
-    document.getElementById('ship-note').innerHTML = `<b>${t.ship}</b> Global Delivery with Pi Partners`;
-  }
-
-  async function login() {
-    try {
-      const auth = await Pi.authenticate(['username', 'payments']);
-      currentUser = auth.user;
-      document.getElementById('piUsername').innerText = currentUser.username;
-      document.getElementById('userBox').style.display = 'block';
-      setLanguage(document.getElementById('language-select').value);
-    } catch (err) {
-      alert("Login imeshindikana: " + err);
-    }
-  }
-
-  function buyDemo(amount, productName, id) {
-    if(!currentUser) { alert("Tafadhali ingia kwa Pi kwanza / Please login first"); return; }
-    if(stock[id] <= 0) { alert("Samahani, stock imeisha"); return; }
-    stock[id] -= 1;
-    localStorage.setItem('piStockFinal', JSON.stringify(stock));
-    const tax = amount * 0.10;
-    const total = amount + tax;
-    const t = translations[document.getElementById('language-select').value];
-    alert(`${t.order}\n${t.user} ${currentUser.username}\n${t.item} ${productName}\n${t.amount} ${total} π\n${t.tax} ${tax} π\n${t.note}`);
-    purchaseHistory.push({ user: currentUser.username, product: productName, amount: total, tax: tax, date: new Date().toLocaleString() });
-    localStorage.setItem('piHistoryFinal', JSON.stringify(purchaseHistory));
-    setLanguage(document.getElementById('language-select').value);
-    showHistory();
-  }
-
-  function restock() {
-    stock[1] += 50; stock[2] += 50;
-    localStorage.setItem('piStockFinal', JSON.stringify(stock));
-    const t = translations[document.getElementById('language-select').value];
-    alert(t.restocked);
-    setLanguage(document.getElementById('language-select').value);
-  }
-
-  function showHistory() {
-    const list = document.getElementById('history-list');
-    list.innerHTML = '';
-    if(purchaseHistory.length === 0) { list.innerHTML = `<li>${translations.sw.noHistory}</li>`; return; }
-    purchaseHistory.forEach(item => {
-      list.innerHTML += `<li><b>${item.user}</b>: ${item.product} - ${item.amount} π - ${item.date}</li>`;
-    });
-  }
-  window.onload = () => { setLanguage('sw'); showHistory(); }
+Pi.init({ version: "2.0" });
+function login(){
+    Pi.authenticate(['username'], function(auth){ 
+        document.getElementById('user').innerText = "Karibu: " + auth.user.username;
+    }, function(err){ alert("Login imeshindikana") });
+}
+function buy(item, price){
+    alert("✅ Oda Imewekwa! \nBidhaa: " + item + "\nBei: " + price + " π");
+}
 </script>
 </body>
 </html>
