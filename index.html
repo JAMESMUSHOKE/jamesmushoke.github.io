@@ -3,72 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOKO LA PIONEER - DEMO</title>
+  <title>SOKO LA PIONEER - GLOBAL</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
-  .container { max-width: 500px; margin: auto; }
-  .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
-  .banner { background: #22c55e; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
+   .container { max-width: 600px; margin: auto; }
+   .banner { background: #22c55e; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
+   .lang-select { width: 100%; padding: 10px; border-radius: 8px; background: #1a1a2e; color: white; border: 1px solid #a855f7; margin-bottom: 15px; }
+   .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
     h1 { color: #a855f7; text-align: center; }
-  .price { font-size: 20px; color: #fbbf24; font-weight: bold; }
-    button { background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 15px; margin: 5px; cursor: pointer; font-weight: bold; width: 90%; }
-    #history { background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 20px; }
+   .price { font-size: 22px; color: #fbbf24; font-weight: bold; }
+   .stock { font-size: 12px; color: #22c55e; }
+    button { background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 15px; margin: 5px; cursor: pointer; font-weight: bold; width: 95%; }
+    #history, #footer { background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="banner">✅ DEMO MODE - MALIPO YA KWELI YANAKUJA</div>
-    <h1>SOKO LA PIONEER</h1>
+    <div class="banner" id="banner">✅ DEMO MODE - MALIPO YA KWELI YANAKUJA</div>
 
+    <select class="lang-select" id="language-select" onchange="setLanguage(this.value)">
+      <option value="sw">Kiswahili</option>
+      <option value="en">English</option>
+      <option value="zh">中文 Chinese</option>
+      <option value="hi">हिन्दी Hindi</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="fr">Français</option>
+      <option value="ar">العربية Arabic</option>
+    </select>
+
+    <h1 id="store-title">SOKO LA PIONEER</h1>
+
+    <!-- BIDHAA 1 -->
     <div class="product-card">
-      <h2>Earbuds Bila Waya</h2>
+      <h2 id="p1-name">Earbuds Bila Waya</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=Earbuds" width="120" style="border-radius: 10px;">
-      <p class="price">Bei: 2.0 π ~ $628,318 GCV</p>
-      <button onclick="buyDemo(2.0, 'Earbuds Bila Waya')">NUNUA KWA PI</button>
+      <p class="price" id="p1-price">Bei: 1.0 π ~ $314,159 GCV</p>
+      <p class="stock" id="p1-stock">Stock: 50</p>
+      <button onclick="buyDemo(1.0, 'Earbuds Bila Waya', 1)" id="p1-btn">NUNUA KWA PI</button>
     </div>
 
+    <!-- BIDHAA 2 -->
     <div class="product-card">
-      <h2>Saa Mahiri</h2>
+      <h2 id="p2-name">Saa Mahiri</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=SmartWatch" width="120" style="border-radius: 10px;">
-      <p class="price">Bei: 5.0 π ~ $1,570,795 GCV</p>
-      <button onclick="buyDemo(5.0, 'Saa Mahiri')">NUNUA KWA PI</button>
+      <p class="price" id="p2-price">Bei: 1.0 π ~ $314,159 GCV</p>
+      <p class="stock" id="p2-stock">Stock: 30</p>
+      <button onclick="buyDemo(1.0, 'Saa Mahiri', 2)" id="p2-btn">NUNUA KWA PI</button>
     </div>
 
-    <button onclick="login()">INGIA KWA PI</button>
-    <button onclick="showHistory()">HISTORIA YANGU</button>
+    <button onclick="login()" id="login-btn">INGIA KWA PI</button>
+    <button onclick="showHistory()" id="history-btn">HISTORIA YANGU</button>
+    <button onclick="restock()" id="restock-btn">ONGEZA MZIGO +50</button>
 
     <div id="history">
-      <h3>Historia ya Oda</h3>
-      <ul id="history-list"><li>Hakuna oda bado</li></ul>
+      <h3 id="history-title">Historia ya Oda</h3>
+      <ul id="history-list"><li id="no-history">Hakuna oda bado</li></ul>
+    </div>
+
+    <!-- FOOTER YA KIMATAIFA + TAX -->
+    <div id="footer">
+      <h4 id="about-title">Kuhusu SOKO LA PIONEER</h4>
+      <p id="about-text">Soko la kimataifa la kununua na kuuza bidhaa kwa Pi Coin kwa bei ya GCV. Ushuru wa 10% unakatwa moja kwa moja kwenye kila ununuzi.</p>
+      <p id="tax-note"><b>Tax:</b> 10% Auto Deduction</p>
+      <p id="shipping-note"><b>Usafirishaji:</b> Tunaungana na kampuni za kimataifa zinazopokea Pi. Mzigo unapelekwa moja kwa moja.</p>
+      <a href="#" style="color:#fbbf24">Privacy Policy</a> | <a href="#" style="color:#fbbf24">Terms of Service</a>
     </div>
   </div>
 
 <script>
-  Pi.init({ version: "2.0" }); // TUMEONDOA SANDBOX
+  Pi.init({ version: "2.0" });
+  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryGlobal')) || [];
+  let stock = JSON.parse(localStorage.getItem('piStock')) || {1: 50, 2: 30};
+  const GCV = 314159;
 
-  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryDemo')) || [];
+  const translations = {
+    sw: { banner:"✅ DEMO MODE - MALIPO YA KWELI YANAKUJA", store:"SOKO LA PIONEER", p1:"Earbuds Bila Waya", p2:"Saa Mahiri", price:"Bei: 1.0 π ~ $", gcv:" GCV", stock:"Stock:", buy:"NUNUA KWA PI", login:"INGIA KWA PI", history:"HISTORIA YANGU", restock:"ONGEZA MZIGO +50", historyTitle:"Historia ya Oda", noHistory:"Hakuna oda bado", about:"Kuhusu SOKO LA PIONEER", aboutText:"Soko la kimataifa la kununua na kuuza bidhaa kwa Pi Coin kwa bei ya GCV. Ushuru wa 10% unakatwa moja kwa moja kwenye kila ununuzi.", tax:"Ushuru:", ship:"Usafirishaji:", order:"✅ Oda Imewekwa!", item:"Bidhaa:", amount:"Bei:", note:"Baada ya kupitishwa na Pi, malipo ya kweli yataanza", restocked:"Mzigo umeongezwa +50" },
+    en: { banner:"✅ DEMO MODE - REAL PAYMENTS COMING", store:"PIONEER MARKET", p1:"Wireless Earbuds", p2:"Smart Watch", price:"Price: 1.0 π ~ $", gcv:" GCV", stock:"Stock:", buy:"BUY WITH PI", login:"LOGIN WITH PI", history:"MY HISTORY", restock:"RESTOCK +50", historyTitle:"Order History", noHistory:"No orders yet", about:"About PIONEER MARKET", aboutText:"Global marketplace to buy and sell with Pi Coin at GCV price. 10% tax is auto-deducted on every purchase.", tax:"Tax:", ship:"Shipping:", order:"✅ Order Placed!", item:"Item:", amount:"Amount:", note:"Real payments will start after Pi approval", restocked:"Stock added +50" },
+    zh: { banner:"✅ 演示模式 - 真实支付即将到来", store:"先锋市场", p1:"无线耳机", p2:"智能手表", price:"价格: 1.0 π ~ $", gcv:" GCV", stock:"库存:", buy:"用PI购买", login:"用PI登录", history:"我的历史", restock:"补货 +50", historyTitle:"订单历史", noHistory:"暂无订单", about:"关于先锋市场", aboutText:"全球市场，使用GCV价格的Pi币买卖商品。每笔购买自动扣除10%的税。", tax:"税收:", ship:"运输:", order:"✅ 订单已下!", item:"商品:", amount:"金额:", note:"获得Pi批准后将开始真实支付", restocked:"库存已添加 +50" },
+    hi: { banner:"✅ डेमो मोड - वास्तविक भुगतान आ रहा है", store:"पायनियर मार्केट", p1:"वायरलेस ईयरबड्स", p2:"स्मार्ट घड़ी", price:"कीमत: 1.0 π ~ $", gcv:" GCV", stock:"स्टॉक:", buy:"PI से खरीदें", login:"PI से लॉगिन करें", history:"मेरा इतिहास", restock:"स्टॉक +50", historyTitle:"ऑर्डर इतिहास", noHistory:"अभी तक कोई ऑर्डर नहीं", about:"पायनियर मार्केट के बारे में", aboutText:"GCV मूल्य पर Pi कॉइन के साथ खरीदने और बेचने के लिए वैश्विक बाजार। प्रत्येक खरीद पर 10% कर स्वचालित रूप से काटा जाता है।", tax:"कर:", ship:"शिपिंग:", order:"✅ ऑर्डर दिया गया!", item:"आइटम:", amount:"राशि:", note:"Pi अनुमोदन के बाद वास्तविक भुगतान शुरू होगा", restocked:"स्टॉक +50 जोड़ा गया" },
+    es: { banner:"✅ MODO DEMO - PAGOS REALES PRONTO", store:"MERCADO PIONERO", p1:"Auriculares Inalámbricos", p2:"Reloj Inteligente", price:"Precio: 1.0 π ~ $", gcv:" GCV", stock:"Stock:", buy:"COMPRAR CON PI", login:"INICIAR CON PI", history:"MI HISTORIAL", restock:"REABASTECER +50", historyTitle:"Historial de Pedidos", noHistory:"Aún no hay pedidos", about:"Sobre MERCADO PIONERO", aboutText:"Mercado global para comprar y vender con Pi Coin a precio GCV. 10% de impuesto se deduce automáticamente.", tax:"Impuesto:", ship:"Envío:", order:"✅ ¡Pedido Realizado!", item:"Artículo:", amount:"Monto:", note:"Los pagos reales comenzarán después de la aprobación de Pi", restocked:"Stock +50 agregado" },
+    pt: { banner:"✅ MODO DEMO - PAGAMENTOS REAIS EM BREVE", store:"MERCADO PIONEIRO", p1:"Fones Sem Fio", p2:"Smartwatch", price:"Preço: 1.0 π ~ $", gcv:" GCV", stock:"Estoque:", buy:"COMPRAR COM PI", login:"ENTRAR COM PI", history:"MEU HISTÓRICO", restock:"REPOR +50", historyTitle:"Histórico de Pedidos", noHistory:"Nenhum pedido ainda", about:"Sobre MERCADO PIONEIRO", aboutText:"Mercado global para comprar e vender com Pi Coin ao preço GCV. 10% de imposto é deduzido automaticamente.", tax:"Imposto:", ship:"Envio:", order:"✅ Pedido Feito!", item:"Item:", amount:"Valor:", note:"Pagamentos reais começarão após aprovação da Pi", restocked:"Estoque +50 adicionado" },
+    fr: { banner:"✅ MODE DÉMO - VRAIS PAIEMENTS BIENTÔT", store:"MARCHÉ PIONNIER", p1:"Écouteurs Sans Fil", p2:"Montre Connectée", price:"Prix: 1.0 π ~ $", gcv:" GCV", stock:"Stock:", buy:"ACHETER AVEC PI", login:"SE CONNECTER AVEC PI", history:"MON HISTORIQUE", restock:"RÉAPPROVISIONNER +50", historyTitle:"Historique des Commandes", noHistory:"Aucune commande encore", about:"À propos de MARCHÉ PIONNIER", aboutText:"Marché mondial pour acheter et vendre avec Pi Coin au prix GCV. 10% de taxe est déduite automatiquement.", tax:"Taxe:", ship:"Livraison:", order:"✅ Commande Passée!", item:"Article:", amount:"Montant:", note:"Les vrais paiements commenceront après l'approbation de Pi", restocked:"Stock +50 ajouté" },
+    ar: { banner:"✅ وضع العرض - المدفوعات الحقيقية قريبًا", store:"سوق الرائد", p1:"سماعات لاسلكية", p2:"ساعة ذكية", price:"السعر: 1.0 π ~ $", gcv:" GCV", stock:"المخزون:", buy:"اشترِ بـ PI", login:"تسجيل الدخول بـ PI", history:"سجلي", restock:"إعادة التخزين +50", historyTitle:"سجل الطلبات", noHistory:"لا توجد طلبات بعد", about:"حول سوق الرائد", aboutText:"سوق عالمي للشراء والبيع بعملة Pi بسعر GCV. يتم خصم ضريبة 10% تلقائيًا.", tax:"الضريبة:", ship:"الشحن:", order:"✅ تم تقديم الطلب!", item:"المنتج:", amount:"المبلغ:", note:"ستبدأ المدفوعات الحقيقية بعد موافقة Pi", restocked:"تمت إضافة مخزون +50" }
+  };
+
+  function setLanguage(lang) {
+    const t = translations[lang] || translations['en'];
+    document.getElementById('banner').innerText = t.banner;
+    document.getElementById('store-title').innerText = t.store;
+    document.getElementById('p1-name').innerText = t.p1;
+    document.getElementById('p2-name').innerText = t.p2;
+    document.getElementById('p1-price').innerText = t.price + GCV + t.gcv;
+    document.getElementById('p2-price').innerText = t.price + GCV + t.gcv;
+    document.getElementById('p1-stock').innerText = t.stock + " + stock[1];
+    document.getElementById('p2-stock').innerText = t.stock + " " + stock[2];
+    document.getElementById('p1-btn').innerText = t.buy;
+    document.getElementById('p2-btn').innerText = t.buy;
+    document.getElementById('login-btn').innerText = t.login;
+    document.getElementById('history-btn').innerText = t.history;
+    document.getElementById('restock-btn').innerText = t.restock;
+    document.getElementById('history-title').innerText = t.historyTitle;
+    document.getElementById('no-history').innerText = t.noHistory;
+    document.getElementById('about-title').innerText = t.about;
+    document.getElementById('about-text').innerText = t.aboutText;
+    document.getElementById('tax-note').innerHTML = `<b>${t.tax}</b> 10% Auto Deduction`;
+    document.getElementById('shipping-note').innerHTML = `<b>${t.ship}</b> ` + t.aboutText.split(".")[2];
+  }
+
+  window.onload = function() {
+    setLanguage('sw');
+    showHistory();
+  }
 
   async function login() {
     const auth = await Pi.authenticate(['username']);
     alert("Karibu: " + auth.user.username);
   }
 
-  // HII NDIO INAIFANYA IWE DEMO
-  function buyDemo(amount, productName) {
+  function buyDemo(amount, productName, id) {
+    if(stock[id] <= 0) { alert("Samahani, stock imeisha"); return; }
+    stock[id] -= 1;
+    localStorage.setItem('piStock', JSON.stringify(stock));
+
+    const tax = amount * 0.10; // 10% TAX AUTO
+    const total = amount + tax;
     let txid = "DEMO-" + Date.now();
-    alert("✅ Oda Imewekwa! \n\nBidhaa: " + productName + "\nBei: " + amount + " π GCV\nBaada ya kupitishwa na Pi, malipo ya kweli yataanza");
-    
-    purchaseHistory.push({ product: productName, amount: amount, date: new Date().toLocaleString(), txid: txid });
-    localStorage.setItem('piHistoryDemo', JSON.stringify(purchaseHistory));
+    const t = translations[document.getElementById('language-select').value];
+
+    alert(`${t.order}\n\n${t.item} ${productName}\n${t.amount} ${total} π\nGCV: $${total * GCV}\n${t.tax} ${tax} π\n\n${t.note}`);
+
+    purchaseHistory.push({ product: productName, amount: total, tax: tax, date: new Date().toLocaleString(), txid: txid });
+    localStorage.setItem('piHistoryGlobal', JSON.stringify(purchaseHistory));
+    setLanguage(document.getElementById('language-select').value);
     showHistory();
+  }
+
+  function restock() {
+    stock[1] += 50; stock[2] += 50;
+    localStorage.setItem('piStock', JSON.stringify(stock));
+    const t = translations[document.getElementById('language-select').value];
+    alert(t.restocked);
+    setLanguage(document.getElementById('language-select').value);
   }
 
   function showHistory() {
     const list = document.getElementById('history-list');
     list.innerHTML = '';
-    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna oda bado</li>'; return; }
+    if(purchaseHistory.length === 0) { list.innerHTML = `<li>${translations.sw.noHistory}</li>`; return; }
     purchaseHistory.forEach(item => {
       list.innerHTML += `<li>${item.product} - ${item.amount} π - ${item.date}</li>`;
     });
