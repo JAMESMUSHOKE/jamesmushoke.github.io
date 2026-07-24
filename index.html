@@ -3,46 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soko La Pioneer</title>
+    <title>Soko La Pioneer - TESTNET</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body { background:#111; color:white; font-family:Arial; text-align:center; padding:20px; }
+        .badge { background:gold; color:black; padding:5px 10px; border-radius:5px; font-weight:bold; }
         .product { background:#222; margin:15px; padding:15px; border-radius:10px; }
         button { background:purple; color:white; border:none; padding:10px 20px; border-radius:8px; }
-        #history { margin-top:20px; text-align:left; }
     </style>
 </head>
 <body>
+    <div class="badge">TESTNET MODE - GCV $314,159/π</div>
     <h1>🛒 SOKO LA PIONEER</h1>
-    <button onclick="login()">Ingia na Pi</button>
+    <button onclick="login()">Ingia na Pi / Login with Pi</button>
     <div id="user"></div>
 
     <div class="product">
         <h3>SmartWatch</h3>
-        <p>Bei: 1.1 π</p>
-        <button onclick="buy('SmartWatch', 1.1)">Nunua</button>
+        <p>Bei: 1.1 π Test</p>
+        <p>≈ $345,574.90 GCV</p>
+        <button onclick="buy('SmartWatch', 1.1)">Nunua / Buy Now</button>
     </div>
 
     <div class="product">
-        <h3>Earbuds Bila Waya</h3>
-        <p>Bei: 1.1 π</p>
-        <button onclick="buy('Earbuds Bila Waya', 1.1)">Nunua</button>
+        <h3>Earbuds Bila Waya / Wireless Earbuds</h3>
+        <p>Bei: 1.1 π Test</p>
+        <p>≈ $345,574.90 GCV</p>
+        <button onclick="buy('Earbuds Bila Waya', 1.1)">Nunua / Buy Now</button>
     </div>
 
-    <div id="history">
-        <h3>Historia ya Oda</h3>
-        <ul id="no-history"><li>Hakuna oda bado</li></ul>
-    </div>
+    <div id="history"><h3>Historia ya Oda / Order History</h3></div>
 
 <script>
-Pi.init({ version: "2.0" });
+Pi.init({ version: "2.0", sandbox: "true" }); // HII NDIO YA TESTNET
+
 function login(){
-    Pi.authenticate(['username'], function(auth){ 
+    Pi.authenticate(['username', 'payments'], function(auth){ 
         document.getElementById('user').innerText = "Karibu: " + auth.user.username;
     }, function(err){ alert("Login imeshindikana") });
 }
+
 function buy(item, price){
-    alert("✅ Oda Imewekwa! \nBidhaa: " + item + "\nBei: " + price + " π");
+    const paymentData = {
+        amount: price,
+        memo: "Soko La Pioneer - " + item,
+        metadata: { product: item }
+    };
+
+    const callbacks = {
+        onReadyForServerApproval: function(paymentId) {
+            alert("✅ Malipo ya Test yameanzishwa! ID: " + paymentId);
+            // Hapa utatuma paymentId kwa server yako
+        },
+        onReadyForServerCompletion: function(paymentId, txid) {
+            alert("🎉 Malipo ya Test Yamekamilika! Tx: " + txid);
+        },
+        onCancel: function(paymentId) { alert("Umekataa malipo") },
+        onError: function(error) { alert("Hitilafu: " + error) }
+    };
+    Pi.createPayment(paymentData, callbacks);
 }
 </script>
 </body>
