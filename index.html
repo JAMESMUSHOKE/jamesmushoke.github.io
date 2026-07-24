@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOKO LA PIONEER - TEST</title>
+  <title>SOKO LA PIONEER - DEMO</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
   .container { max-width: 500px; margin: auto; }
   .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
-  .banner { background: #fbbf24; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
+  .banner { background: #22c55e; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
     h1 { color: #a855f7; text-align: center; }
   .price { font-size: 20px; color: #fbbf24; font-weight: bold; }
     button { background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 15px; margin: 5px; cursor: pointer; font-weight: bold; width: 90%; }
@@ -19,70 +19,58 @@
 <body>
 
   <div class="container">
-    <div class="banner">⚠️ HII NI TEST MODE - INATUMIA TEST PI</div>
+    <div class="banner">✅ DEMO MODE - MALIPO YA KWELI YANAKUJA</div>
     <h1>SOKO LA PIONEER</h1>
 
     <div class="product-card">
       <h2>Earbuds Bila Waya</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=Earbuds" width="120" style="border-radius: 10px;">
       <p class="price">Bei: 2.0 π ~ $628,318 GCV</p>
-      <button onclick="buyWithPi(2.0, 'Earbuds Bila Waya')">NUNUA KWA PI TEST</button>
+      <button onclick="buyDemo(2.0, 'Earbuds Bila Waya')">NUNUA KWA PI</button>
     </div>
 
     <div class="product-card">
       <h2>Saa Mahiri</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=SmartWatch" width="120" style="border-radius: 10px;">
       <p class="price">Bei: 5.0 π ~ $1,570,795 GCV</p>
-      <button onclick="buyWithPi(5.0, 'Saa Mahiri')">NUNUA KWA PI TEST</button>
+      <button onclick="buyDemo(5.0, 'Saa Mahiri')">NUNUA KWA PI</button>
     </div>
 
     <button onclick="login()">INGIA KWA PI</button>
     <button onclick="showHistory()">HISTORIA YANGU</button>
 
     <div id="history">
-      <h3>Historia ya Ununuzi wa Test</h3>
-      <ul id="history-list"><li>Hakuna ununuzi wa Test bado</li></ul>
+      <h3>Historia ya Oda</h3>
+      <ul id="history-list"><li>Hakuna oda bado</li></ul>
     </div>
   </div>
 
 <script>
-  // MUHIMU KUBWA: SANDBOX TRUE
-  Pi.init({ version: "2.0", sandbox: true });
+  Pi.init({ version: "2.0" }); // TUMEONDOA SANDBOX
 
-  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryTest')) || [];
+  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryDemo')) || [];
 
   async function login() {
-    const auth = await Pi.authenticate(['username', 'payments']);
-    alert("Umeingia: " + auth.user.username);
+    const auth = await Pi.authenticate(['username']);
+    alert("Karibu: " + auth.user.username);
   }
 
-  function buyWithPi(amount, productName) {
-    const paymentData = { amount: amount, memo: "Test: " + productName, metadata: { product: productName } };
+  // HII NDIO INAIFANYA IWE DEMO
+  function buyDemo(amount, productName) {
+    let txid = "DEMO-" + Date.now();
+    alert("✅ Oda Imewekwa! \n\nBidhaa: " + productName + "\nBei: " + amount + " π GCV\nBaada ya kupitishwa na Pi, malipo ya kweli yataanza");
     
-    const callbacks = {
-      onReadyForServerApproval: function(paymentId) {
-        // HAPA NDIO KAZI KUBWA: TUNAKUBALI MALIPO MARA MOJA
-        Pi.approvePayment(paymentId); 
-      },
-      onReadyForServerCompletion: function(paymentId, txid) {
-        alert("Majaribio Yamefanikiwa! Umenunua: " + productName);
-        purchaseHistory.push({ product: productName, amount: amount, date: new Date().toLocaleString(), txid: txid });
-        localStorage.setItem('piHistoryTest', JSON.stringify(purchaseHistory));
-        showHistory();
-        Pi.completePayment(paymentId, txid);
-      },
-      onCancel: function(paymentId) { alert("Umefuta"); },
-      onError: function(error) { alert("Hitilafu: " + error); }
-    };
-    Pi.createPayment(paymentData, callbacks);
+    purchaseHistory.push({ product: productName, amount: amount, date: new Date().toLocaleString(), txid: txid });
+    localStorage.setItem('piHistoryDemo', JSON.stringify(purchaseHistory));
+    showHistory();
   }
 
   function showHistory() {
     const list = document.getElementById('history-list');
     list.innerHTML = '';
-    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna ununuzi wa Test bado</li>'; return; }
+    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna oda bado</li>'; return; }
     purchaseHistory.forEach(item => {
-      list.innerHTML += `<li>${item.product} - ${item.amount} π</li>`;
+      list.innerHTML += `<li>${item.product} - ${item.amount} π - ${item.date}</li>`;
     });
   }
 </script>
