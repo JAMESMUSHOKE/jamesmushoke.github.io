@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOKO LA PIONEER - Web3</title>
+  <title>SOKO LA PIONEER - TEST MODE</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 
   <style>
     body { background: #0d0d1a; color: white; font-family: 'Segoe UI', sans-serif; padding: 20px; margin: 0; }
-   .container { max-width: 500px; margin: auto; }
-   .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #6a0dad; margin-bottom: 20px; text-align: center; }
+  .container { max-width: 500px; margin: auto; }
+  .product-card { background: #1a1a2e; padding: 20px; border-radius: 15px; border: 1px solid #fbbf24; margin-bottom: 20px; text-align: center; }
+  .banner { background: #fbbf24; color: black; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 15px; }
     h1 { color: #a855f7; text-align: center; }
-   .price { font-size: 20px; color: #fbbf24; font-weight: bold; }
+  .price { font-size: 20px; color: #fbbf24; font-weight: bold; }
     button { background: linear-gradient(90deg, #6a0dad, #a855f7); color: white; padding: 12px 25px; border: none; border-radius: 10px; font-size: 15px; margin: 5px; cursor: pointer; font-weight: bold; width: 90%; }
     select { padding: 8px; border-radius: 8px; background: #0d0d1a; color: white; border: 1px solid #6a0dad; float: right; }
-    #history { background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 20px; display: none; }
+    #history { background: #1a1a2e; padding: 15px; border-radius: 10px; margin-top: 20px; }
   </style>
 </head>
 <body>
 
   <div class="container">
+    <div class="banner">⚠️ HII NI TEST MODE - INATUMIA TEST PI</div>
+
     <select id="language-select" onchange="setLanguage(this.value)">
       <option value="en">English</option>
       <option value="sw">Kiswahili</option>
-      <option value="zh">中文</option>
-      <option value="es">Español</option>
     </select>
     <h1 id="store-title">SOKO LA PIONEER</h1>
 
@@ -33,7 +34,7 @@
       <h2 id="p1-name">Earbuds Bila Waya</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=Earbuds" width="120" style="border-radius: 10px;">
       <p class="price" id="p1-price">Bei: 2.0 π ~ $628,318 GCV</p>
-      <button onclick="buyWithPi(2.0, 'Earbuds Bila Waya')" id="p1-btn">NUNUA KWA PI</button>
+      <button onclick="buyWithPi(2.0, 'Earbuds Bila Waya')" id="p1-btn">NUNUA KWA PI TEST</button>
     </div>
 
     <!-- BIDHAA 2 -->
@@ -41,44 +42,36 @@
       <h2 id="p2-name">Saa Mahiri</h2>
       <img src="https://placehold.co/200x200/6a0dad/ffffff?text=SmartWatch" width="120" style="border-radius: 10px;">
       <p class="price" id="p2-price">Bei: 5.0 π ~ $1,570,795 GCV</p>
-      <button onclick="buyWithPi(5.0, 'Saa Mahiri')" id="p2-btn">NUNUA KWA PI</button>
-    </div>
-
-    <!-- BIDHAA 3 -->
-    <div class="product-card">
-      <h2 id="p3-name">Power Bank 20000mAh</h2>
-      <img src="https://placehold.co/200x200/6a0dad/ffffff?text=PowerBank" width="120" style="border-radius: 10px;">
-      <p class="price" id="p3-price">Bei: 3.0 π ~ $942,477 GCV</p>
-      <button onclick="buyWithPi(3.0, 'Power Bank')" id="p3-btn">NUNUA KWA PI</button>
+      <button onclick="buyWithPi(5.0, 'Saa Mahiri')" id="p2-btn">NUNUA KWA PI TEST</button>
     </div>
 
     <button onclick="login()" id="login-btn">INGIA KWA PI</button>
     <button onclick="showHistory()" id="history-btn">HISTORIA YANGU</button>
 
     <div id="history">
-      <h3 id="history-title">Historia ya Ununuzi</h3>
+      <h3 id="history-title">Historia ya Ununuzi wa Test</h3>
       <ul id="history-list"></ul>
     </div>
   </div>
 
 <script>
-  Pi.init({ version: "2.0", clientId: "r-VpJRLIt_Dg6zUIOZDUoWDeW7yEEas69ok", sandbox: true });
-  let purchaseHistory = JSON.parse(localStorage.getItem('piHistory')) || [];
+  // MUHIMU: SANDBOX: TRUE = HII NI TESTNET
+  Pi.init({ version: "2.0", sandbox: true });
+
+  let purchaseHistory = JSON.parse(localStorage.getItem('piHistoryTest')) || [];
 
   const translations = {
-    en: { store: "PIONEER MARKET", p1: "Wireless Earbuds", p2: "Smart Watch", p3: "Power Bank 20000mAh", price1: "Price: 2.0 π ~ $628,318 GCV", price2: "Price: 5.0 π ~ $1,570,795 GCV", price3: "Price: 3.0 π ~ $942,477 GCV", buy: "BUY WITH PI", login: "LOGIN WITH PI", history: "MY HISTORY", historyTitle: "Purchase History", success: "Success! You bought " },
-    sw: { store: "SOKO LA PIONEER", p1: "Earbuds Bila Waya", p2: "Saa Mahiri", p3: "Power Bank 20000mAh", price1: "Bei: 2.0 π ~ $628,318 GCV", price2: "Bei: 5.0 π ~ $1,570,795 GCV", price3: "Bei: 3.0 π ~ $942,477 GCV", buy: "NUNUA KWA PI", login: "INGIA KWA PI", history: "HISTORIA YANGU", historyTitle: "Historia ya Ununuzi", success: "Hongera! Umenunua " }
+    en: { store: "PIONEER MARKET", p1: "Wireless Earbuds", p2: "Smart Watch", price1: "Price: 2.0 π ~ $628,318 GCV", price2: "Price: 5.0 π ~ $1,570,795 GCV", buy: "BUY WITH TEST PI", login: "LOGIN WITH PI", history: "MY HISTORY", historyTitle: "Test Purchase History", success: "Test Success! You bought " },
+    sw: { store: "SOKO LA PIONEER", p1: "Earbuds Bila Waya", p2: "Saa Mahiri", price1: "Bei: 2.0 π ~ $628,318 GCV", price2: "Bei: 5.0 π ~ $1,570,795 GCV", buy: "NUNUA KWA PI TEST", login: "INGIA KWA PI", history: "HISTORIA YANGU", historyTitle: "Historia ya Ununuzi wa Test", success: "Majaribio Yamefanikiwa! Umenunua " }
   };
 
   function setLanguage(lang) {
-    const t = translations[lang];
+    const t = translations[lang] || translations['sw'];
     document.getElementById('store-title').innerText = t.store;
     document.getElementById('p1-name').innerText = t.p1;
     document.getElementById('p2-name').innerText = t.p2;
-    document.getElementById('p3-name').innerText = t.p3;
     document.getElementById('p1-price').innerText = t.price1;
     document.getElementById('p2-price').innerText = t.price2;
-    document.getElementById('p3-price').innerText = t.price3;
     document.getElementById('login-btn').innerText = t.login;
     document.getElementById('history-btn').innerText = t.history;
     document.getElementById('history-title').innerText = t.historyTitle;
@@ -87,39 +80,50 @@
 
   window.onload = function() {
     const userLang = navigator.language.slice(0,2);
-    if(translations[userLang]) { document.getElementById('language-select').value = userLang; setLanguage(userLang); }
-    else { setLanguage('sw'); }
+    setLanguage(translations[userLang]? userLang : 'sw');
     showHistory();
   }
 
   async function login() {
-    const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
-    alert(translations.sw.success + authResult.user.username);
+    try {
+      const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
+      alert(translations.sw.success.split('!')[0] + "! " + authResult.user.username);
+    } catch (err) { alert("Login failed: " + err); }
   }
 
-  function onIncompletePaymentFound(payment) { Pi.completePayment(payment.identifier, payment.transaction.txid); }
+  function onIncompletePaymentFound(payment) {
+    Pi.completePayment(payment.identifier, payment.transaction.txid);
+  }
 
+  // HII NDIO FUNCTION YA MALIPO YA TEST
   function buyWithPi(amount, productName) {
-    const paymentData = { amount: amount, memo: "Buy: " + productName, metadata: { product: productName } };
+    const paymentData = {
+      amount: amount,
+      memo: "[TEST] Nunua: " + productName,
+      metadata: { product: productName, mode: "test" }
+    };
+
     const callbacks = {
-      onReadyForServerApproval: (paymentId) => Pi.approvePayment(paymentId),
-      onReadyForServerCompletion: (paymentId, txid) => {
-        alert("Hongera! Umenunua " + productName);
-        purchaseHistory.push({ product: productName, amount: amount, date: new Date().toLocaleString(), txid: txid });
-        localStorage.setItem('piHistory', JSON.stringify(purchaseHistory));
-        showHistory();
+      onReadyForServerApproval: (paymentId) => {
+        Pi.approvePayment(paymentId); // Hii inafungua Wallet ya TEST
       },
-      onCancel: () => alert("Umefuta malipo"),
-      onError: (error) => alert("Hitilafu: " + error)
+      onReadyForServerCompletion: (paymentId, txid) => {
+        alert(translations.sw.success + productName);
+        purchaseHistory.push({ product: productName, amount: amount, date: new Date().toLocaleString(), txid: txid });
+        localStorage.setItem('piHistoryTest', JSON.stringify(purchaseHistory));
+        showHistory();
+        Pi.completePayment(paymentId, txid);
+      },
+      onCancel: (paymentId) => { alert("Umefuta malipo ya Test"); },
+      onError: (error) => { alert("Hitilafu ya Test: " + error); }
     };
     Pi.createPayment(paymentData, callbacks);
   }
 
   function showHistory() {
-    document.getElementById('history').style.display = 'block';
     const list = document.getElementById('history-list');
     list.innerHTML = '';
-    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna ununuzi bado</li>'; }
+    if(purchaseHistory.length === 0) { list.innerHTML = '<li>Hakuna ununuzi wa Test bado</li>'; }
     purchaseHistory.forEach(item => {
       list.innerHTML += `<li>${item.product} - ${item.amount} π - ${item.date}</li>`;
     });
