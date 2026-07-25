@@ -52,6 +52,63 @@ function buy(item,price){
     onError:function(e){alert("Kosa: "+e)}
   });
 }
+<script>
+Pi.init({version:"2.0", sandbox:"true"});
+
+function buy(item,price){
+  alert("Tunaomba malipo ya Test Pi...");
+  try {
+    Pi.createPayment({
+      amount:price,
+      memo:"Soko La Pioneer - "+item,
+      metadata:{product:item}
+    },{
+      onReadyForServerApproval:function(paymentId){
+        console.log("Payment ID:", paymentId);
+        Pi.approvePayment(paymentId); // TUNAI-APPROVE PAPO HAPO
+        setTimeout(()=>{
+          Pi.completePayment(paymentId,"TEST_"+Date.now());
+        },2000);
+      },
+      onReadyForServerCompletion:function(paymentId,txid){
+        alert("🎉 HONGELA Mkuu!\nMalipo Yamekamilika!\nBidhaa: "+item+"\nTxID: "+txid+"\n\nPIGA SCREENSHOT HII!");
+      },
+      onCancel:function(){alert("Umekataa malipo")},
+      onError:function(e){alert("Hitilafu: "+JSON.stringify(e))}
+    });
+  } catch(e){
+    alert("SDK Error: "+e)
+  }
+}
+<script>
+Pi.init({version:"2.0", sandbox:"true"});
+
+function buy(item,price){
+  alert("Tunaomba malipo ya Test Pi...");
+  try {
+    Pi.createPayment({
+      amount:price,
+      memo:"Soko La Pioneer - "+item,
+      metadata:{product:item}
+    },{
+      onReadyForServerApproval:function(paymentId){
+        console.log("Payment ID:", paymentId);
+        Pi.approvePayment(paymentId); // TUNAI-APPROVE PAPO HAPO
+        setTimeout(()=>{
+          Pi.completePayment(paymentId,"TEST_"+Date.now());
+        },2000);
+      },
+      onReadyForServerCompletion:function(paymentId,txid){
+        alert("🎉 HONGELA Mkuu!\nMalipo Yamekamilika!\nBidhaa: "+item+"\nTxID: "+txid+"\n\nPIGA SCREENSHOT HII!");
+      },
+      onCancel:function(){alert("Umekataa malipo")},
+      onError:function(e){alert("Hitilafu: "+JSON.stringify(e))}
+    });
+  } catch(e){
+    alert("SDK Error: "+e)
+  }
+}
 </script>
+
 </body>
 </html>
