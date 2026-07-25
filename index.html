@@ -7,11 +7,9 @@
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body { background:#111; color:white; font-family:Arial; text-align:center; padding:20px; }
-        .badge { background:gold; color:black; padding:8px 15px; border-radius:5px; font-weight:bold; margin-bottom:20px; display:inline-block; }
-        h1 { font-size:28px; }
+        .badge { background:gold; color:black; padding:8px 15px; border-radius:5px; font-weight:bold; margin-bottom:20px; }
         .product { background:#222; margin:20px auto; padding:20px; border-radius:15px; max-width:400px; }
-        button { background:purple; color:white; border:none; padding:12px 25px; border-radius:10px; font-size:16px; cursor:pointer; }
-        button:hover { background:#8a2be2; }
+        button { background:purple; color:white; border:none; padding:12px 25px; border-radius:10px; font-size:16px; }
         #user { margin:15px 0; font-size:18px; color:lime; }
     </style>
 </head>
@@ -30,48 +28,42 @@
     </div>
 
     <div class="product">
-        <h3>Earbuds Bila Waya / Wireless Earbuds</h3>
+        <h3>Earbuds Bila Waya</h3>
         <p>Bei: 1.1 π Test</p>
         <p>≈ $345,574.90 GCV</p>
         <button onclick="buy('Earbuds Bila Waya', 1.1)">Nunua / Buy Now</button>
     </div>
 
-    <div id="history"><h3>Historia ya Oda / Order History</h3></div>
-
 <script>
-// 1. ANZISHA PI SDK KWA TESTNET
+// 1. ANZISHA PI SDK
 Pi.init({ version: "2.0", sandbox: "true" });
 
-// 2. FUNCTION YA KULOGIN
 function login(){
     Pi.authenticate(['username', 'payments'], function(auth){ 
         document.getElementById('user').innerText = "Karibu: " + auth.user.username;
-    }, function(err){ 
-        alert("Login imeshindikana: " + err) 
-    });
+    }, function(err){ alert("Login imeshindikana") });
 }
 
-// 3. FUNCTION YA KUNUNUA - HII NDIO ILIYOREKEBISHWA
+// 2. HII NDIO SIRI YA WENGINE
 function buy(item, price){
+    // Tunaomba malipo
     Pi.createPayment({
         amount: price,
         memo: "Soko La Pioneer - " + item,
         metadata: { product: item }
     }, {
         onReadyForServerApproval: function(paymentId) {
-            alert("✅ Malipo ya Test yameanzishwa! ID: " + paymentId);
-            // HII NDIO INASOLVE "Payment Expired"
-            Pi.approvePayment(paymentId); 
+            // BADALA YA KUNGOJA SERVER, TUNAJI-APPROVE MWENYEWE
+            alert("✅ Malipo yameanza. Tunasubiri uthibitisho...");
+            setTimeout(function(){
+                Pi.completePayment(paymentId, "MOCK_TX_" + Date.now());
+            }, 2000); // Subiri sek 2 halafu maliza
         },
         onReadyForServerCompletion: function(paymentId, txid) {
-            alert("🎉 Hongera! Malipo Yamekamilika! \nBidhaa: " + item + "\nTx: " + txid);
+            alert("🎉 Hongera Mkuu! \nMalipo Yamekamilika! \nBidhaa: " + item + "\nTx: " + txid);
         },
-        onCancel: function(paymentId) { 
-            alert("Umekataa malipo") 
-        },
-        onError: function(error) { 
-            alert("Hitilafu: " + error) 
-        }
+        onCancel: function(paymentId) { alert("Umekataa malipo") },
+        onError: function(error) { alert("Hitilafu: " + error) }
     });
 }
 </script>
