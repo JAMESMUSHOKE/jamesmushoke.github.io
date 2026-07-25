@@ -7,14 +7,18 @@
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body { background:#111; color:white; font-family:Arial; text-align:center; padding:20px; }
-        .badge { background:gold; color:black; padding:5px 10px; border-radius:5px; font-weight:bold; }
-        .product { background:#222; margin:15px; padding:15px; border-radius:10px; }
-        button { background:purple; color:white; border:none; padding:10px 20px; border-radius:8px; }
+        .badge { background:gold; color:black; padding:8px 15px; border-radius:5px; font-weight:bold; margin-bottom:20px; display:inline-block; }
+        h1 { font-size:28px; }
+        .product { background:#222; margin:20px auto; padding:20px; border-radius:15px; max-width:400px; }
+        button { background:purple; color:white; border:none; padding:12px 25px; border-radius:10px; font-size:16px; cursor:pointer; }
+        button:hover { background:#8a2be2; }
+        #user { margin:15px 0; font-size:18px; color:lime; }
     </style>
 </head>
 <body>
     <div class="badge">TESTNET MODE - GCV $314,159/π</div>
     <h1>🛒 SOKO LA PIONEER</h1>
+    
     <button onclick="login()">Ingia na Pi / Login with Pi</button>
     <div id="user"></div>
 
@@ -35,33 +39,40 @@
     <div id="history"><h3>Historia ya Oda / Order History</h3></div>
 
 <script>
-Pi.init({ version: "2.0", sandbox: "true" }); // HII NDIO YA TESTNET
+// 1. ANZISHA PI SDK KWA TESTNET
+Pi.init({ version: "2.0", sandbox: "true" });
 
+// 2. FUNCTION YA KULOGIN
 function login(){
     Pi.authenticate(['username', 'payments'], function(auth){ 
         document.getElementById('user').innerText = "Karibu: " + auth.user.username;
-    }, function(err){ alert("Login imeshindikana") });
+    }, function(err){ 
+        alert("Login imeshindikana: " + err) 
+    });
 }
 
+// 3. FUNCTION YA KUNUNUA - HII NDIO ILIYOREKEBISHWA
 function buy(item, price){
-    const paymentData = {
+    Pi.createPayment({
         amount: price,
         memo: "Soko La Pioneer - " + item,
         metadata: { product: item }
-    };
-
-    const callbacks = {
+    }, {
         onReadyForServerApproval: function(paymentId) {
             alert("✅ Malipo ya Test yameanzishwa! ID: " + paymentId);
-            // Hapa utatuma paymentId kwa server yako
+            // HII NDIO INASOLVE "Payment Expired"
+            Pi.approvePayment(paymentId); 
         },
         onReadyForServerCompletion: function(paymentId, txid) {
-            alert("🎉 Malipo ya Test Yamekamilika! Tx: " + txid);
+            alert("🎉 Hongera! Malipo Yamekamilika! \nBidhaa: " + item + "\nTx: " + txid);
         },
-        onCancel: function(paymentId) { alert("Umekataa malipo") },
-        onError: function(error) { alert("Hitilafu: " + error) }
-    };
-    Pi.createPayment(paymentData, callbacks);
+        onCancel: function(paymentId) { 
+            alert("Umekataa malipo") 
+        },
+        onError: function(error) { 
+            alert("Hitilafu: " + error) 
+        }
+    });
 }
 </script>
 </body>
