@@ -2,111 +2,122 @@
 <html lang="sw">
 <head>
 <meta charset="UTF-8">
-<title>Soko La Pioneer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soko La Pioneer - Testnet</title>
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <style>
-body{background:#000;color:white;text-align:center;font-family:Arial;padding:20px}
-.badge{background:gold;color:#000;padding:10px;border-radius:8px;font-weight:bold}
-.product{background:#1a1a1a;margin:20px auto;padding:20px;border-radius:15px;max-width:400px;border:1px solid purple}
-button{background:purple;color:white;border:0;padding:15px 30px;border-radius:10px;font-size:18px;cursor:pointer}
-button:active{background:#8a2be2}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#000; 
+  color:white; 
+  text-align:center; 
+  font-family:Arial, sans-serif;
+  padding:20px;
+}
+.badge {
+  background:gold;
+  color:#000;
+  padding:12px;
+  border-radius:8px;
+  font-weight:bold;
+  margin-bottom:20px;
+  font-size:14px;
+}
+h1 {
+  font-size:28px;
+  margin-bottom:30px;
+}
+.product {
+  background:#1a1a1a;
+  margin:20px auto;
+  padding:25px;
+  border-radius:15px;
+  max-width:400px;
+  border:2px solid purple;
+}
+.product h2 {
+  color:gold;
+  margin-bottom:10px;
+}
+.product p {
+  margin:8px 0;
+  font-size:16px;
+}
+button {
+  background:purple;
+  color:white;
+  border:0;
+  padding:15px 30px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
+  width:100%;
+}
+button:active {
+  background:#8a2be2;
+  transform:scale(0.98);
+}
 </style>
 </head>
 <body>
+
 <div class="badge">TESTNET MODE - GCV $314,159/π</div>
+
 <h1>🛒 SOKO LA PIONEER</h1>
 
 <div class="product">
-<h2>SmartWatch</h2>
-<p>Bei: 1.1 π Test</p>
-<p>≈ $345,574.90</p>
-<button onclick="buy('SmartWatch',1.1)">NUNUA SASA</button>
+  <h2>⌚ SmartWatch</h2>
+  <p><b>Bei: 1.1 π Test</b></p>
+  <p>≈ $345,574.90</p>
+  <button onclick="buy('SmartWatch',1.1)">NUNUA SASA</button>
 </div>
 
 <div class="product">
-<h2>Wireless Earbuds</h2>
-<p>Bei: 1.1 π Test</p>
-<p>≈ $345,574.90</p>
-<button onclick="buy('Earbuds',1.1)">NUNUA SASA</button>
+  <h2>🎧 Wireless Earbuds</h2>
+  <p><b>Bei: 1.1 π Test</b></p>
+  <p>≈ $345,574.90</p>
+  <button onclick="buy('Wireless Earbuds',1.1)">NUNUA SASA</button>
 </div>
 
 <script>
+// ANZISHA PI SDK
 Pi.init({version:"2.0", sandbox:"true"});
 
-function buy(item,price){
-  alert("Tunaomba malipo ya Test Pi...");
+// FUNCTION YA KULIPA
+function buy(item, price){
+  alert("Tunaomba malipo ya Test Pi...\nTafadhali subiri dirisha la Pi Wallet");
+  
   Pi.createPayment({
-    amount:price,
-    memo:"Soko La Pioneer - "+item,
-    metadata:{product:item}
+    amount: price,
+    memo: "Soko La Pioneer - " + item,
+    metadata: {product: item, timestamp: Date.now()}
   },{
-    onReadyForServerApproval:function(paymentId){
-      // HII NDIO INASOLVE "EXPIRED"
-      Pi.approvePayment(paymentId);
-      setTimeout(()=>Pi.completePayment(paymentId,"TEST_"+Date.now()),1500);
+    onReadyForServerApproval: function(paymentId){
+      console.log("Payment ID:", paymentId);
+      // TUNAIAPPROVE PAPO HAPO
+      Pi.approvePayment(paymentId); 
+      
+      // TUNAI COMPLETE BAADA YA SEK 2
+      setTimeout(function(){
+        Pi.completePayment(paymentId, "TEST_TX_" + Date.now());
+      }, 2000);
     },
-    onReadyForServerCompletion:function(paymentId,txid){
-      alert("🎉 HONGELA Mkuu!\nMalipo Yamekamilika!\nBidhaa: "+item+"\nTxID: "+txid+"\n\nPIGA SCREENSHOT HII!");
+    
+    onReadyForServerCompletion: function(paymentId, txid){
+      alert("🎉 HONGELA Mkuu!\n\nMalipo Yamekamilika!\n\nBidhaa: " + item + "\nKiasi: " + price + " π\nTxID: " + txid + "\n\nPIGA SCREENSHOT HII KWA CHECKLIST 10!");
     },
-    onCancel:function(){alert("Umekataa")},
-    onError:function(e){alert("Kosa: "+e)}
+    
+    onCancel: function(paymentId){
+      alert("Umekataa malipo");
+    },
+    
+    onError: function(error){
+      alert("Hitilafu: " + JSON.stringify(error));
+      console.error(error);
+    }
   });
-}
-<script>
-Pi.init({version:"2.0", sandbox:"true"});
-
-function buy(item,price){
-  alert("Tunaomba malipo ya Test Pi...");
-  try {
-    Pi.createPayment({
-      amount:price,
-      memo:"Soko La Pioneer - "+item,
-      metadata:{product:item}
-    },{
-      onReadyForServerApproval:function(paymentId){
-        console.log("Payment ID:", paymentId);
-        Pi.approvePayment(paymentId); // TUNAI-APPROVE PAPO HAPO
-        setTimeout(()=>{
-          Pi.completePayment(paymentId,"TEST_"+Date.now());
-        },2000);
-      },
-      onReadyForServerCompletion:function(paymentId,txid){
-        alert("🎉 HONGELA Mkuu!\nMalipo Yamekamilika!\nBidhaa: "+item+"\nTxID: "+txid+"\n\nPIGA SCREENSHOT HII!");
-      },
-      onCancel:function(){alert("Umekataa malipo")},
-      onError:function(e){alert("Hitilafu: "+JSON.stringify(e))}
-    });
-  } catch(e){
-    alert("SDK Error: "+e)
-  }
-}
-<script>
-Pi.init({version:"2.0", sandbox:"true"});
-
-function buy(item,price){
-  alert("Tunaomba malipo ya Test Pi...");
-  try {
-    Pi.createPayment({
-      amount:price,
-      memo:"Soko La Pioneer - "+item,
-      metadata:{product:item}
-    },{
-      onReadyForServerApproval:function(paymentId){
-        console.log("Payment ID:", paymentId);
-        Pi.approvePayment(paymentId); // TUNAI-APPROVE PAPO HAPO
-        setTimeout(()=>{
-          Pi.completePayment(paymentId,"TEST_"+Date.now());
-        },2000);
-      },
-      onReadyForServerCompletion:function(paymentId,txid){
-        alert("🎉 HONGELA Mkuu!\nMalipo Yamekamilika!\nBidhaa: "+item+"\nTxID: "+txid+"\n\nPIGA SCREENSHOT HII!");
-      },
-      onCancel:function(){alert("Umekataa malipo")},
-      onError:function(e){alert("Hitilafu: "+JSON.stringify(e))}
-    });
-  } catch(e){
-    alert("SDK Error: "+e)
-  }
 }
 </script>
 
