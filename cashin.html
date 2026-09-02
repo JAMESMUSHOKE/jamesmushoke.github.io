@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHALOM CASH IN - Deposit Pi</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+</head>
+<body>
+  <h1>💵 SHALOM CASH IN</h1>
+  <p>Deposit Pi into your SHALOM Wallet</p>
 
+  <div class="cashin-box">
+    <label>Enter Pi Amount:</label><br>
+    <input type="number" id="piAmount" placeholder="e.g. 10" style="padding:10px; margin:10px;"><br>
+    <button onclick="cashIn()">Deposit Pi</button>
+  </div>
+
+  <p><b>Note:</b> This will create a payment to SHALOM business wallet</p>
+  <a href="index.html">← Back to Home</a>
+
+  <script src="app.js"></script>
+</body>
+</html>
