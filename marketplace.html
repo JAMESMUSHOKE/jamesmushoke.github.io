@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHALOM MARKETPLACE</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; font-family: Arial; text-align: center; padding: 20px; }
+    h1 { font-size: 26px; }
+    .product { border: 2px solid #00d4ff; border-radius: 15px; padding: 20px; margin: 20px auto; max-width: 350px; }
+    .btn { padding: 12px 20px; background: #00d4ff; color: black; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .back { display: block; margin-top: 30px; color: #00d4ff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h1>🛒 SHALOM MARKETPLACE</h1>
+  <p>All products priced in Pi. Powered by Web3.</p>
 
+  <div class="product">
+    <h2>AI Smart Watch</h2>
+    <p>Price: 5 Pi</p>
+    <button class="btn" onclick="payWithPi(5, 'Buy AI Smart Watch')">Buy with Pi</button>
+  </div>
+
+  <div class="product">
+    <h2>Robot Vacuum Cleaner</h2>
+    <p>Price: 20 Pi</p>
+    <button class="btn" onclick="payWithPi(20, 'Buy Robot Vacuum Cleaner')">Buy with Pi</button>
+  </div>
+
+  <a href="index.html" class="back">← Back to Home</a>
+
+  <script>
+    Pi.init({ version: "2.0", sandbox: "true" });
+    function payWithPi(amount, memo) {
+      Pi.createPayment({ amount: amount, memo: memo, metadata: { app: "SHALOM" }}, {
+        onReadyForServerApproval: (paymentId) => alert("Approved: " + paymentId),
+        onReadyForServerCompletion: (paymentId, txid) => alert("Completed! Tx: " + txid),
+        onCancel: () => alert("Cancelled"),
+        onError: (error) => alert("Error: " + error)
+      });
+    }
+  </script>
+</body>
+</html>
