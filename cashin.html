@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHALOM Cashin - Pay with Pi</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body { font-family: Arial; background: #f0f8ff; text-align: center; padding: 20px; }
+    .box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+    button { background: #6f42c1; color: white; padding: 15px 30px; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; }
+    button:hover { background: #563d7c; }
+    h1 { color: #6f42c1; }
+    #status { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🕊️ SHALOM CASHIN</h1>
+    <p>Welcome to SHALOM Marketplace</p>
+    <p>Pay with Pi Coin</p>
+    <p>Balance: <b id="balance">Loading...</b></p>
+    <button onclick="payWithPi()">Pay 1 Pi</button>
+    <p id="status"></p>
+  </div>
 
+  <script>
+    Pi.init({ version: "2.0" });
+
+    async function payWithPi() {
+      document.getElementById("status").innerText = "Waiting for payment...";
+      try {
+        const payment = await Pi.createPayment({
+          amount: 1,
+          memo: "SHALOM Marketplace Purchase",
+          metadata: { product: "SHALOM Item" }
+        }, {
+          onReadyForServerApproval: function(paymentId) {
+            document.getElementById("status").innerText = "Approved! Thank you.";
+            console.log(paymentId);
+          },
+          onReadyForServerCompletion: function(paymentId, txid) {
+            document.getElementById("status").innerText = "Payment completed! TX: " + txid;
+          },
+          onCancel: function(paymentId) {
+            document.getElementById("status").innerText = "Payment cancelled.";
+          },
+          onError: function(error) {
+            document.getElementById("status").innerText = "Error: " + error;
+          }
+        });
+      } catch (err) {
+        document.getElementById("status").innerText = "Error: " + err;
+      }
+    }
+
+    Pi.authenticate(["payments"], function(auth) {
+      document.getElementById("balance").innerText = "Connected";
+    });
+  </script>
+</body>
+</html>
