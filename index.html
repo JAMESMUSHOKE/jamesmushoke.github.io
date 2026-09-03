@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM AI ASSISTANT</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      text-align: center;
-      padding: 20px;
-      width: 90%;
-      max-width: 400px;
-    }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 14px;
-      margin-bottom: 30px;
-      opacity: 0.9;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin: 12px 0;
-      background: #7c3aed;
-      color: white;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 16px;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #6d28d9;
-      transform: translateY(-2px);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHALOM - Buy, Sell & Pay with Pi</title>
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; background: #6B46C1; color: white; }
+        button { padding: 15px 30px; font-size: 18px; background: #FFD700; color: #6B46C1; border: none; border-radius: 10px; cursor: pointer; }
+        button:hover { background: #FFC700; }
+        #status { margin-top: 20px; font-size: 16px; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🤖 SHALOM AI ASSISTANT</h1>
-    <p>Ask me anything. I use AI to find products, compare prices, and give you the best deals in Pi.</p>
 
-    <a href="https://jamesmushoke.github.io/marketplace.html" class="btn">🛒 Marketplace</a>
-    <a href="https://jamesmushoke.github.io/pay.html" class="btn">💰 SHALOM PAY</a>
-    <a href="https://jamesmushoke.github.io/cashin.html" class="btn">💸 SHALOM CASH IN</a>
-    <a href="https://jamesmushoke.github.io/logistics.html" class="btn">📍 SHALOM LOGISTICS</a>
-  </div>
+    <h1>Welcome to SHALOM</h1>
+    <p>The Global Marketplace of Peace</p>
+    
+    <button onclick="login()">1. Login with Pi</button>
+    <br><br>
+    <button onclick="pay()">2. Test Pi Payment - 0.01 Pi</button>
+    
+    <div id="status"></div>
 
-  <script>
-    Pi.init({ version: "2.0", sandbox: true });
-  </script>
+    <script>
+        // 1. INITIALIZE PI SDK
+        Pi.init({ version: "2.0", sandbox: true }); // sandbox:true = Testnet
+
+        function showStatus(msg) {
+            document.getElementById("status").innerText = msg;
+        }
+
+        // 2. LOGIN FUNCTION
+        async function login() {
+            try {
+                const auth = await Pi.authenticate(['username'], onIncompletePaymentFound);
+                showStatus("Logged in as: " + auth.user.username);
+            } catch (err) {
+                showStatus("Login failed: " + err);
+            }
+        }
+
+        // 3. PAYMENT FUNCTION - THIS FIXES "Payment Expired"
+        async function pay() {
+            showStatus("Opening Pi Wallet...");
+            try {
+                const payment = await Pi.createPayment({
+                    amount: 0.01, // 0.01 Test Pi
+                    memo: "Test Payment for SHALOM App",
+                    metadata: { orderId: "12345" }
+                }, {
+                    // THIS IS THE PART THAT WAS MISSING
+                    onReadyForServerApproval: function(paymentId) {
+                        showStatus("Approving payment: " + paymentId);
+                        // For Testnet we can approve directly
+                        Pi.approvePayment(paymentId); 
+                    },
+                    onReadyForServerCompletion: function(paymentId, txid) {
+                        showStatus("Completing payment: " + paymentId);
+                        Pi.completePayment(paymentId, txid);
+                        showStatus("Payment Successful! TXID: " + txid);
+                    },
+                    onCancel: function(paymentId) { 
+                        showStatus("Payment Cancelled");
+                    },
+                    onError: function(error) { 
+                        showStatus("Payment Error: " + error);
+                    }
+                });
+            } catch (err) {
+                showStatus("Error creating payment: " + err);
+            }
+        }
+
+        // 4. HANDLE INCOMPLETE PAYMENTS
+        function onIncompletePaymentFound(payment) {
+            showStatus("Found incomplete payment. Completing...");
+            Pi.completePayment(payment.identifier, payment.transaction.txid);
+        }
+    </script>
+
 </body>
 </html>
