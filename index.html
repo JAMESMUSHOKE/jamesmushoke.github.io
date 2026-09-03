@@ -4,18 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SHALOM AI ASSISTANT</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
-    body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; font-family: Arial; text-align: center; padding: 30px; }
-    .btn { display: block; padding: 15px; background: #6f00ff; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; margin: 15px auto; width: 250px; text-decoration: none; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      text-align: center;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 12px 0;
+      background: #7c3aed;
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #6d28d9;
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
-  <h1>🤖 SHALOM AI ASSISTANT</h1>
-  <p>Ask me anything. I use AI to find products, compare prices, and give you the best deals in Pi.</p>
-  
-  <a href="marketplace.html" class="btn">🛒 Marketplace</a>
-  <a href="pay.html" class="btn">💰 SHALOM PAY</a>
-  <a href="cashin.html" class="btn">💵 SHALOM CASH IN</a>
-  <a href="logistics.html" class="btn">📍 SHALOM LOGISTICS</a>
+  <div class="container">
+    <h1>🤖 SHALOM AI ASSISTANT</h1>
+    <p>Ask me anything. I use AI to find products, compare prices, and give you the best deals in Pi.</p>
+
+    <a href="https://jamesmushoke.github.io/marketplace.html" class="btn">🛒 Marketplace</a>
+    <a href="https://jamesmushoke.github.io/pay.html" class="btn">💰 SHALOM PAY</a>
+    <a href="https://jamesmushoke.github.io/cashin.html" class="btn">💸 SHALOM CASH IN</a>
+    <a href="#" class="btn">📍 SHALOM LOGISTICS</a>
+  </div>
+
+  <script>
+    Pi.init({ version: "2.0", sandbox: true });
+  </script>
 </body>
 </html>
