@@ -3,23 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM CASH IN - Deposit Pi</title>
-  <link rel="stylesheet" href="style.css">
+  <title>SHALOM CASH IN</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; font-family: Arial; text-align: center; padding: 30px; }
+    input { padding: 12px; border-radius: 8px; border: none; width: 200px; margin: 10px; }
+    .btn { padding: 12px 20px; background: #00d4ff; color: black; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .back { display: block; margin-top: 30px; color: #00d4ff; text-decoration: none; }
+  </style>
 </head>
 <body>
   <h1>💵 SHALOM CASH IN</h1>
   <p>Deposit Pi into your SHALOM Wallet</p>
-
-  <div class="cashin-box">
-    <label>Enter Pi Amount:</label><br>
-    <input type="number" id="piAmount" placeholder="e.g. 10" style="padding:10px; margin:10px;"><br>
-    <button onclick="cashIn()">Deposit Pi</button>
-  </div>
-
+  <input type="number" id="amount" placeholder="e.g. 10">
+  <br>
+  <button class="btn" onclick="depositPi()">Deposit Pi</button>
   <p><b>Note:</b> This will create a payment to SHALOM business wallet</p>
-  <a href="index.html">← Back to Home</a>
+  <a href="index.html" class="back">← Back to Home</a>
 
-  <script src="app.js"></script>
+  <script>
+    Pi.init({ version: "2.0", sandbox: "true" });
+    function depositPi() {
+      let amount = document.getElementById('amount').value;
+      if(!amount || amount <= 0) { alert("Enter amount"); return; }
+      Pi.createPayment({ amount: parseFloat(amount), memo: "Deposit to SHALOM Wallet", metadata: { app: "SHALOM" }}, {
+        onReadyForServerApproval: (paymentId) => alert("Approved: " + paymentId),
+        onReadyForServerCompletion: (paymentId, txid) => alert("Deposit Completed! Tx: " + txid),
+        onCancel: () => alert("Cancelled"),
+        onError: (error) => alert("Error: " + error)
+      });
+    }
+  </script>
 </body>
 </html>
