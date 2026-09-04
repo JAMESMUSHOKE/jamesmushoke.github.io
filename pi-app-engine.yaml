@@ -1,1 +1,7 @@
-
+app:
+  name: SHALOM
+  description: Web3 Marketplace for Pi Network
+  url: https://jamesmushoke.github.io
+  icon: /icon.png
+  category: marketplace
+  version: 1.0.0
