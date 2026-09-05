@@ -3,97 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHALOM - Web3 Marketplace</title>
-    
-    <!-- IMPORTANT: This tells Pi this is the official app for shalommarketplac4887.pi -->
-    <meta name="pi-app-engine" content="shalommarketplac4887.pi">
-    
+    <meta name="app-name" content="SHALOM">
+    <title>SHALOM - Pi Marketplace</title>
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #f0f0f0; padding: 20px; }
-        .container { background: white; padding: 30px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h1 { color: #6a0dad; }
-        button { background: #6a0dad; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 10px; cursor: pointer; margin: 10px; width: 80%; }
-        button:hover { background: #520a9e; }
-        #user-info { margin-top: 20px; font-weight: bold; color: green; }
+        button { background: #6a0dad; color: white; border: none; padding: 15px 30px; font-size: 16px; border-radius: 8px; cursor: pointer; margin: 10px; width: 100%; }
+        button:hover { background: #520a8a; }
         #status { margin-top: 20px; color: #333; }
     </style>
-    
-    <!-- Pi SDK - THIS IS MANDATORY FOR ALL PI APPS -->
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to SHALOM</h1>
-        <p>The Web3 Marketplace for Pi Network</p>
-        
         <div id="auth-section">
+            <h1>Welcome to SHALOM</h1>
+            <p>The Web3 Marketplace for Pi Network</p>
             <button onclick="signIn()">Login with Pi</button>
+            <p id="status"></p>
         </div>
 
-        <div id="payment-section" style="display:none;">
-            <h3>Test Payment</h3>
-            <p>Test buying an item for 0.001 Pi</p>
-            <button onclick="makePayment()">Pay 0.001 Pi</button>
+        <div id="marketplace-section" style="display:none">
+            <h2>SHALOM Marketplace</h2>
+            <p id="user-info"></p>
+            <button onclick="makePayment()">Pay 0.001 Pi - Test</button>
+            <p id="status"></p>
         </div>
-
-        <div id="user-info"></div>
-        <div id="status"></div>
     </div>
-
-    <script>
-        // 1. INITIALIZE PI SDK - REPLACE WITH YOUR APP ID FROM DEVELOPER PORTAL
-        const scopes = ['username', 'payments'];
-        function onIncompletePaymentFound(payment) {
-            document.getElementById('status').innerText = "Found incomplete payment. Completing...";
-            // Here you should call your backend to complete the payment
-        };
-
-        Pi.init({ version: "2.0", sandbox: true }); // sandbox:true for Testnet
-
-        // 2. LOGIN FUNCTION
-        async function signIn() {
-            try {
-                document.getElementById('status').innerText = "Logging in...";
-                const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
-                document.getElementById('user-info').innerText = `Welcome, ${auth.user.username}!`;
-                document.getElementById('auth-section').style.display = 'none';
-                document.getElementById('payment-section').style.display = 'block';
-                document.getElementById('status').innerText = "Login successful!";
-            } catch (error) {
-                document.getElementById('status').innerText = `Login failed: ${error}`;
-                console.error(error);
-            }
-        }
-
-        // 3. PAYMENT FUNCTION - WEB3 STANDARD
-        async function makePayment() {
-            const paymentData = {
-                amount: 0.001,
-                memo: "Test payment for SHALOM item",
-                metadata: { productId: "item_001" }
-            };
-
-            const callbacks = {
-                onReadyForServerApproval: function(paymentId) {
-                    document.getElementById('status').innerText = "Waiting for server approval...";
-                    // TODO: Send paymentId to your backend for approval
-                    console.log("Approve payment:", paymentId);
-                },
-                onReadyForServerCompletion: function(paymentId, txid) {
-                    document.getElementById('status').innerText = "Payment completed! Tx: " + txid;
-                    // TODO: Send paymentId and txid to your backend for completion
-                    console.log("Complete payment:", paymentId, txid);
-                },
-                onCancel: function(paymentId) {
-                    document.getElementById('status').innerText = "Payment cancelled.";
-                },
-                onError: function(error, payment) {
-                    document.getElementById('status').innerText = "Payment error: " + error;
-                }
-            };
-            
-            Pi.createPayment(paymentData, callbacks);
-        }
-    </script>
+    
+    <script src="app.js"></script>
 </body>
 </html>
