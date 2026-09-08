@@ -5,23 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shalom Pi Network - Step 10 Test</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding-top: 80px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+    }
+    #payButton {
+      padding: 25px 50px;
+      font-size: 22px;
+      background: #ffc107;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    #payButton:hover {
+      background: #ffb300;
+    }
+  </style>
 </head>
-<body style="text-align: center; font-family: Arial; padding-top: 50px; background: #f5f5f5;">
+<body>
   
   <h1>Shalom Pi Network</h1>
   <p>Click the button below to complete Step 10 Test Payment</p>
   
-  <button id="payButton" style="padding: 20px 40px; font-size: 20px; background: #ffc107; color: #000; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">
+  <button id="payButton">
     PAY 0.01 TEST PI
   </button>
 
   <script>
-    // IMPORTANT: sandbox must be FALSE for Step 10 to work
+    // STEP 1: Initialize Pi SDK. IMPORTANT: sandbox must be FALSE for Step 10
     Pi.init({ version: "2.0", sandbox: false });
 
-    // Check for incomplete payments first
-    Pi.authenticate(['payments', 'username'], onIncompletePaymentFound);
+    // STEP 2: Authenticate user and check for incomplete payments
+    Pi.authenticate(['payments', 'username'], onIncompletePaymentFound)
+      .then(function(auth) {
+        console.log("Authenticated: " + auth.user.username);
+      })
+      .catch(function(error) {
+        console.error("Authentication failed:", error);
+      });
 
+    // STEP 3: Payment Button Click
     document.getElementById("payButton").onclick = function() {
       const paymentData = {
         amount: 0.01,
@@ -29,30 +61,36 @@
         metadata: { "app_name": "shalom-pi-network" }
       };
 
-      const callbacks = {
+      const paymentCallbacks = {
         onReadyForServerApproval: function(paymentId) {
-          // Wallet opens here
-          console.log("Payment Approved: " + paymentId);
+          // THIS FIXES THE WALLET LOOP BUG
+          console.log("Payment ID: " + paymentId);
           alert("Wallet Opened! Please confirm payment.");
+          // Redirect to Pi Wallet to force it to open
+          window.location.href = "https://wallet.pinet.com";
         },
         onReadyForServerCompletion: function(paymentId, txid) {
-          // Payment completed
-          alert("Payment Successful! Transaction ID: " + txid);
+          // Payment completed successfully
+          alert("Payment Successful! \nTransaction ID: " + txid);
+          console.log("Completed Payment:", paymentId, txid);
         },
         onCancel: function(paymentId) {
           alert("Payment Cancelled");
+          console.log("Cancelled Payment:", paymentId);
         },
         onError: function(error) {
           alert("Error: " + error);
+          console.error("Payment Error:", error);
         }
       };
       
-      Pi.createPayment(paymentData, callbacks);
+      Pi.createPayment(paymentData, paymentCallbacks);
     };
 
+    // STEP 4: Handle incomplete payments
     function onIncompletePaymentFound(payment) {
-      // This prevents the app from freezing if there was a pending payment
-      console.log("Found incomplete payment: ", payment);
+      console.log("Found incomplete payment:", payment);
+      alert("You have an incomplete payment. Please complete it in your Pi Wallet.");
     }
   </script>
 
