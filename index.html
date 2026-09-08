@@ -1,135 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHALOM Marketplace</title>
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
-        }
-        h1 {
-            color: #6f1d6b;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #333;
-            margin-bottom: 30px;
-        }
-        button {
-            background-color: #6f1d6b;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #8a2a85;
-        }
-        #user-info {
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #6f1d6b;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shalom Pi Network - Payment Test</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Welcome to SHALOM</h1>
-        <p>The Web3 Marketplace for Pi Network</p>
-        
-        <div id="user-info"></div>
-        
-        <button id="login-btn">Login with Pi</button>
-        <button id="pay-btn" style="display:none;">Pay 0.001 Pi - Test</button>
-    </div>
+<body style="text-align: center; font-family: Arial; padding-top: 50px;">
+  <h1>Shalom Pi Network</h1>
+  <p>Click below to test Pi Payment on Testnet</p>
+  
+  <button id="payButton" style="padding: 20px 40px; font-size: 20px; background: #ffc107; border: none; border-radius: 10px; cursor: pointer;">
+    PAY 0.01 TEST PI
+  </button>
 
-    <script>
-        // 1. INITIALIZE PI SDK
-        Pi.init({ version: "2.0", sandbox: true });
+  <script>
+    // Initialize Pi SDK for Testnet
+    Pi.init({ version: "2.0", sandbox: true });
 
-        const loginBtn = document.getElementById('login-btn');
-        const payBtn = document.getElementById('pay-btn');
-        const userInfo = document.getElementById('user-info');
+    document.getElementById("payButton").onclick = function() {
+      const paymentData = {
+        amount: 0.01,
+        memo: "Test Payment for Shalom App",
+        metadata: { "type": "test_payment" }
+      };
 
-        // 2. LOGIN WITH PI
-        loginBtn.addEventListener('click', async function() {
-            try {
-                const scopes = ['username', 'payments'];
-                const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
-                userInfo.innerText = `Welcome, ${authResult.user.username}!`;
-                loginBtn.style.display = 'none';
-                payBtn.style.display = 'block';
-            } catch (err) {
-                alert("Login failed: " + err);
-            }
-        });
-
-        // 3. CREATE PAYMENT - THIS FIXES STEP 10
-        payBtn.addEventListener('click', async function() {
-            const paymentData = {
-                amount: 0.001,
-                memo: "Test Payment for SHALOM Marketplace",
-                metadata: { app: "SHALOM", type: "test_payment" }
-            };
-
-            const paymentCallbacks = {
-                // This runs when user confirms payment in Wallet
-                onReadyForServerApproval: function(paymentId) {
-                    console.log("Payment ready for approval:", paymentId);
-                    // FOR TESTNET: We auto-approve since we have no backend
-                    Pi.approvePayment(paymentId);
-                },
-
-                // This runs after blockchain confirms transaction
-                onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log("Payment completed:", paymentId, txid);
-                    Pi.completePayment(paymentId, txid);
-                    alert("Payment Successful! ✅ Step 10 Complete!");
-                    // Reload page to mark step as complete
-                    setTimeout(() => { window.location.reload(); }, 2000);
-                },
-
-                // User cancelled
-                onCancel: function(paymentId) {
-                    alert("Payment cancelled");
-                },
-
-                // Error occurred
-                onError: function(error) {
-                    console.error("Payment error:", error);
-                    alert("Payment error: " + error);
-                }
-            };
-
-            Pi.createPayment(paymentData, paymentCallbacks);
-        });
-
-        // 4. HANDLE INCOMPLETE PAYMENTS
-        function onIncompletePaymentFound(payment) {
-            console.log("Found incomplete payment:", payment);
-            Pi.completePayment(payment.identifier, payment.transaction.txid);
+      const callbacks = {
+        onReadyForServerApproval: function(paymentId) {
+          alert("Step 1 Approved! Payment ID: " + paymentId);
+          // Wallet will open here to ask for passphrase
+        },
+        onReadyForServerCompletion: function(paymentId, txid) {
+          alert("Payment Completed Successfully! Transaction ID: " + txid);
+        },
+        onCancel: function(paymentId) {
+          alert("Payment Cancelled");
+        },
+        onError: function(error) {
+          alert("Error: " + error);
         }
-    </script>
+      };
+      
+      Pi.createPayment(paymentData, callbacks);
+    };
+  </script>
 </body>
 </html>
