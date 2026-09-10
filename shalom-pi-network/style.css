@@ -1,1 +1,24 @@
-
+:root {
+  --pi-blue: #1E3A8A; /* Bluu ya Kinga */
+  --pi-gold: #FBBF24; /* Dhahabu ya Pi */
+  --bg: #F9FAFB;
+}
+body { font-family: Arial, sans-serif; margin: 0; background: var(--bg); padding-bottom: 80px; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.logo { width: 50px; height: 50px; border-radius: 12px; margin-right: 10px; }
+.logo-area { display: flex; align-items: center; }
+.logo-area h1 { color: var(--pi-blue); margin: 0; font-size: 22px; }
+.logo-area p { margin: 0; font-size: 12px; color: #555; }
+#lang-switcher { padding: 5px; border: 1px solid var(--pi-gold); border-radius: 8px; }
+.search-bar { padding: 15px; }
+.search-bar input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; }
+.banner { background: linear-gradient(135deg, var(--pi-blue), #3B82F6); color: white; text-align: center; padding: 40px 20px; }
+.btn-primary { background: var(--pi-gold); color: black; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+.btn-secondary { background: white; color: var(--pi-blue); border: 2px solid white; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+.categories { padding: 20px; }
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
+.cat-item { background: white; padding: 15px 5px; border-radius: 12px; }
+.empty-state { text-align: center; background: white; padding: 40px; border-radius: 12px; margin: 20px; }
+.bottom-menu { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: white; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+.bottom-menu a { text-align: center; text-decoration: none; color: #555; font-size: 12px; }
+.bottom-menu a.active { color: var(--pi-blue); }
