@@ -3,96 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shalom Pi Network - Step 10 Test</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      padding-top: 80px;
-      background: #f5f5f5;
-    }
-    h1 {
-      color: #333;
-    }
-    #payButton {
-      padding: 25px 50px;
-      font-size: 22px;
-      background: #ffc107;
-      color: #000;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    #payButton:hover {
-      background: #ffb300;
-    }
-  </style>
+  <title>SHALOM - Global Pi Marketplace</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
-  <h1>Shalom Pi Network</h1>
-  <p>Click the button below to complete Step 10 Test Payment</p>
-  
-  <button id="payButton">
-    PAY 0.01 TEST PI
-  </button>
+  <!-- HEADER -->
+  <header>
+    <div class="logo-area">
+      <img src="https://i.imgur.com/XXXXXXX.png" alt="SHALOM Logo" class="logo">
+      <div>
+        <h1 data-lang="title">SHALOM</h1>
+        <p data-lang="slogan">Shop The World. Pay With Pi.</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <select id="lang-switcher">
+        <option value="en">🌐 English</option>
+        <option value="sw">Swahili</option>
+        <option value="zh">中文</option>
+        <option value="es">Español</option>
+        <option value="id">Bahasa</option>
+        <option value="vi">Tiếng Việt</option>
+      </select>
+      <button class="profile-btn">👤</button>
+    </div>
+  </header>
 
-  <script>
-    // STEP 1: Initialize Pi SDK. IMPORTANT: sandbox must be FALSE for Step 10
-    Pi.init({ version: "2.0", sandbox: false });
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <input type="text" data-lang="search" placeholder="Search for anything with Pi...">
+  </div>
 
-    // STEP 2: Authenticate user and check for incomplete payments
-    Pi.authenticate(['payments', 'username'], onIncompletePaymentFound)
-      .then(function(auth) {
-        console.log("Authenticated: " + auth.user.username);
-      })
-      .catch(function(error) {
-        console.error("Authentication failed:", error);
-      });
+  <!-- BANNER -->
+  <section class="banner">
+    <h2 data-lang="banner_title">🌍 GLOBAL PI MARKETPLACE 🌍</h2>
+    <p data-lang="banner_sub">Buy & Sell with Pi. No Banks. No Borders.</p>
+    <div class="banner-btns">
+      <button class="btn-primary" data-lang="btn_shop">Start Shopping</button>
+      <button class="btn-secondary" data-lang="btn_sell">Become a Seller</button>
+    </div>
+  </section>
 
-    // STEP 3: Payment Button Click
-    document.getElementById("payButton").onclick = function() {
-      const paymentData = {
-        amount: 0.01,
-        memo: "Step 10 Test Payment - Shalom App",
-        metadata: { "app_name": "shalom-pi-network" }
-      };
+  <!-- CATEGORIES -->
+  <section class="categories">
+    <h3 data-lang="cat_title">Shop by Category</h3>
+    <div class="cat-grid">
+      <div class="cat-item">👗<span data-lang="cat1">Fashion</span></div>
+      <div class="cat-item">📱<span data-lang="cat2">Electronics</span></div>
+      <div class="cat-item">💻<span data-lang="cat3">Digital</span></div>
+      <div class="cat-item">🛠️<span data-lang="cat4">Services</span></div>
+      <div class="cat-item">₿<span data-lang="cat5">Crypto</span></div>
+      <div class="cat-item">🏠<span data-lang="cat6">Home</span></div>
+      <div class="cat-item">🎨<span data-lang="cat7">Art</span></div>
+      <div class="cat-item">⋯<span data-lang="cat8">More</span></div>
+    </div>
+  </section>
 
-      const paymentCallbacks = {
-        onReadyForServerApproval: function(paymentId) {
-          // THIS FIXES THE WALLET LOOP BUG
-          console.log("Payment ID: " + paymentId);
-          alert("Wallet Opened! Please confirm payment.");
-          // Redirect to Pi Wallet to force it to open
-          window.location.href = "https://wallet.pinet.com";
-        },
-        onReadyForServerCompletion: function(paymentId, txid) {
-          // Payment completed successfully
-          alert("Payment Successful! \nTransaction ID: " + txid);
-          console.log("Completed Payment:", paymentId, txid);
-        },
-        onCancel: function(paymentId) {
-          alert("Payment Cancelled");
-          console.log("Cancelled Payment:", paymentId);
-        },
-        onError: function(error) {
-          alert("Error: " + error);
-          console.error("Payment Error:", error);
-        }
-      };
-      
-      Pi.createPayment(paymentData, paymentCallbacks);
-    };
+  <!-- FEATURED -->
+  <section class="featured">
+    <h3 data-lang="featured">🔥 Trending with Pi</h3>
+    <div class="empty-state">
+      <p>📦</p>
+      <h4 data-lang="empty_title">No products yet</h4>
+      <p data-lang="empty_sub">Be the first seller!</p>
+      <button class="btn-primary" data-lang="btn_list">List Your First Item - Free</button>
+    </div>
+  </section>
 
-    // STEP 4: Handle incomplete payments
-    function onIncompletePaymentFound(payment) {
-      console.log("Found incomplete payment:", payment);
-      alert("You have an incomplete payment. Please complete it in your Pi Wallet.");
-    }
-  </script>
+  <!-- BOTTOM MENU -->
+  <nav class="bottom-menu">
+    <a href="#" class="active">🏠<span data-lang="menu_home">Home</span></a>
+    <a href="#">📦<span data-lang="menu_products">Products</span></a>
+    <a href="#">➕<span data-lang="menu_sell">Sell</span></a>
+    <a href="#">📋<span data-lang="menu_orders">Orders</span></a>
+    <a href="#">👤<span data-lang="menu_profile">Profile</span></a>
+  </nav>
 
+  <script src="app.js"></script>
 </body>
 </html>
