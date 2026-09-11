@@ -4,81 +4,152 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SHALOM - Global Pi Marketplace</title>
-  <link rel="stylesheet" href="style.css">
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    :root { --pi-blue: #1E3A8A; --pi-gold: #FBBF24; --bg: #F9FAFB; }
+    body { font-family: Arial, sans-serif; margin: 0; background: var(--bg); padding-bottom: 80px; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+   .logo { width: 50px; height: 50px; border-radius: 12px; margin-right: 10px; }
+   .logo-area { display: flex; align-items: center; }
+   .logo-area h1 { color: var(--pi-blue); margin: 0; font-size: 22px; }
+   .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
+    #lang-switcher { padding: 5px; border: 1px solid var(--pi-gold); border-radius: 8px; }
+   .search-bar { padding: 15px; }
+   .search-bar input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; }
+   .banner { background: linear-gradient(135deg, var(--pi-blue), #3B82F6); color: white; text-align: center; padding: 40px 20px; }
+   .btn-primary { background: var(--pi-gold); color: black; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+   .btn-secondary { background: white; color: var(--pi-blue); border: 2px solid white; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+   .categories { padding: 20px; }
+   .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
+   .cat-item { background: white; padding: 15px 5px; border-radius: 12px; }
+   .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
+   .product-card { background: white; padding: 15px; border-radius: 12px; }
+   .empty-state { text-align: center; background: white; padding: 40px; border-radius: 12px; margin: 20px; }
+   .bottom-menu { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: white; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+   .bottom-menu a { text-align: center; text-decoration: none; color: #555; font-size: 12px; }
+   .popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 999; }
+   .popup-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
+   .popup-content input,.popup-content textarea { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; }
+   .hidden { display: none; }
+   .close-btn { float: right; font-size: 24px; cursor: pointer; }
+  </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
     <div class="logo-area">
-      <img src="https://i.imgur.com/XXXXXXX.png" alt="SHALOM Logo" class="logo">
-      <div>
-        <h1 data-lang="title">SHALOM</h1>
-        <p data-lang="slogan">Shop The World. Pay With Pi.</p>
-      </div>
+      <img src="logo.png" alt="SHALOM Logo" class="logo">
+      <div><h1 data-lang="title">SHALOM</h1><p data-lang="slogan">Shop The World. Pay With Pi.</p></div>
     </div>
-    <div class="header-right">
+    <div>
+      <button id="pi-login" class="pi-btn">Authenticate with Pi</button>
       <select id="lang-switcher">
-        <option value="en">🌐 English</option>
-        <option value="sw">Swahili</option>
-        <option value="zh">中文</option>
-        <option value="es">Español</option>
-        <option value="id">Bahasa</option>
-        <option value="vi">Tiếng Việt</option>
+        <option value="en">🌐 English</option><option value="sw">Swahili</option><option value="zh">中文</option>
+        <option value="es">Español</option><option value="id">Bahasa</option><option value="vi">Tiếng Việt</option>
       </select>
-      <button class="profile-btn">👤</button>
     </div>
   </header>
 
-  <!-- SEARCH -->
-  <div class="search-bar">
-    <input type="text" data-lang="search" placeholder="Search for anything with Pi...">
-  </div>
+  <div class="search-bar"><input type="text" data-lang="search" placeholder="Search for anything with Pi..."></div>
 
-  <!-- BANNER -->
   <section class="banner">
     <h2 data-lang="banner_title">🌍 GLOBAL PI MARKETPLACE 🌍</h2>
     <p data-lang="banner_sub">Buy & Sell with Pi. No Banks. No Borders.</p>
-    <div class="banner-btns">
-      <button class="btn-primary" data-lang="btn_shop">Start Shopping</button>
-      <button class="btn-secondary" data-lang="btn_sell">Become a Seller</button>
-    </div>
+    <div><button class="btn-primary" data-lang="btn_shop">Start Shopping</button><button class="btn-secondary" id="sell-btn" data-lang="btn_sell">Become a Seller</button></div>
   </section>
 
-  <!-- CATEGORIES -->
   <section class="categories">
     <h3 data-lang="cat_title">Shop by Category</h3>
     <div class="cat-grid">
-      <div class="cat-item">👗<span data-lang="cat1">Fashion</span></div>
-      <div class="cat-item">📱<span data-lang="cat2">Electronics</span></div>
-      <div class="cat-item">💻<span data-lang="cat3">Digital</span></div>
-      <div class="cat-item">🛠️<span data-lang="cat4">Services</span></div>
-      <div class="cat-item">₿<span data-lang="cat5">Crypto</span></div>
-      <div class="cat-item">🏠<span data-lang="cat6">Home</span></div>
-      <div class="cat-item">🎨<span data-lang="cat7">Art</span></div>
-      <div class="cat-item">⋯<span data-lang="cat8">More</span></div>
+      <div class="cat-item">👗<span data-lang="cat1">Fashion</span></div><div class="cat-item">📱<span data-lang="cat2">Electronics</span></div>
+      <div class="cat-item">💻<span data-lang="cat3">Digital</span></div><div class="cat-item">🛠️<span data-lang="cat4">Services</span></div>
+      <div class="cat-item">₿<span data-lang="cat5">Crypto</span></div><div class="cat-item">🏠<span data-lang="cat6">Home</span></div>
+      <div class="cat-item">🎨<span data-lang="cat7">Art</span></div><div class="cat-item">⋯<span data-lang="cat8">More</span></div>
     </div>
   </section>
 
-  <!-- FEATURED -->
   <section class="featured">
     <h3 data-lang="featured">🔥 Trending with Pi</h3>
-    <div class="empty-state">
-      <p>📦</p>
-      <h4 data-lang="empty_title">No products yet</h4>
-      <p data-lang="empty_sub">Be the first seller!</p>
-      <button class="btn-primary" data-lang="btn_list">List Your First Item - Free</button>
+    <div id="products-container" class="products-grid"></div>
+    <div id="empty-state" class="empty-state">
+      <p>📦</p><h4 data-lang="empty_title">No products yet</h4><p data-lang="empty_sub">Be the first seller!</p>
+      <button class="btn-primary" id="list-btn" data-lang="btn_list">List Your First Item - Free</button>
     </div>
   </section>
 
-  <!-- BOTTOM MENU -->
+  <div id="sell-popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close-btn">&times;</span><h3 data-lang="sell_title">List Your Item</h3>
+      <input type="text" id="product-name" data-lang="prod_name" placeholder="Product Name">
+      <input type="number" id="product-price" data-lang="prod_price" placeholder="Price in Pi">
+      <textarea id="product-desc" data-lang="prod_desc" placeholder="Description"></textarea>
+      <button id="submit-product" class="btn-primary" data-lang="submit">Submit with Pi</button>
+    </div>
+  </div>
+
   <nav class="bottom-menu">
     <a href="#" class="active">🏠<span data-lang="menu_home">Home</span></a>
     <a href="#">📦<span data-lang="menu_products">Products</span></a>
-    <a href="#">➕<span data-lang="menu_sell">Sell</span></a>
+    <a href="#" id="menu-sell">➕<span data-lang="menu_sell">Sell</span></a>
     <a href="#">📋<span data-lang="menu_orders">Orders</span></a>
     <a href="#">👤<span data-lang="menu_profile">Profile</span></a>
   </nav>
 
-  <script src="app.js"></script>
+<script>
+const translations = {
+  en: { title: "SHALOM", slogan: "Shop The World. Pay With Pi.", search: "Search for anything with Pi...", banner_title: "🌍 GLOBAL PI MARKETPLACE 🌍", banner_sub: "Buy & Sell with Pi. No Banks. No Borders.", btn_shop: "Start Shopping", btn_sell: "Become a Seller", cat_title: "Shop by Category", cat1: "Fashion", cat2: "Electronics", cat3: "Digital", cat4: "Services", cat5: "Crypto", cat6: "Home", cat7: "Art", cat8: "More", featured: "🔥 Trending with Pi", empty_title: "No products yet", empty_sub: "Be the first seller!", btn_list: "List Your First Item - Free", menu_home: "Home", menu_products: "Products", menu_sell: "Sell", menu_orders: "Orders", menu_profile: "Profile", sell_title: "List Your Item", prod_name: "Product Name", prod_price: "Price in Pi", prod_desc: "Description", submit: "Submit with Pi", buy: "Buy with Pi" },
+  sw: { title: "SHALOM", slogan: "Nunua Duniani. Lipa kwa Pi.", search: "Tafuta chochote kwa Pi...", banner_title: "🌍 SOKO LA DUNIA LA PI 🌍", banner_sub: "Nunua & Uuze kwa Pi. Hakuna Benki. Hakuna Mipaka.", btn_shop: "Anza Kununua", btn_sell: "Kua Muuzaji", cat_title: "Nunua kwa Kategoria", cat1: "Mavazi", cat2: "Vifaa", cat3: "Digital", cat4: "Huduma", cat5: "Crypto", cat6: "Nyumba", cat7: "Sanaa", cat8: "Zaidi", featured: "🔥 Zinazotrend kwa Pi", empty_title: "Hakuna bidhaa bado", empty_sub: "Kua muuzaji wa kwanza!", btn_list: "Orodhesha Bidhaa Yako - Bure", menu_home: "Nyumbani", menu_products: "Bidhaa", menu_sell: "Uza", menu_orders: "Oda", menu_profile: "Wasifu", sell_title: "Orodhesha Bidhaa", prod_name: "Jina la Bidhaa", prod_price: "Bei kwa Pi", prod_desc: "Maelezo", submit: "Tuma kwa Pi", buy: "Nunua kwa Pi" },
+  zh: { title: "SHALOM", slogan: "向世界购物，用Pi支付。", search: "用Pi搜索任何东西...", banner_title: "🌍 全球PI市场 🌍", banner_sub: "用Pi买卖。无银行。无国界。", btn_shop: "开始购物", btn_sell: "成为卖家", cat_title: "按类别购物", cat1: "时尚", cat2: "电子产品", cat3: "数码", cat4: "服务", cat5: "加密", cat6: "家居", cat7: "艺术", cat8: "更多", featured: "🔥 Pi热门", empty_title: "暂无商品", empty_sub: "成为第一个卖家！", btn_list: "免费上架您的第一个商品", menu_home: "首页", menu_products: "产品", menu_sell: "出售", menu_orders: "订单", menu_profile: "我的", sell_title: "上架商品", prod_name: "产品名称", prod_price: "Pi价格", prod_desc: "描述", submit: "用Pi提交", buy: "用Pi购买" },
+  es: { title: "SHALOM", slogan: "Compra al Mundo. Paga con Pi.", search: "Busca cualquier cosa con Pi...", banner_title: "🌍 MERCADO GLOBAL DE PI 🌍", banner_sub: "Compra y Vende con Pi. Sin Bancos. Sin Fronteras.", btn_shop: "Empezar a Comprar", btn_sell: "Ser Vendedor", cat_title: "Comprar por Categoría", cat1: "Moda", cat2: "Electrónica", cat3: "Digital", cat4: "Servicios", cat5: "Cripto", cat6: "Hogar", cat7: "Arte", cat8: "Más", featured: "🔥 Tendencia con Pi", empty_title: "Aún no hay productos", empty_sub: "¡Sé el primer vendedor!", btn_list: "Lista tu Primer Artículo - Gratis", menu_home: "Inicio", menu_products: "Productos", menu_sell: "Vender", menu_orders: "Pedidos", menu_profile: "Perfil", sell_title: "Lista tu Artículo", prod_name: "Nombre del Producto", prod_price: "Precio en Pi", prod_desc: "Descripción", submit: "Enviar con Pi", buy: "Comprar con Pi" },
+  id: { title: "SHALOM", slogan: "Belanja Dunia. Bayar dengan Pi.", search: "Cari apapun dengan Pi...", banner_title: "🌍 MARKETPLACE PI GLOBAL 🌍", banner_sub: "Beli & Jual dengan Pi. Tanpa Bank. Tanpa Batas.", btn_shop: "Mulai Belanja", btn_sell: "Jadi Penjual", cat_title: "Belanja berdasarkan Kategori", cat1: "Fashion", cat2: "Elektronik", cat3: "Digital", cat4: "Jasa", cat5: "Crypto", cat6: "Rumah", cat7: "Seni", cat8: "Lainnya", featured: "🔥 Trending dengan Pi", empty_title: "Belum ada produk", empty_sub: "Jadilah penjual pertama!", btn_list: "Daftarkan Barang Pertama - Gratis", menu_home: "Beranda", menu_products: "Produk", menu_sell: "Jual", menu_orders: "Pesanan", menu_profile: "Profil", sell_title: "Daftarkan Barang", prod_name: "Nama Produk", prod_price: "Harga dalam Pi", prod_desc: "Deskripsi", submit: "Kirim dengan Pi", buy: "Beli dengan Pi" },
+  vi: { title: "SHALOM", slogan: "Mua sắm Thế giới. Thanh toán bằng Pi.", search: "Tìm kiếm bất cứ thứ gì bằng Pi...", banner_title: "🌍 CHỢ PI TOÀN CẦU 🌍", banner_sub: "Mua & Bán bằng Pi. Không Ngân hàng. Không Biên giới.", btn_shop: "Bắt đầu mua sắm", btn_sell: "Trở thành người bán", cat_title: "Mua sắm theo danh mục", cat1: "Thời trang", cat2: "Điện tử", cat3: "Kỹ thuật số", cat4: "Dịch vụ", cat5: "Tiền điện tử", cat6: "Nhà cửa", cat7: "Nghệ thuật", cat8: "Khác", featured: "🔥 Xu hướng với Pi", empty_title: "Chưa có sản phẩm", empty_sub: "Hãy là người bán đầu tiên!", btn_list: "Đăng mục đầu tiên - Miễn phí", menu_home: "Trang chủ", menu_products: "Sản phẩm", menu_sell: "Bán", menu_orders: "Đơn hàng", menu_profile: "Hồ sơ", sell_title: "Đăng sản phẩm", prod_name: "Tên sản phẩm", prod_price: "Giá bằng Pi", prod_desc: "Mô tả", submit: "Gửi bằng Pi", buy: "Mua bằng Pi" }
+};
+
+// LANGUAGE
+document.getElementById('lang-switcher').addEventListener('change', (e) => {
+  const lang = e.target.value; document.querySelectorAll('[data-lang]').forEach(el => {
+    const key = el.getAttribute('data-lang');
+    if(translations[lang][key]) { if(el.placeholder) el.placeholder = translations[lang][key]; else el.innerText = translations[lang][key]; }
+  });
+});
+
+// PI LOGIN
+Pi.init({ version: "2.0", sandbox: true });
+document.getElementById('pi-login').addEventListener('click', async () => {
+  try { const auth = await Pi.authenticate(['username', 'payments']); document.getElementById('pi-login').innerText = `Hi, ${auth.user.username}`; }
+  catch (err) { alert("Login failed: " + err); }
+});
+
+// SELL POPUP + DATABASE
+const popup = document.getElementById('sell-popup');
+document.getElementById('sell-btn').onclick = () => popup.classList.remove('hidden');
+document.getElementById('list-btn').onclick = () => popup.classList.remove('hidden');
+document.getElementById('menu-sell').onclick = () => popup.classList.remove('hidden');
+document.querySelector('.close-btn').onclick = () => popup.classList.add('hidden');
+
+let products = JSON.parse(localStorage.getItem('shalom_products')) || [];
+
+function renderProducts() {
+  const container = document.getElementById('products-container');
+  const empty = document.getElementById('empty-state');
+  if(products.length === 0) { container.innerHTML = ""; empty.style.display = "block"; return; }
+  empty.style.display = "none";
+  container.innerHTML = products.map(p => `
+    <div class="product-card">
+      <h4>${p.name}</h4><p>${p.desc}</p><h3>${p.price} Pi</h3>
+      <button class="btn-primary" onclick="alert('Payment coming next!')">${translations[document.getElementById('lang-switcher').value].buy}</button>
+    </div>`).join('');
+}
+
+document.getElementById('submit-product').onclick = () => {
+  const name = document.getElementById('product-name').value;
+  const price = document.getElementById('product-price').value;
+  const desc = document.getElementById('product-desc').value;
+  if(!name ||!price) return alert("Jaza jina na bei");
+  products.push({name, price, desc});
+  localStorage.setItem('shalom_products', JSON.stringify(products));
+  renderProducts(); popup.classList.add('hidden'); alert("Bidhaa imewekwa!");
+}
+renderProducts(); // load on start
+</script>
 </body>
 </html>
