@@ -9,32 +9,42 @@
     :root { --pi-blue: #1E3A8A; --pi-gold: #FBBF24; --bg: #F9FAFB; }
     body { font-family: Arial, sans-serif; margin: 0; background: var(--bg); padding-bottom: 80px; }
     header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-   .logo { width: 50px; height: 50px; border-radius: 12px; margin-right: 10px; }
-   .logo-area { display: flex; align-items: center; }
-   .logo-area h1 { color: var(--pi-blue); margin: 0; font-size: 22px; }
-   .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
+ .logo { width: 50px; height: 50px; border-radius: 12px; margin-right: 10px; }
+ .logo-area { display: flex; align-items: center; }
+ .logo-area h1 { color: var(--pi-blue); margin: 0; font-size: 22px; }
+ .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
     #lang-switcher { padding: 5px; border: 1px solid var(--pi-gold); border-radius: 8px; }
-   .search-bar { padding: 15px; }
-   .search-bar input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; }
-   .banner { background: linear-gradient(135deg, var(--pi-blue), #3B82F6); color: white; text-align: center; padding: 40px 20px; }
-   .btn-primary { background: var(--pi-gold); color: black; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
-   .btn-secondary { background: white; color: var(--pi-blue); border: 2px solid white; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
-   .categories { padding: 20px; }
-   .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
-   .cat-item { background: white; padding: 15px 5px; border-radius: 12px; }
-   .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-   .product-card { background: white; padding: 15px; border-radius: 12px; }
-   .empty-state { text-align: center; background: white; padding: 40px; border-radius: 12px; margin: 20px; }
-   .bottom-menu { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: white; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
-   .bottom-menu a { text-align: center; text-decoration: none; color: #555; font-size: 12px; }
-   .popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 999; }
-   .popup-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
-   .popup-content input,.popup-content textarea { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; }
-   .hidden { display: none; }
-   .close-btn { float: right; font-size: 24px; cursor: pointer; }
+ .search-bar { padding: 15px; }
+ .search-bar input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; }
+ .banner { text-align: center; padding: 20px; }
+ .banner img { width: 100%; max-width: 500px; border-radius: 15px; }
+ .btn-primary { background: var(--pi-gold); color: black; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+ .btn-secondary { background: white; color: var(--pi-blue); border: 2px solid var(--pi-blue); padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+ .categories { padding: 20px; }
+ .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
+ .cat-item { background: white; padding: 15px 5px; border-radius: 12px; }
+ .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
+ .product-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+ .product-price { font-size: 18px; font-weight: bold; color: var(--pi-blue); }
+ .product-gcv { font-size: 10px; color: #888; }
+ .empty-state { text-align: center; background: white; padding: 40px; border-radius: 12px; margin: 20px; }
+ .bottom-menu { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: white; padding: 10px 0; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+ .bottom-menu a { text-align: center; text-decoration: none; color: #555; font-size: 12px; }
+ .popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 999; }
+ .popup-content { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
+ .popup-content input,.popup-content textarea { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; }
+ .hidden { display: none; }
+ .close-btn { float: right; font-size: 24px; cursor: pointer; }
+  .admin-bar { background: var(--pi-gold); padding: 10px; text-align: center; }
+ .admin-panel { display: none; background: white; margin: 20px; padding: 20px; border-radius: 12px; border: 2px solid var(--pi-blue); }
   </style>
 </head>
 <body>
+  <div class="admin-bar">
+    <input type="password" id="adminPass" placeholder="Weka Admin Password" style="padding:8px; border-radius:8px; border:none;">
+    <button class="pi-btn" onclick="loginAdmin()">Ingia Kama Admin</button>
+  </div>
+
   <header>
     <div class="logo-area">
       <img src="logo.png" alt="SHALOM Logo" class="logo">
@@ -43,8 +53,8 @@
     <div>
       <button id="pi-login" class="pi-btn">Authenticate with Pi</button>
       <select id="lang-switcher">
-        <option value="en">🌐 English</option><option value="sw">Swahili</option><option value="zh">中文</option>
-        <option value="es">Español</option><option value="id">Bahasa</option><option value="vi">Tiếng Việt</option>
+        <option value="en">🌐 English</option><option value="sw">Swahili</option><option value="fr">Français</option>
+        <option value="zh">中文</option><option value="es">Español</option><option value="id">Bahasa</option><option value="vi">Tiếng Việt</option>
       </select>
     </div>
   </header>
@@ -52,10 +62,22 @@
   <div class="search-bar"><input type="text" data-lang="search" placeholder="Search for anything with Pi..."></div>
 
   <section class="banner">
+    <img src="banner.jpg" alt="SHALOM Preview">
+  </section>
+
+  <section class="banner">
     <h2 data-lang="banner_title">🌍 GLOBAL PI MARKETPLACE 🌍</h2>
     <p data-lang="banner_sub">Buy & Sell with Pi. No Banks. No Borders.</p>
     <div><button class="btn-primary" data-lang="btn_shop">Start Shopping</button><button class="btn-secondary" id="sell-btn" data-lang="btn_sell">Become a Seller</button></div>
   </section>
+
+  <div id="adminPanel" class="admin-panel">
+    <h3 data-lang="admin_title">Admin Panel - Ongeza Bidhaa</h3>
+    <input type="text" id="product-name-admin" data-lang="prod_name" placeholder="Product Name">
+    <input type="number" step="any" id="product-price-admin" data-lang="prod_price" placeholder="Price in Pi - e.g. 0.0002">
+    <textarea id="product-desc-admin" data-lang="prod_desc" placeholder="Description"></textarea>
+    <button id="submit-product-admin" class="btn-primary" data-lang="submit">Hifadhi kwenye Ghala</button>
+  </div>
 
   <section class="categories">
     <h3 data-lang="cat_title">Shop by Category</h3>
@@ -80,7 +102,7 @@
     <div class="popup-content">
       <span class="close-btn">&times;</span><h3 data-lang="sell_title">List Your Item</h3>
       <input type="text" id="product-name" data-lang="prod_name" placeholder="Product Name">
-      <input type="number" id="product-price" data-lang="prod_price" placeholder="Price in Pi">
+      <input type="number" step="any" id="product-price" data-lang="prod_price" placeholder="Price in Pi - e.g. 0.0002">
       <textarea id="product-desc" data-lang="prod_desc" placeholder="Description"></textarea>
       <button id="submit-product" class="btn-primary" data-lang="submit">Submit with Pi</button>
     </div>
@@ -95,16 +117,20 @@
   </nav>
 
 <script>
+const SHEET_URL = "WEKA LINK YAKO YA GOOGLE SHEETS HAPA";
+const ADMIN_PASSWORD = "Shalom2026";
+const GCV_RATE = 314159; // $314,159 per 1 Pi
+
 const translations = {
-  en: { title: "SHALOM", slogan: "Shop The World. Pay With Pi.", search: "Search for anything with Pi...", banner_title: "🌍 GLOBAL PI MARKETPLACE 🌍", banner_sub: "Buy & Sell with Pi. No Banks. No Borders.", btn_shop: "Start Shopping", btn_sell: "Become a Seller", cat_title: "Shop by Category", cat1: "Fashion", cat2: "Electronics", cat3: "Digital", cat4: "Services", cat5: "Crypto", cat6: "Home", cat7: "Art", cat8: "More", featured: "🔥 Trending with Pi", empty_title: "No products yet", empty_sub: "Be the first seller!", btn_list: "List Your First Item - Free", menu_home: "Home", menu_products: "Products", menu_sell: "Sell", menu_orders: "Orders", menu_profile: "Profile", sell_title: "List Your Item", prod_name: "Product Name", prod_price: "Price in Pi", prod_desc: "Description", submit: "Submit with Pi", buy: "Buy with Pi" },
-  sw: { title: "SHALOM", slogan: "Nunua Duniani. Lipa kwa Pi.", search: "Tafuta chochote kwa Pi...", banner_title: "🌍 SOKO LA DUNIA LA PI 🌍", banner_sub: "Nunua & Uuze kwa Pi. Hakuna Benki. Hakuna Mipaka.", btn_shop: "Anza Kununua", btn_sell: "Kua Muuzaji", cat_title: "Nunua kwa Kategoria", cat1: "Mavazi", cat2: "Vifaa", cat3: "Digital", cat4: "Huduma", cat5: "Crypto", cat6: "Nyumba", cat7: "Sanaa", cat8: "Zaidi", featured: "🔥 Zinazotrend kwa Pi", empty_title: "Hakuna bidhaa bado", empty_sub: "Kua muuzaji wa kwanza!", btn_list: "Orodhesha Bidhaa Yako - Bure", menu_home: "Nyumbani", menu_products: "Bidhaa", menu_sell: "Uza", menu_orders: "Oda", menu_profile: "Wasifu", sell_title: "Orodhesha Bidhaa", prod_name: "Jina la Bidhaa", prod_price: "Bei kwa Pi", prod_desc: "Maelezo", submit: "Tuma kwa Pi", buy: "Nunua kwa Pi" },
-  zh: { title: "SHALOM", slogan: "向世界购物，用Pi支付。", search: "用Pi搜索任何东西...", banner_title: "🌍 全球PI市场 🌍", banner_sub: "用Pi买卖。无银行。无国界。", btn_shop: "开始购物", btn_sell: "成为卖家", cat_title: "按类别购物", cat1: "时尚", cat2: "电子产品", cat3: "数码", cat4: "服务", cat5: "加密", cat6: "家居", cat7: "艺术", cat8: "更多", featured: "🔥 Pi热门", empty_title: "暂无商品", empty_sub: "成为第一个卖家！", btn_list: "免费上架您的第一个商品", menu_home: "首页", menu_products: "产品", menu_sell: "出售", menu_orders: "订单", menu_profile: "我的", sell_title: "上架商品", prod_name: "产品名称", prod_price: "Pi价格", prod_desc: "描述", submit: "用Pi提交", buy: "用Pi购买" },
-  es: { title: "SHALOM", slogan: "Compra al Mundo. Paga con Pi.", search: "Busca cualquier cosa con Pi...", banner_title: "🌍 MERCADO GLOBAL DE PI 🌍", banner_sub: "Compra y Vende con Pi. Sin Bancos. Sin Fronteras.", btn_shop: "Empezar a Comprar", btn_sell: "Ser Vendedor", cat_title: "Comprar por Categoría", cat1: "Moda", cat2: "Electrónica", cat3: "Digital", cat4: "Servicios", cat5: "Cripto", cat6: "Hogar", cat7: "Arte", cat8: "Más", featured: "🔥 Tendencia con Pi", empty_title: "Aún no hay productos", empty_sub: "¡Sé el primer vendedor!", btn_list: "Lista tu Primer Artículo - Gratis", menu_home: "Inicio", menu_products: "Productos", menu_sell: "Vender", menu_orders: "Pedidos", menu_profile: "Perfil", sell_title: "Lista tu Artículo", prod_name: "Nombre del Producto", prod_price: "Precio en Pi", prod_desc: "Descripción", submit: "Enviar con Pi", buy: "Comprar con Pi" },
-  id: { title: "SHALOM", slogan: "Belanja Dunia. Bayar dengan Pi.", search: "Cari apapun dengan Pi...", banner_title: "🌍 MARKETPLACE PI GLOBAL 🌍", banner_sub: "Beli & Jual dengan Pi. Tanpa Bank. Tanpa Batas.", btn_shop: "Mulai Belanja", btn_sell: "Jadi Penjual", cat_title: "Belanja berdasarkan Kategori", cat1: "Fashion", cat2: "Elektronik", cat3: "Digital", cat4: "Jasa", cat5: "Crypto", cat6: "Rumah", cat7: "Seni", cat8: "Lainnya", featured: "🔥 Trending dengan Pi", empty_title: "Belum ada produk", empty_sub: "Jadilah penjual pertama!", btn_list: "Daftarkan Barang Pertama - Gratis", menu_home: "Beranda", menu_products: "Produk", menu_sell: "Jual", menu_orders: "Pesanan", menu_profile: "Profil", sell_title: "Daftarkan Barang", prod_name: "Nama Produk", prod_price: "Harga dalam Pi", prod_desc: "Deskripsi", submit: "Kirim dengan Pi", buy: "Beli dengan Pi" },
-  vi: { title: "SHALOM", slogan: "Mua sắm Thế giới. Thanh toán bằng Pi.", search: "Tìm kiếm bất cứ thứ gì bằng Pi...", banner_title: "🌍 CHỢ PI TOÀN CẦU 🌍", banner_sub: "Mua & Bán bằng Pi. Không Ngân hàng. Không Biên giới.", btn_shop: "Bắt đầu mua sắm", btn_sell: "Trở thành người bán", cat_title: "Mua sắm theo danh mục", cat1: "Thời trang", cat2: "Điện tử", cat3: "Kỹ thuật số", cat4: "Dịch vụ", cat5: "Tiền điện tử", cat6: "Nhà cửa", cat7: "Nghệ thuật", cat8: "Khác", featured: "🔥 Xu hướng với Pi", empty_title: "Chưa có sản phẩm", empty_sub: "Hãy là người bán đầu tiên!", btn_list: "Đăng mục đầu tiên - Miễn phí", menu_home: "Trang chủ", menu_products: "Sản phẩm", menu_sell: "Bán", menu_orders: "Đơn hàng", menu_profile: "Hồ sơ", sell_title: "Đăng sản phẩm", prod_name: "Tên sản phẩm", prod_price: "Giá bằng Pi", prod_desc: "Mô tả", submit: "Gửi bằng Pi", buy: "Mua bằng Pi" }
+  en: { title: "SHALOM", slogan: "Shop The World. Pay With Pi.", search: "Search for anything with Pi...", banner_title: "🌍 GLOBAL PI MARKETPLACE 🌍", banner_sub: "Buy & Sell with Pi. No Banks. No Borders.", btn_shop: "Start Shopping", btn_sell: "Become a Seller", admin_title: "Admin Panel - Add Product", cat_title: "Shop by Category", cat1: "Fashion", cat2: "Electronics", cat3: "Digital", cat4: "Services", cat5: "Crypto", cat6: "Home", cat7: "Art", cat8: "More", featured: "🔥 Trending with Pi", empty_title: "No products yet", empty_sub: "Be the first seller!", btn_list: "List Your First Item - Free", menu_home: "Home", menu_products: "Products", menu_sell: "Sell", menu_orders: "Orders", menu_profile: "Profile", sell_title: "List Your Item", prod_name: "Product Name", prod_price: "Price in Pi", prod_desc: "Description", submit: "Submit with Pi", buy: "Buy with Pi", gcv_text: "GCV: 1 Pi = $314,159" },
+  sw: { title: "SHALOM", slogan: "Nunua Duniani. Lipa kwa Pi.", search: "Tafuta chochote kwa Pi...", banner_title: "🌍 SOKO LA DUNIA LA PI 🌍", banner_sub: "Nunua & Uuze kwa Pi. Hakuna Benki. Hakuna Mipaka.", btn_shop: "Anza Kununua", btn_sell: "Kua Muuzaji", admin_title: "Paneli ya Admin - Ongeza Bidhaa", cat_title: "Nunua kwa Kategoria", cat1: "Mavazi", cat2: "Vifaa", cat3: "Digital", cat4: "Huduma", cat5: "Crypto", cat6: "Nyumba", cat7: "Sanaa", cat8: "Zaidi", featured: "🔥 Zinazotrend kwa Pi", empty_title: "Hakuna bidhaa bado", empty_sub: "Kua muuzaji wa kwanza!", btn_list: "Orodhesha Bidhaa Yako - Bure", menu_home: "Nyumbani", menu_products: "Bidhaa", menu_sell: "Uza", menu_orders: "Oda", menu_profile: "Wasifu", sell_title: "Orodhesha Bidhaa", prod_name: "Jina la Bidhaa", prod_price: "Bei kwa Pi", prod_desc: "Maelezo", submit: "Tuma kwa Pi", buy: "Nunua kwa Pi", gcv_text: "GCV: 1 Pi = $314,159" },
+  fr: { title: "SHALOM", slogan: "Achetez le Monde. Payez avec Pi.", search: "Recherchez n'importe quoi avec Pi...", banner_title: "🌍 MARCHÉ MONDIAL PI 🌍", banner_sub: "Achetez et Vendez avec Pi. Pas de Banques. Pas de Frontières.", btn_shop: "Commencer les Achats", btn_sell: "Devenir Vendeur", admin_title: "Panneau Admin - Ajouter Produit", cat_title: "Acheter par Catégorie", cat1: "Mode", cat2: "Électronique", cat3: "Numérique", cat4: "Services", cat5: "Crypto", cat6: "Maison", cat7: "Art", cat8: "Plus", featured: "🔥 Tendance avec Pi", empty_title: "Aucun produit encore", empty_sub: "Soyez le premier vendeur!", btn_list: "Listez Votre Premier Article - Gratuit", menu_home: "Accueil", menu_products: "Produits", menu_sell: "Vendre", menu_orders: "Commandes", menu_profile: "Profil", sell_title: "Lister Votre Article", prod_name: "Nom du Produit", prod_price: "Prix en Pi", prod_desc: "Description", submit: "Soumettre avec Pi", buy: "Acheter avec Pi", gcv_text: "GCV: 1 Pi = $314,159" },
+  zh: { title: "SHALOM", slogan: "向世界购物，用Pi支付。", search: "用Pi搜索任何东西...", banner_title: "🌍 全球PI市场 🌍", banner_sub: "用Pi买卖。无银行。无国界。", btn_shop: "开始购物", btn_sell: "成为卖家", admin_title: "管理员面板 - 添加产品", cat_title: "按类别购物", cat1: "时尚", cat2: "电子产品", cat3: "数码", cat4: "服务", cat5: "加密", cat6: "家居", cat7: "艺术", cat8: "更多", featured: "🔥 Pi热门", empty_title: "暂无商品", empty_sub: "成为第一个卖家！", btn_list: "免费上架您的第一个商品", menu_home: "首页", menu_products: "产品", menu_sell: "出售", menu_orders: "订单", menu_profile: "我的", sell_title: "上架商品", prod_name: "产品名称", prod_price: "Pi价格", prod_desc: "描述", submit: "用Pi提交", buy: "用Pi购买", gcv_text: "GCV: 1 Pi = $314,159" },
+  es: { title: "SHALOM", slogan: "Compra al Mundo. Paga con Pi.", search: "Busca cualquier cosa con Pi...", banner_title: "🌍 MERCADO GLOBAL DE PI 🌍", banner_sub: "Compra y Vende con Pi. Sin Bancos. Sin Fronteras.", btn_shop: "Empezar a Comprar", btn_sell: "Ser Vendedor", admin_title: "Panel Admin - Añadir Producto", cat_title: "Comprar por Categoría", cat1: "Moda", cat2: "Electrónica", cat3: "Digital", cat4: "Servicios", cat5: "Cripto", cat6: "Hogar", cat7: "Arte", cat8: "Más", featured: "🔥 Tendencia con Pi", empty_title: "Aún no hay productos", empty_sub: "¡Sé el primer vendedor!", btn_list: "Lista tu Primer Artículo - Gratis", menu_home: "Inicio", menu_products: "Productos", menu_sell: "Vender", menu_orders: "Pedidos", menu_profile: "Perfil", sell_title: "Lista tu Artículo", prod_name: "Nombre del Producto", prod_price: "Precio en Pi", prod_desc: "Descripción", submit: "Enviar con Pi", buy: "Comprar con Pi", gcv_text: "GCV: 1 Pi = $314,159" },
+  id: { title: "SHALOM", slogan: "Belanja Dunia. Bayar dengan Pi.", search: "Cari apapun dengan Pi...", banner_title: "🌍 MARKETPLACE PI GLOBAL 🌍", banner_sub: "Beli & Jual dengan Pi. Tanpa Bank. Tanpa Batas.", btn_shop: "Mulai Belanja", btn_sell: "Jadi Penjual", admin_title: "Panel Admin - Tambah Produk", cat_title: "Belanja berdasarkan Kategori", cat1: "Fashion", cat2: "Elektronik", cat3: "Digital", cat4: "Jasa", cat5: "Crypto", cat6: "Rumah", cat7: "Seni", cat8: "Lainnya", featured: "🔥 Trending dengan Pi", empty_title: "Belum ada produk", empty_sub: "Jadilah penjual pertama!", btn_list: "Daftarkan Barang Pertama - Gratis", menu_home: "Beranda", menu_products: "Produk", menu_sell: "Jual", menu_orders: "Pesanan", menu_profile: "Profil", sell_title: "Daftarkan Barang", prod_name: "Nama Produk", prod_price: "Harga dalam Pi", prod_desc: "Deskripsi", submit: "Kirim dengan Pi", buy: "Beli dengan Pi", gcv_text: "GCV: 1 Pi = $314,159" },
+  vi: { title: "SHALOM", slogan: "Mua sắm Thế giới. Thanh toán bằng Pi.", search: "Tìm kiếm bất cứ thứ gì bằng Pi...", banner_title: "🌍 CHỢ PI TOÀN CẦU 🌍", banner_sub: "Mua & Bán bằng Pi. Không Ngân hàng. Không Biên giới.", btn_shop: "Bắt đầu mua sắm", btn_sell: "Trở thành người bán", admin_title: "Bảng Admin - Thêm Sản Phẩm", cat_title: "Mua sắm theo danh mục", cat1: "Thời trang", cat2: "Điện tử", cat3: "Kỹ thuật số", cat4: "Dịch vụ", cat5: "Tiền điện tử", cat6: "Nhà cửa", cat7: "Nghệ thuật", cat8: "Khác", featured: "🔥 Xu hướng với Pi", empty_title: "Chưa có sản phẩm", empty_sub: "Hãy là người bán đầu tiên!", btn_list: "Đăng mục đầu tiên - Miễn phí", menu_home: "Trang chủ", menu_products: "Sản phẩm", menu_sell: "Bán", menu_orders: "Đơn hàng", menu_profile: "Hồ sơ", sell_title: "Đăng sản phẩm", prod_name: "Tên sản phẩm", prod_price: "Giá bằng Pi", prod_desc: "Mô tả", submit: "Gửi bằng Pi", buy: "Mua bằng Pi", gcv_text: "GCV: 1 Pi = $314,159" }
 };
 
-// LANGUAGE
 document.getElementById('lang-switcher').addEventListener('change', (e) => {
   const lang = e.target.value; document.querySelectorAll('[data-lang]').forEach(el => {
     const key = el.getAttribute('data-lang');
@@ -112,31 +138,48 @@ document.getElementById('lang-switcher').addEventListener('change', (e) => {
   });
 });
 
-// PI LOGIN
+function loginAdmin(){
+  if(document.getElementById('adminPass').value === ADMIN_PASSWORD){
+    document.getElementById('adminPanel').style.display = 'block';
+    alert("Karibu Boss!");
+  } else { alert("Password si sahihi!"); }
+}
+
 Pi.init({ version: "2.0", sandbox: true });
 document.getElementById('pi-login').addEventListener('click', async () => {
   try { const auth = await Pi.authenticate(['username', 'payments']); document.getElementById('pi-login').innerText = `Hi, ${auth.user.username}`; }
   catch (err) { alert("Login failed: " + err); }
 });
 
-// SELL POPUP + DATABASE
 const popup = document.getElementById('sell-popup');
 document.getElementById('sell-btn').onclick = () => popup.classList.remove('hidden');
 document.getElementById('list-btn').onclick = () => popup.classList.remove('hidden');
 document.getElementById('menu-sell').onclick = () => popup.classList.remove('hidden');
 document.querySelector('.close-btn').onclick = () => popup.classList.add('hidden');
 
-let products = JSON.parse(localStorage.getItem('shalom_products')) || [];
+// TUMEWEKA SAMPLE ZA GCV NDANI
+let products = JSON.parse(localStorage.getItem('shalom_products')) || [
+  {name: "Gaming Laptop", price: 0.00020, desc: "RTX 4090, 32GB RAM"},
+  {name: "Tesla Model Y New", price: 0.00005000, desc: "Zero KM, Full Self Drive"},
+  {name: "iPhone 15 Pro Max", price: 0.00000159, desc: "256GB Titanium"}
+];
+
+function formatPi(price) {
+  return parseFloat(price).toFixed(8); // Onyesha decimal 8
+}
 
 function renderProducts() {
   const container = document.getElementById('products-container');
   const empty = document.getElementById('empty-state');
   if(products.length === 0) { container.innerHTML = ""; empty.style.display = "block"; return; }
   empty.style.display = "none";
+  const lang = document.getElementById('lang-switcher').value;
   container.innerHTML = products.map(p => `
     <div class="product-card">
-      <h4>${p.name}</h4><p>${p.desc}</p><h3>${p.price} Pi</h3>
-      <button class="btn-primary" onclick="alert('Payment coming next!')">${translations[document.getElementById('lang-switcher').value].buy}</button>
+      <h4>${p.name}</h4><p>${p.desc}</p>
+      <div class="product-price">${formatPi(p.price)} Pi</div>
+      <div class="product-gcv">${translations[lang].gcv_text}</div>
+      <button class="btn-primary" style="margin-top:8px;">${translations[lang].buy}</button>
     </div>`).join('');
 }
 
@@ -145,11 +188,22 @@ document.getElementById('submit-product').onclick = () => {
   const price = document.getElementById('product-price').value;
   const desc = document.getElementById('product-desc').value;
   if(!name ||!price) return alert("Jaza jina na bei");
-  products.push({name, price, desc});
+  products.push({name, price: parseFloat(price), desc});
   localStorage.setItem('shalom_products', JSON.stringify(products));
   renderProducts(); popup.classList.add('hidden'); alert("Bidhaa imewekwa!");
 }
-renderProducts(); // load on start
+
+document.getElementById('submit-product-admin').onclick = () => {
+  const name = document.getElementById('product-name-admin').value;
+  const price = document.getElementById('product-price-admin').value;
+  const desc = document.getElementById('product-desc-admin').value;
+  if(!name ||!price) return alert("Jaza jina na bei");
+  products.push({name, price: parseFloat(price), desc});
+  localStorage.setItem('shalom_products', JSON.stringify(products));
+  renderProducts(); alert("Bidhaa ya Admin imehifadhiwa!");
+}
+
+renderProducts();
 </script>
 </body>
 </html>
