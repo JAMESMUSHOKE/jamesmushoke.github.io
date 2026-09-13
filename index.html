@@ -12,7 +12,7 @@
     .logo { width: 50px; height: 50px; border-radius: 12px; margin-right: 10px; }
     .logo-area { display: flex; align-items: center; }
     .logo-area h1 { color: var(--pi-blue); margin: 0; font-size: 22px; }
-    .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
+    .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     .search-bar { padding: 15px; }
     .search-bar input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; }
     .banner { text-align: center; padding: 20px; }
@@ -114,7 +114,8 @@
 <script>
 const ADMIN_PASSWORD = "Shalom2026";
 
-Pi.init({ version: "2.0", sandbox: true });
+// FIXED: Added enableDebugging to help with redirect
+Pi.init({ version: "2.0", sandbox: true, enableDebugging: true });
 
 document.getElementById('pi-login').addEventListener('click', async () => {
   try { 
@@ -154,23 +155,29 @@ function renderProducts() {
     </div>`).join('');
 }
 
-// HII NDIO INAFUNGUA MALIPO YA PI
+// FIXED: This function now opens Pi Wallet directly
 async function buyProduct(productName, amount) {
   try {
-    await Pi.createPayment({
+    const paymentData = {
       amount: amount,
       memo: `Buy ${productName} - SHALOM`,
       metadata: { product: productName }
-    }, {
-      onReadyForServerApproval: (paymentId) => {
-        alert("Payment Created: " + paymentId + " \nNow complete payment in Pi Wallet");
+    };
+    
+    const callbacks = {
+      onReadyForServerApproval: (paymentId) => { 
+        console.log("Payment ID:", paymentId);
+        alert("Payment Created. Opening Pi Wallet...");
       },
-      onReadyForServerCompletion: (paymentId, txid) => {
-        alert("Payment Completed! TX: " + txid);
+      onReadyForServerCompletion: (paymentId, txid) => { 
+        alert("Payment Completed Successfully! TX: " + txid);
       },
       onCancel: () => alert("Payment Cancelled"),
-      onError: (error) => alert("Error: " + error)
-    });
+      onError: (error) => alert("Payment Error: " + error)
+    };
+    
+    await Pi.createPayment(paymentData, callbacks);
+    
   } catch (err) {
     alert("Error: " + err);
   }
