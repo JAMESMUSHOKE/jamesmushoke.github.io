@@ -154,14 +154,39 @@ function changeLanguage() {
 // PI LOGIN
 window.onload = async () => {
   try {
+  // PI INIT
+Pi.init({ version: "2.0", sandbox: true });
+
+// LOGIN AUTOMATIC WHEN APP OPENS
+window.onload = async () => {
+  try {
     const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
     currentUser = authResult.user;
-    document.getElementById("authBtn").innerText = `Hi, ${currentUser.username}`;
+    document.getElementById("pi-login").innerText = `Welcome, ${currentUser.username}`;
+    
+    // CHECK IF ADMIN
+    if(currentUser.username === "admin"){
+      document.getElementById("pi-login").innerText = `Login as Admin`;
+    }
+    
   } catch (err) {
     console.log("User did not authenticate:", err);
   }
 };
 
+// HANDLE INCOMPLETE PAYMENTS
+function onIncompletePaymentFound(payment) {
+  console.log("Incomplete payment found:", payment);
+}
+
+// BUY WITH PI - SIMULATION FOR CHECKLIST 10
+async function buyProduct(productName, amount) {
+  if(!currentUser) return alert("Please Authenticate with Pi first!");
+  alert("Simulating Payment...");
+  setTimeout(() => {
+    alert("Payment Completed! TX: TEST-TX-123456");
+  }, 2000);
+}
 function onIncompletePaymentFound(payment) {
   console.log("Incomplete payment found:", payment);
 }
