@@ -8,18 +8,18 @@
   <style>
     :root { --pi-blue: #1E3A8A; --pi-gold: #FBBF24; --bg: #F9FAFB; }
     body { font-family: Arial, sans-serif; margin: 0; background: var(--bg); padding-bottom: 80px; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-wrap: wrap; }
    .logo { width: 50px; height: 50px; border-radius: 12px; margin-right: 10px; }
    .logo-area { display: flex; align-items: center; }
    .logo-area h1 { color: var(--pi-blue); margin: 0; font-size: 22px; }
-   .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; }
-    #lang-switcher { padding: 5px; border: 1px solid var(--pi-gold); border-radius: 8px; }
+   .pi-btn { background: var(--pi-blue); color: white; border: none; padding: 8px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+   .lang-select { padding: 8px; border-radius: 8px; border: 1px solid #ddd; margin-right: 10px; }
    .search-bar { padding: 15px; }
    .search-bar input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; }
    .banner { text-align: center; padding: 20px; }
    .banner img { width: 100%; max-width: 500px; border-radius: 15px; }
-   .btn-primary { background: var(--pi-gold); color: black; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
-   .btn-secondary { background: white; color: var(--pi-blue); border: 2px solid var(--pi-blue); padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; }
+   .btn-primary { background: var(--pi-gold); color: black; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; cursor: pointer; }
+   .btn-secondary { background: white; color: var(--pi-blue); border: 2px solid var(--pi-blue); padding: 12px 20px; border-radius: 10px; font-weight: bold; margin: 5px; cursor: pointer; }
    .categories { padding: 20px; }
    .cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
    .cat-item { background: white; padding: 15px 5px; border-radius: 12px; }
@@ -41,118 +41,125 @@
 </head>
 <body>
   <div class="admin-bar">
-    <input type="password" id="adminPass" data-lang="adminPass" placeholder="Weka Admin Password" style="padding:8px; border-radius:8px; border:none;">
-    <button class="pi-btn" id="adminBtn" data-lang="adminLogin" onclick="loginAdmin()">Ingia Kama Admin</button>
+    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <button class="pi-btn" onclick="loginAdmin()">Login As Admin</button>
   </div>
 
   <header>
     <div class="logo-area">
       <img src="logo.png" alt="SHALOM Logo" class="logo">
-      <div><h1 data-lang="title">SHALOM</h1><p data-lang="slogan">Shop The World. Pay With Pi.</p></div>
+      <div>
+        <h1 data-key="title">SHALOM</h1>
+        <p data-key="subtitle">Shop The World. Pay With Pi.</p>
+      </div>
     </div>
-    <div>
-      <button id="pi-login" class="pi-btn">Authenticate with Pi</button>
-      <select id="lang-switcher">
-        <option value="en">🌐 English</option><option value="sw">Swahili</option><option value="fr">Français</option>
-        <option value="zh">中文</option><option value="es">Español</option><option value="id">Bahasa</option><option value="vi">Tiếng Việt</option>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <select class="lang-select" id="languageSelector" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="sw">Kiswahili</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="pt">Português</option>
+        <option value="zh">中文</option>
+        <option value="ar">العربية</option>
       </select>
+      <button id="pi-login" class="pi-btn">Authenticate with Pi</button>
     </div>
   </header>
 
-  <div class="search-bar"><input type="text" data-lang="search" placeholder="Search for anything with Pi..."></div>
+  <div class="search-bar"><input type="text" id="searchInput" placeholder="Search for anything with Pi..."></div>
 
   <section class="banner">
     <img src="banner.jpg" alt="SHALOM Preview">
   </section>
 
   <section class="banner">
-    <h2 data-lang="banner_title">🌍 GLOBAL PI MARKETPLACE 🌍</h2>
-    <p data-lang="banner_sub">Buy & Sell with Pi. No Banks. No Borders.</p>
-    <div><button class="btn-primary" data-lang="btn_shop">Start Shopping</button><button class="btn-secondary" id="sell-btn" data-lang="btn_sell">Become a Seller</button></div>
+    <h2 data-key="banner_title">🌍 GLOBAL PI MARKETPLACE 🌍</h2>
+    <p data-key="banner_desc">Buy & Sell with Pi. No Banks. No Borders.</p>
+    <div><button class="btn-primary" data-key="start_shopping">Start Shopping</button><button class="btn-secondary" id="sell-btn" data-key="become_seller">Become a Seller</button></div>
   </section>
 
   <div id="adminPanel" class="admin-panel">
-    <h3 data-lang="admin_title">Admin Panel - Ongeza Bidhaa</h3>
-    <input type="text" id="product-name-admin" data-lang="prod_name" placeholder="Product Name">
-    <input type="number" step="any" id="product-price-admin" data-lang="prod_price" placeholder="Price in Pi - e.g. 0.0002">
-    <textarea id="product-desc-admin" data-lang="prod_desc" placeholder="Description"></textarea>
-    <button id="submit-product-admin" class="btn-primary" data-lang="submit">Hifadhi kwenye Ghala</button>
+    <h3 data-key="admin_title">Admin Panel - Add Product</h3>
+    <input type="text" id="product-name-admin" placeholder="Product Name">
+    <input type="number" step="any" id="product-price-admin" placeholder="Price in Pi - e.g. 0.0002">
+    <textarea id="product-desc-admin" placeholder="Description"></textarea>
+    <button id="submit-product-admin" class="btn-primary" data-key="save_product">Save to Warehouse</button>
   </div>
 
   <section class="categories">
-    <h3 data-lang="cat_title">Shop by Category</h3>
+    <h3 data-key="shop_category">Shop by Category</h3>
     <div class="cat-grid">
-      <div class="cat-item">👗<span data-lang="cat1">Fashion</span></div><div class="cat-item">📱<span data-lang="cat2">Electronics</span></div>
-      <div class="cat-item">💻<span data-lang="cat3">Digital</span></div><div class="cat-item">🛠️<span data-lang="cat4">Services</span></div>
-      <div class="cat-item">₿<span data-lang="cat5">Crypto</span></div><div class="cat-item">🏠<span data-lang="cat6">Home</span></div>
-      <div class="cat-item">🎨<span data-lang="cat7">Art</span></div><div class="cat-item">⋯<span data-lang="cat8">More</span></div>
+      <div class="cat-item">👗<span data-key="cat_fashion">Fashion</span></div>
+      <div class="cat-item">📱<span data-key="cat_electronics">Electronics</span></div>
+      <div class="cat-item">💻<span data-key="cat_digital">Digital</span></div>
+      <div class="cat-item">🛠️<span data-key="cat_services">Services</span></div>
+      <div class="cat-item">₿<span data-key="cat_crypto">Crypto</span></div>
+      <div class="cat-item">🏠<span data-key="cat_home">Home</span></div>
+      <div class="cat-item">🎨<span data-key="cat_art">Art</span></div>
+      <div class="cat-item">⋯<span data-key="cat_more">More</span></div>
     </div>
   </section>
 
   <section class="featured">
-    <h3 data-lang="featured">🔥 Trending with Pi</h3>
+    <h3 data-key="trending">🔥 Trending with Pi</h3>
     <div id="products-container" class="products-grid"></div>
     <div id="empty-state" class="empty-state">
-      <p>📦</p><h4 data-lang="empty_title">No products yet</h4><p data-lang="empty_sub">Be the first seller!</p>
-      <button class="btn-primary" id="list-btn" data-lang="btn_list">List Your First Item - Free</button>
+      <p>📦</p><h4 data-key="no_products">No products yet</h4><p data-key="be_first">Be the first seller!</p>
+      <button class="btn-primary" id="list-btn" data-key="list_item">List Your First Item - Free</button>
     </div>
   </section>
 
   <div id="sell-popup" class="popup hidden">
     <div class="popup-content">
-      <span class="close-btn">&times;</span><h3 data-lang="sell_title">List Your Item</h3>
-      <input type="text" id="product-name" data-lang="prod_name" placeholder="Product Name">
-      <input type="number" step="any" id="product-price" data-lang="prod_price" placeholder="Price in Pi - e.g. 0.0002">
-      <textarea id="product-desc" data-lang="prod_desc" placeholder="Description"></textarea>
-      <button id="submit-product" class="btn-primary" data-lang="submit">Submit with Pi</button>
+      <span class="close-btn">&times;</span><h3 data-key="list_item_title">List Your Item</h3>
+      <input type="text" id="product-name" placeholder="Product Name">
+      <input type="number" step="any" id="product-price" placeholder="Price in Pi - e.g. 0.0002">
+      <textarea id="product-desc" placeholder="Description"></textarea>
+      <button id="submit-product" class="btn-primary" data-key="submit_pi">Submit with Pi</button>
     </div>
   </div>
 
   <nav class="bottom-menu">
-    <a href="#" class="active">🏠<span data-lang="menu_home">Home</span></a>
-    <a href="#">📦<span data-lang="menu_products">Products</span></a>
-    <a href="#" id="menu-sell">➕<span data-lang="menu_sell">Sell</span></a>
-    <a href="#">📋<span data-lang="menu_orders">Orders</span></a>
-    <a href="#">👤<span data-lang="menu_profile">Profile</span></a>
+    <a href="#" class="active">🏠<span data-key="menu_home">Home</span></a>
+    <a href="#">📦<span data-key="menu_products">Products</span></a>
+    <a href="#" id="menu-sell">➕<span data-key="menu_sell">Sell</span></a>
+    <a href="#">📋<span data-key="menu_orders">Orders</span></a>
+    <a href="#">👤<span data-key="menu_profile">Profile</span></a>
   </nav>
 
 <script>
-const SHEET_URL = "WEKA LINK YAKO YA GOOGLE SHEETS HAPA";
 const ADMIN_PASSWORD = "Shalom2026";
-const GCV_RATE = 314159;
+let currentUser = null;
 
+// TRANSLATIONS - LUGHA 7
 const translations = {
-  en: { title: "SHALOM", slogan: "Shop The World. Pay With Pi.", search: "Search for anything with Pi...", banner_title: "🌍 GLOBAL PI MARKETPLACE 🌍", banner_sub: "Buy & Sell with Pi. No Banks. No Borders.", btn_shop: "Start Shopping", btn_sell: "Become a Seller", admin_title: "Admin Panel - Add Product", adminLogin: "Login As Admin", adminPass: "Enter Admin Password", adminWelcome: "Welcome Boss!", adminWrongPass: "Wrong Password!", fillError: "Please fill name and price", productAdded: "Product Added!", adminProductAdded: "Admin Product Saved!", cat_title: "Shop by Category", cat1: "Fashion", cat2: "Electronics", cat3: "Digital", cat4: "Services", cat5: "Crypto", cat6: "Home", cat7: "Art", cat8: "More", featured: "🔥 Trending with Pi", empty_title: "No products yet", empty_sub: "Be the first seller!", btn_list: "List Your First Item - Free", menu_home: "Home", menu_products: "Products", menu_sell: "Sell", menu_orders: "Orders", menu_profile: "Profile", sell_title: "List Your Item", prod_name: "Product Name", prod_price: "Price in Pi", prod_desc: "Description", submit: "Submit with Pi", buy: "Buy with Pi", gcv_text: "GCV: 1 Pi = $314,159" },
-  sw: { title: "SHALOM", slogan: "Nunua Duniani. Lipa kwa Pi.", search: "Tafuta chochote kwa Pi...", banner_title: "🌍 SOKO LA DUNIA LA PI 🌍", banner_sub: "Nunua & Uuze kwa Pi. Hakuna Benki. Hakuna Mipaka.", btn_shop: "Anza Kununua", btn_sell: "Kua Muuzaji", admin_title: "Paneli ya Admin - Ongeza Bidhaa", adminLogin: "Ingia Kama Admin", adminPass: "Weka Admin Password", adminWelcome: "Karibu Boss!", adminWrongPass: "Password si sahihi!", fillError: "Jaza jina na bei", productAdded: "Bidhaa imewekwa!", adminProductAdded: "Bidhaa ya Admin imehifadhiwa!", cat_title: "Nunua kwa Kategoria", cat1: "Mavazi", cat2: "Vifaa", cat3: "Digital", cat4: "Huduma", cat5: "Crypto", cat6: "Nyumba", cat7: "Sanaa", cat8: "Zaidi", featured: "🔥 Zinazotrend kwa Pi", empty_title: "Hakuna bidhaa bado", empty_sub: "Kua muuzaji wa kwanza!", btn_list: "Orodhesha Bidhaa Yako - Bure", menu_home: "Nyumbani", menu_products: "Bidhaa", menu_sell: "Uza", menu_orders: "Oda", menu_profile: "Wasifu", sell_title: "Orodhesha Bidhaa", prod_name: "Jina la Bidhaa", prod_price: "Bei kwa Pi", prod_desc: "Maelezo", submit: "Tuma kwa Pi", buy: "Nunua kwa Pi", gcv_text: "GCV: 1 Pi = $314,159" },
-  fr: { title: "SHALOM", slogan: "Achetez le Monde. Payez avec Pi.", search: "Recherchez n'importe quoi avec Pi...", banner_title: "🌍 MARCHÉ MONDIAL PI 🌍", banner_sub: "Achetez et Vendez avec Pi. Pas de Banques. Pas de Frontières.", btn_shop: "Commencer les Achats", btn_sell: "Devenir Vendeur", admin_title: "Panneau Admin - Ajouter Produit", adminLogin: "Connexion Admin", adminPass: "Mot de passe Admin", adminWelcome: "Bienvenue Patron!", adminWrongPass: "Mauvais mot de passe!", fillError: "Veuillez remplir le nom et le prix", productAdded: "Produit Ajouté!", adminProductAdded: "Produit Admin Enregistré!", cat_title: "Acheter par Catégorie", cat1: "Mode", cat2: "Électronique", cat3: "Numérique", cat4: "Services", cat5: "Crypto", cat6: "Maison", cat7: "Art", cat8: "Plus", featured: "🔥 Tendance avec Pi", empty_title: "Aucun produit encore", empty_sub: "Soyez le premier vendeur!", btn_list: "Listez Votre Premier Article - Gratuit", menu_home: "Accueil", menu_products: "Produits", menu_sell: "Vendre", menu_orders: "Commandes", menu_profile: "Profil", sell_title: "Lister Votre Article", prod_name: "Nom du Produit", prod_price: "Prix en Pi", prod_desc: "Description", submit: "Soumettre avec Pi", buy: "Acheter avec Pi", gcv_text: "GCV: 1 Pi = $314,159" },
-  zh: { title: "SHALOM", slogan: "向世界购物，用Pi支付。", search: "用Pi搜索任何东西...", banner_title: "🌍 全球PI市场 🌍", banner_sub: "用Pi买卖。无银行。无国界。", btn_shop: "开始购物", btn_sell: "成为卖家", admin_title: "管理员面板 - 添加产品", adminLogin: "管理员登录", adminPass: "输入管理员密码", adminWelcome: "欢迎老板!", adminWrongPass: "密码错误!", fillError: "请填写名称和价格", productAdded: "产品已添加!", adminProductAdded: "管理员产品已保存!", cat_title: "按类别购物", cat1: "时尚", cat2: "电子产品", cat3: "数码", cat4: "服务", cat5: "加密", cat6: "家居", cat7: "艺术", cat8: "更多", featured: "🔥 Pi热门", empty_title: "暂无商品", empty_sub: "成为第一个卖家！", btn_list: "免费上架您的第一个商品", menu_home: "首页", menu_products: "产品", menu_sell: "出售", menu_orders: "订单", menu_profile: "我的", sell_title: "上架商品", prod_name: "产品名称", prod_price: "Pi价格", prod_desc: "描述", submit: "用Pi提交", buy: "用Pi购买", gcv_text: "GCV: 1 Pi = $314,159" },
-  es: { title: "SHALOM", slogan: "Compra al Mundo. Paga con Pi.", search: "Busca cualquier cosa con Pi...", banner_title: "🌍 MERCADO GLOBAL DE PI 🌍", banner_sub: "Compra y Vende con Pi. Sin Bancos. Sin Fronteras.", btn_shop: "Empezar a Comprar", btn_sell: "Ser Vendedor", admin_title: "Panel Admin - Añadir Producto", adminLogin: "Iniciar como Admin", adminPass: "Contraseña de Admin", adminWelcome: "¡Bienvenido Jefe!", adminWrongPass: "¡Contraseña incorrecta!", fillError: "Complete nombre y precio", productAdded: "¡Producto Agregado!", adminProductAdded: "¡Producto Admin Guardado!", cat_title: "Comprar por Categoría", cat1: "Moda", cat2: "Electrónica", cat3: "Digital", cat4: "Servicios", cat5: "Cripto", cat6: "Hogar", cat7: "Arte", cat8: "Más", featured: "🔥 Tendencia con Pi", empty_title: "Aún no hay productos", empty_sub: "¡Sé el primer vendedor!", btn_list: "Lista tu Primer Artículo - Gratis", menu_home: "Inicio", menu_products: "Productos", menu_sell: "Vender", menu_orders: "Pedidos", menu_profile: "Perfil", sell_title: "Lista tu Artículo", prod_name: "Nombre del Producto", prod_price: "Precio en Pi", prod_desc: "Descripción", submit: "Enviar con Pi", buy: "Comprar con Pi", gcv_text: "GCV: 1 Pi = $314,159" },
-  id: { title: "SHALOM", slogan: "Belanja Dunia. Bayar dengan Pi.", search: "Cari apapun dengan Pi...", banner_title: "🌍 MARKETPLACE PI GLOBAL 🌍", banner_sub: "Beli & Jual dengan Pi. Tanpa Bank. Tanpa Batas.", btn_shop: "Mulai Belanja", btn_sell: "Jadi Penjual", admin_title: "Panel Admin - Tambah Produk", adminLogin: "Masuk Sebagai Admin", adminPass: "Masukkan Password Admin", adminWelcome: "Selamat Datang Bos!", adminWrongPass: "Password Salah!", fillError: "Isi nama dan harga", productAdded: "Produk Ditambahkan!", adminProductAdded: "Produk Admin Disimpan!", cat_title: "Belanja berdasarkan Kategori", cat1: "Fashion", cat2: "Elektronik", cat3: "Digital", cat4: "Jasa", cat5: "Crypto", cat6: "Rumah", cat7: "Seni", cat8: "Lainnya", featured: "🔥 Trending dengan Pi", empty_title: "Belum ada produk", empty_sub: "Jadilah penjual pertama!", btn_list: "Daftarkan Barang Pertama - Gratis", menu_home: "Beranda", menu_products: "Produk", menu_sell: "Jual", menu_orders: "Pesanan", menu_profile: "Profil", sell_title: "Daftarkan Barang", prod_name: "Nama Produk", prod_price: "Harga dalam Pi", prod_desc: "Deskripsi", submit: "Kirim dengan Pi", buy: "Beli dengan Pi", gcv_text: "GCV: 1 Pi = $314,159" },
-  vi: { title: "SHALOM", slogan: "Mua sắm Thế giới. Thanh toán bằng Pi.", search: "Tìm kiếm bất cứ thứ gì bằng Pi...", banner_title: "🌍 CHỢ PI TOÀN CẦU 🌍", banner_sub: "Mua & Bán bằng Pi. Không Ngân hàng. Không Biên giới.", btn_shop: "Bắt đầu mua sắm", btn_sell: "Trở thành người bán", admin_title: "Bảng Admin - Thêm Sản Phẩm", adminLogin: "Đăng nhập Admin", adminPass: "Nhập mật khẩu Admin", adminWelcome: "Chào Sếp!", adminWrongPass: "Sai mật khẩu!", fillError: "Vui lòng điền tên và giá", productAdded: "Đã thêm sản phẩm!", adminProductAdded: "Đã lưu sản phẩm Admin!", cat_title: "Mua sắm theo danh mục", cat1: "Thời trang", cat2: "Điện tử", cat3: "Kỹ thuật số", cat4: "Dịch vụ", cat5: "Tiền điện tử", cat6: "Nhà cửa", cat7: "Nghệ thuật", cat8: "Khác", featured: "🔥 Xu hướng với Pi", empty_title: "Chưa có sản phẩm", empty_sub: "Hãy là người bán đầu tiên!", btn_list: "Đăng mục đầu tiên - Miễn phí", menu_home: "Trang chủ", menu_products: "Sản phẩm", menu_sell: "Bán", menu_orders: "Đơn hàng", menu_profile: "Hồ sơ", sell_title: "Đăng sản phẩm", prod_name: "Tên sản phẩm", prod_price: "Giá bằng Pi", prod_desc: "Mô tả", submit: "Gửi bằng Pi", buy: "Mua bằng Pi", gcv_text: "GCV: 1 Pi = $314,159" }
+  en: { title: "SHALOM", subtitle: "Shop The World. Pay With Pi.", banner_title: "🌍 GLOBAL PI MARKETPLACE 🌍", banner_desc: "Buy & Sell with Pi. No Banks. No Borders.", start_shopping: "Start Shopping", become_seller: "Become a Seller", admin_title: "Admin Panel - Add Product", save_product: "Save to Warehouse", shop_category: "Shop by Category", cat_fashion: "Fashion", cat_electronics: "Electronics", cat_digital: "Digital", cat_services: "Services", cat_crypto: "Crypto", cat_home: "Home", cat_art: "Art", cat_more: "More", trending: "🔥 Trending with Pi", no_products: "No products yet", be_first: "Be the first seller!", list_item: "List Your First Item - Free", list_item_title: "List Your Item", submit_pi: "Submit with Pi", menu_home: "Home", menu_products: "Products", menu_sell: "Sell", menu_orders: "Orders", menu_profile: "Profile" },
+  sw: { title: "SHALOM", subtitle: "Nunua Duniani. Lipa Kwa Pi.", banner_title: "🌍 SOKO LA PI DUNIANI 🌍", banner_desc: "Nunua & Uza kwa Pi. Hakuna Mabenki. Hakuna Mipaka.", start_shopping: "Anza Kununua", become_seller: "Kuwa Muuzaji", admin_title: "Paneli ya Msimamizi - Ongeza Bidhaa", save_product: "Hifadhi Ghala", shop_category: "Nunua kwa Kategoria", cat_fashion: "Mavazi", cat_electronics: "Vifaa", cat_digital: "Kidigitali", cat_services: "Huduma", cat_crypto: "Crypto", cat_home: "Nyumbani", cat_art: "Sanaa", cat_more: "Zaidi", trending: "🔥 Maarufu na Pi", no_products: "Hakuna bidhaa bado", be_first: "Kuwa muuzaji wa kwanza!", list_item: "Orodhesha Bidhaa Yako - Bure", list_item_title: "Orodhesha Bidhaa Yako", submit_pi: "Wasilisha na Pi", menu_home: "Nyumbani", menu_products: "Bidhaa", menu_sell: "Uza", menu_orders: "Maagizo", menu_profile: "Wasifu" },
+  fr: { title: "SHALOM", subtitle: "Achetez dans le Monde. Payez avec Pi.", banner_title: "🌍 MARCHÉ MONDIAL PI 🌍", banner_desc: "Acheter & Vendre avec Pi. Pas de Banques. Pas de Frontières.", start_shopping: "Commencer", become_seller: "Devenir Vendeur", admin_title: "Panneau Admin - Ajouter Produit", save_product: "Enregistrer", shop_category: "Catégories", cat_fashion: "Mode", cat_electronics: "Électronique", cat_digital: "Numérique", cat_services: "Services", cat_crypto: "Crypto", cat_home: "Maison", cat_art: "Art", cat_more: "Plus", trending: "🔥 Tendance avec Pi", no_products: "Aucun produit", be_first: "Soyez le premier vendeur!", list_item: "Lister Article - Gratuit", list_item_title: "Lister Article", submit_pi: "Soumettre avec Pi", menu_home: "Accueil", menu_products: "Produits", menu_sell: "Vendre", menu_orders: "Commandes", menu_profile: "Profil" },
+  es: { title: "SHALOM", subtitle: "Compra el Mundo. Paga con Pi.", banner_title: "🌍 MERCADO GLOBAL PI 🌍", banner_desc: "Compra y Vende con Pi. Sin Bancos. Sin Fronteras.", start_shopping: "Empezar", become_seller: "Ser Vendedor", admin_title: "Panel Admin - Agregar Producto", save_product: "Guardar", shop_category: "Categorías", cat_fashion: "Moda", cat_electronics: "Electrónica", cat_digital: "Digital", cat_services: "Servicios", cat_crypto: "Crypto", cat_home: "Hogar", cat_art: "Arte", cat_more: "Más", trending: "🔥 Tendencia con Pi", no_products: "No hay productos", be_first: "¡Sé el primer vendedor!", list_item: "Listar Artículo - Gratis", list_item_title: "Listar Artículo", submit_pi: "Enviar con Pi", menu_home: "Inicio", menu_products: "Productos", menu_sell: "Vender", menu_orders: "Pedidos", menu_profile: "Perfil" },
+  pt: { title: "SHALOM", subtitle: "Compre o Mundo. Pague com Pi.", banner_title: "🌍 MERCADO GLOBAL PI 🌍", banner_desc: "Comprar e Vender com Pi. Sem Bancos. Sem Fronteiras.", start_shopping: "Começar", become_seller: "Ser Vendedor", admin_title: "Painel Admin - Adicionar Produto", save_product: "Salvar", shop_category: "Categorias", cat_fashion: "Moda", cat_electronics: "Eletrônicos", cat_digital: "Digital", cat_services: "Serviços", cat_crypto: "Crypto", cat_home: "Casa", cat_art: "Arte", cat_more: "Mais", trending: "🔥 Tendência com Pi", no_products: "Sem produtos", be_first: "Seja o primeiro vendedor!", list_item: "Listar Item - Grátis", list_item_title: "Listar Item", submit_pi: "Enviar com Pi", menu_home: "Início", menu_products: "Produtos", menu_sell: "Vender", menu_orders: "Pedidos", menu_profile: "Perfil" },
+  zh: { title: "SHALOM", subtitle: "购物全世界。用Pi支付。", banner_title: "🌍 全球PI市场 🌍", banner_desc: "用Pi买卖。无银行。无国界。", start_shopping: "开始购物", become_seller: "成为卖家", admin_title: "管理员面板 - 添加产品", save_product: "保存", shop_category: "按类别购物", cat_fashion: "时尚", cat_electronics: "电子", cat_digital: "数字", cat_services: "服务", cat_crypto: "加密", cat_home: "家居", cat_art: "艺术", cat_more: "更多", trending: "🔥 Pi热门", no_products: "暂无产品", be_first: "成为第一个卖家!", list_item: "列出您的第一件商品 - 免费", list_item_title: "列出商品", submit_pi: "用Pi提交", menu_home: "首页", menu_products: "产品", menu_sell: "出售", menu_orders: "订单", menu_profile: "个人资料" },
+  ar: { title: "شالوم", subtitle: "تسوق العالم. ادفع بالباي.", banner_title: "🌍 السوق العالمي للباي 🌍", banner_desc: "اشتري وبع بالباي. لا بنوك. لا حدود.", start_shopping: "ابدأ التسوق", become_seller: "كن بائعا", admin_title: "لوحة الادارة - اضافة منتج", save_product: "حفظ", shop_category: "التسوق حسب الفئة", cat_fashion: "موضة", cat_electronics: "الكترونيات", cat_digital: "رقمي", cat_services: "خدمات", cat_crypto: "كريبتو", cat_home: "المنزل", cat_art: "فن", cat_more: "المزيد", trending: "🔥 رائج مع الباي", no_products: "لا توجد منتجات", be_first: "كن اول بائع!", list_item: "ادرج منتجك - مجاني", list_item_title: "ادرج منتجك", submit_pi: "ارسال بالباي", menu_home: "الرئيسية", menu_products: "المنتجات", menu_sell: "بيع", menu_orders: "الطلبات", menu_profile: "الملف" }
 };
 
-document.getElementById('lang-switcher').addEventListener('change', (e) => {
-  const lang = e.target.value;
-  document.querySelectorAll('[data-lang]').forEach(el => {
-    const key = el.getAttribute('data-lang');
-    if(translations[lang][key]) {
-      if(el.placeholder) el.placeholder = translations[lang][key];
-      else el.innerText = translations[lang][key];
-    }
+function changeLanguage() {
+  const lang = document.getElementById('languageSelector').value;
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if(translations[lang][key]) el.innerText = translations[lang][key];
   });
-});
-
-function loginAdmin(){
-  const lang = document.getElementById('lang-switcher').value;
-  if(document.getElementById('adminPass').value === ADMIN_PASSWORD){
-    document.getElementById('adminPanel').style.display = 'block';
-    alert(translations[lang].adminWelcome);
-  } else { alert(translations[lang].adminWrongPass); }
 }
 
+// PI LOGIN
 Pi.init({ version: "2.0", sandbox: true });
+
 document.getElementById('pi-login').addEventListener('click', async () => {
-  try { const auth = await Pi.authenticate(['username', 'payments']); document.getElementById('pi-login').innerText = `Hi, ${auth.user.username}`; }
+  try {
+    const auth = await Pi.authenticate(['username', 'payments']);
+    currentUser = auth.user;
+    document.getElementById('pi-login').innerText = `Hi, ${auth.user.username}`;
+  }
   catch (err) { alert("Login failed: " + err); }
 });
 
@@ -177,41 +184,60 @@ function renderProducts() {
   const empty = document.getElementById('empty-state');
   if(products.length === 0) { container.innerHTML = ""; empty.style.display = "block"; return; }
   empty.style.display = "none";
-  const lang = document.getElementById('lang-switcher').value;
   container.innerHTML = products.map(p => `
     <div class="product-card">
       <h4>${p.name}</h4><p>${p.desc}</p>
       <div class="product-price">${formatPi(p.price)} Pi</div>
-      <div class="product-gcv">${translations[lang].gcv_text}</div>
-      <button class="btn-primary" style="margin-top:8px;">${translations[lang].buy}</button>
+      <div class="product-gcv">GCV: 1 Pi = $314,159</div>
+      <button class="btn-primary" style="margin-top:8px;" onclick="buyProduct('${p.name}', ${p.price})">Buy with Pi</button>
     </div>`).join('');
 }
 
+// FIXED PAYMENT
+async function buyProduct(productName, amount) {
+  if(!currentUser) return alert("Please Authenticate with Pi first!");
+  try {
+    await Pi.createPayment({
+      amount: amount,
+      memo: `Buy ${productName} - SHALOM`,
+      metadata: { product: productName }
+    }, {
+      onReadyForServerApproval: (paymentId) => { console.log(paymentId); },
+      onReadyForServerCompletion: (paymentId, txid) => { alert("Payment Completed! TX: " + txid); },
+      onCancel: () => alert("Payment Cancelled"),
+      onError: (error) => alert("Error: " + error)
+    });
+  } catch (err) { alert("Error: " + err); }
+}
+
+function loginAdmin(){
+  if(document.getElementById('adminPass').value === ADMIN_PASSWORD){
+    document.getElementById('adminPanel').style.display = 'block';
+    alert("Welcome Boss!");
+  } else { alert("Wrong Password!"); }
+}
+
 document.getElementById('submit-product').onclick = () => {
-  const lang = document.getElementById('lang-switcher').value;
   const name = document.getElementById('product-name').value;
   const price = document.getElementById('product-price').value;
   const desc = document.getElementById('product-desc').value;
-  if(!name ||!price) return alert(translations[lang].fillError);
+  if(!name ||!price) return alert("Please fill name and price");
   products.push({name, price: parseFloat(price), desc});
   localStorage.setItem('shalom_products', JSON.stringify(products));
-  renderProducts(); popup.classList.add('hidden'); alert(translations[lang].productAdded);
+  renderProducts(); popup.classList.add('hidden'); alert("Product Added!");
 }
 
 document.getElementById('submit-product-admin').onclick = () => {
-  const lang = document.getElementById('lang-switcher').value;
   const name = document.getElementById('product-name-admin').value;
   const price = document.getElementById('product-price-admin').value;
-  const desc = document.getElementById('product-desc-admin')..value;
-  if(!name ||!price) return alert(translations[lang].fillError);
+  const desc = document.getElementById('product-desc-admin').value;
+  if(!name ||!price) return alert("Please fill name and price");
   products.push({name, price: parseFloat(price), desc});
   localStorage.setItem('shalom_products', JSON.stringify(products));
-  renderProducts(); alert(translations[lang].adminProductAdded);
+  renderProducts(); alert("Admin Product Saved!");
 }
 
 renderProducts();
-// Trigger translation on load
-document.getElementById('lang-switcher').dispatchEvent(new Event('change'));
 </script>
 </body>
 </html>
