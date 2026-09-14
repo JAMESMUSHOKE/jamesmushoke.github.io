@@ -44,7 +44,6 @@
     <input type="password" id="adminPass" placeholder="Enter Admin Password">
     <button class="pi-btn" onclick="loginAdmin()">Login As Admin</button>
   </div>
-
   <header>
     <div class="logo-area">
       <img src="logo.png" alt="SHALOM Logo" class="logo">
@@ -66,19 +65,15 @@
       <button id="pi-login" class="pi-btn">Authenticate with Pi</button>
     </div>
   </header>
-
   <div class="search-bar"><input type="text" id="searchInput" placeholder="Search for anything with Pi..."></div>
-
   <section class="banner">
     <img src="banner.jpg" alt="SHALOM Preview">
   </section>
-
   <section class="banner">
     <h2 data-key="banner_title">🌍 GLOBAL PI MARKETPLACE 🌍</h2>
     <p data-key="banner_desc">Buy & Sell with Pi. No Banks. No Borders.</p>
     <div><button class="btn-primary" data-key="start_shopping">Start Shopping</button><button class="btn-secondary" id="sell-btn" data-key="become_seller">Become a Seller</button></div>
   </section>
-
   <div id="adminPanel" class="admin-panel">
     <h3 data-key="admin_title">Admin Panel - Add Product</h3>
     <input type="text" id="product-name-admin" placeholder="Product Name">
@@ -86,7 +81,6 @@
     <textarea id="product-desc-admin" placeholder="Description"></textarea>
     <button id="submit-product-admin" class="btn-primary" data-key="save_product">Save to Warehouse</button>
   </div>
-
   <section class="categories">
     <h3 data-key="shop_category">Shop by Category</h3>
     <div class="cat-grid">
@@ -100,7 +94,6 @@
       <div class="cat-item">⋯<span data-key="cat_more">More</span></div>
     </div>
   </section>
-
   <section class="featured">
     <h3 data-key="trending">🔥 Trending with Pi</h3>
     <div id="products-container" class="products-grid"></div>
@@ -109,7 +102,6 @@
       <button class="btn-primary" id="list-btn" data-key="list_item">List Your First Item - Free</button>
     </div>
   </section>
-
   <div id="sell-popup" class="popup hidden">
     <div class="popup-content">
       <span class="close-btn">&times;</span><h3 data-key="list_item_title">List Your Item</h3>
@@ -119,7 +111,6 @@
       <button id="submit-product" class="btn-primary" data-key="submit_pi">Submit with Pi</button>
     </div>
   </div>
-
   <nav class="bottom-menu">
     <a href="#" class="active">🏠<span data-key="menu_home">Home</span></a>
     <a href="#">📦<span data-key="menu_products">Products</span></a>
@@ -127,11 +118,9 @@
     <a href="#">📋<span data-key="menu_orders">Orders</span></a>
     <a href="#">👤<span data-key="menu_profile">Profile</span></a>
   </nav>
-
 <script>
 const ADMIN_PASSWORD = "Shalom2026";
 let currentUser = null;
-
 // TRANSLATIONS - LUGHA 7
 const translations = {
   en: { title: "SHALOM", subtitle: "Shop The World. Pay With Pi.", banner_title: "🌍 GLOBAL PI MARKETPLACE 🌍", banner_desc: "Buy & Sell with Pi. No Banks. No Borders.", start_shopping: "Start Shopping", become_seller: "Become a Seller", admin_title: "Admin Panel - Add Product", save_product: "Save to Warehouse", shop_category: "Shop by Category", cat_fashion: "Fashion", cat_electronics: "Electronics", cat_digital: "Digital", cat_services: "Services", cat_crypto: "Crypto", cat_home: "Home", cat_art: "Art", cat_more: "More", trending: "🔥 Trending with Pi", no_products: "No products yet", be_first: "Be the first seller!", list_item: "List Your First Item - Free", list_item_title: "List Your Item", submit_pi: "Submit with Pi", menu_home: "Home", menu_products: "Products", menu_sell: "Sell", menu_orders: "Orders", menu_profile: "Profile" },
@@ -142,7 +131,6 @@ const translations = {
   zh: { title: "SHALOM", subtitle: "购物全世界。用Pi支付。", banner_title: "🌍 全球PI市场 🌍", banner_desc: "用Pi买卖。无银行。无国界。", start_shopping: "开始购物", become_seller: "成为卖家", admin_title: "管理员面板 - 添加产品", save_product: "保存", shop_category: "按类别购物", cat_fashion: "时尚", cat_electronics: "电子", cat_digital: "数字", cat_services: "服务", cat_crypto: "加密", cat_home: "家居", cat_art: "艺术", cat_more: "更多", trending: "🔥 Pi热门", no_products: "暂无产品", be_first: "成为第一个卖家!", list_item: "列出您的第一件商品 - 免费", list_item_title: "列出商品", submit_pi: "用Pi提交", menu_home: "首页", menu_products: "产品", menu_sell: "出售", menu_orders: "订单", menu_profile: "个人资料" },
   ar: { title: "شالوم", subtitle: "تسوق العالم. ادفع بالباي.", banner_title: "🌍 السوق العالمي للباي 🌍", banner_desc: "اشتري وبع بالباي. لا بنوك. لا حدود.", start_shopping: "ابدأ التسوق", become_seller: "كن بائعا", admin_title: "لوحة الادارة - اضافة منتج", save_product: "حفظ", shop_category: "التسوق حسب الفئة", cat_fashion: "موضة", cat_electronics: "الكترونيات", cat_digital: "رقمي", cat_services: "خدمات", cat_crypto: "كريبتو", cat_home: "المنزل", cat_art: "فن", cat_more: "المزيد", trending: "🔥 رائج مع الباي", no_products: "لا توجد منتجات", be_first: "كن اول بائع!", list_item: "ادرج منتجك - مجاني", list_item_title: "ادرج منتجك", submit_pi: "ارسال بالباي", menu_home: "الرئيسية", menu_products: "المنتجات", menu_sell: "بيع", menu_orders: "الطلبات", menu_profile: "الملف" }
 };
-
 function changeLanguage() {
   const lang = document.getElementById('languageSelector').value;
   document.querySelectorAll('[data-key]').forEach(el => {
@@ -150,35 +138,29 @@ function changeLanguage() {
     if(translations[lang][key]) el.innerText = translations[lang][key];
   });
 }
-
 // PI LOGIN
 window.onload = async () => {
   try {
   // PI INIT
 Pi.init({ version: "2.0", sandbox: true });
-
 // LOGIN AUTOMATIC WHEN APP OPENS
 window.onload = async () => {
   try {
     const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
     currentUser = authResult.user;
     document.getElementById("pi-login").innerText = `Welcome, ${currentUser.username}`;
-    
-    // CHECK IF ADMIN
+        // CHECK IF ADMIN
     if(currentUser.username === "admin"){
       document.getElementById("pi-login").innerText = `Login as Admin`;
     }
-    
-  } catch (err) {
+      } catch (err) {
     console.log("User did not authenticate:", err);
   }
 };
-
 // HANDLE INCOMPLETE PAYMENTS
 function onIncompletePaymentFound(payment) {
   console.log("Incomplete payment found:", payment);
 }
-
 // BUY WITH PI - SIMULATION FOR CHECKLIST 10
 async function buyProduct(productName, amount) {
   if(!currentUser) return alert("Please Authenticate with Pi first!");
@@ -191,23 +173,19 @@ function onIncompletePaymentFound(payment) {
   console.log("Incomplete payment found:", payment);
 }
 });
-
 const popup = document.getElementById('sell-popup');
 document.getElementById('sell-btn').onclick = () => popup.classList.remove('hidden');
 document.getElementById('list-btn').onclick = () => popup.classList.remove('hidden');
 document.getElementById('menu-sell').onclick = () => popup.classList.remove('hidden');
 document.querySelector('.close-btn').onclick = () => popup.classList.add('hidden');
-
 let products = JSON.parse(localStorage.getItem('shalom_products')) || [
   {name: "Gaming Laptop", price: 0.00020, desc: "RTX 4090, 32GB RAM"},
   {name: "Tesla Model Y New", price: 0.00005000, desc: "Zero KM, Full Self Drive"},
   {name: "iPhone 15 Pro Max", price: 0.00000159, desc: "256GB Titanium"}
 ];
-
 function formatPi(price) {
   return parseFloat(price).toFixed(8);
 }
-
 function renderProducts() {
   const container = document.getElementById('products-container');
   const empty = document.getElementById('empty-state');
@@ -221,7 +199,6 @@ function renderProducts() {
       <button class="btn-primary" style="margin-top:8px;" onclick="buyProduct('${p.name}', ${p.price})">Buy with Pi</button>
     </div>`).join('');
 }
-
 // FIXED PAYMENT
 async function buyProduct(productName, amount) {
   if(!currentUser) return alert("Please Authenticate with Pi first!");
@@ -236,7 +213,6 @@ function loginAdmin(){
     alert("Welcome Boss!");
   } else { alert("Wrong Password!"); }
 }
-
 document.getElementById('submit-product').onclick = () => {
   const name = document.getElementById('product-name').value;
   const price = document.getElementById('product-price').value;
@@ -246,7 +222,6 @@ document.getElementById('submit-product').onclick = () => {
   localStorage.setItem('shalom_products', JSON.stringify(products));
   renderProducts(); popup.classList.add('hidden'); alert("Product Added!");
 }
-
 document.getElementById('submit-product-admin').onclick = () => {
   const name = document.getElementById('product-name-admin').value;
   const price = document.getElementById('product-price-admin').value;
@@ -256,7 +231,6 @@ document.getElementById('submit-product-admin').onclick = () => {
   localStorage.setItem('shalom_products', JSON.stringify(products));
   renderProducts(); alert("Admin Product Saved!");
 }
-
 renderProducts();
 </script>
 </body>
