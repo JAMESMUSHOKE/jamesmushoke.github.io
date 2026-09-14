@@ -152,15 +152,19 @@ function changeLanguage() {
 }
 
 // PI LOGIN
-Pi.init({ version: "2.0", sandbox: true });
-
-document.getElementById('pi-login').addEventListener('click', async () => {
+window.onload = async () => {
   try {
-    const auth = await Pi.authenticate(['username', 'payments']);
-    currentUser = auth.user;
-    document.getElementById('pi-login').innerText = `Hi, ${auth.user.username}`;
+    const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
+    currentUser = authResult.user;
+    document.getElementById("authBtn").innerText = `Hi, ${currentUser.username}`;
+  } catch (err) {
+    console.log("User did not authenticate:", err);
   }
-  catch (err) { alert("Login failed: " + err); }
+};
+
+function onIncompletePaymentFound(payment) {
+  console.log("Incomplete payment found:", payment);
+}
 });
 
 const popup = document.getElementById('sell-popup');
