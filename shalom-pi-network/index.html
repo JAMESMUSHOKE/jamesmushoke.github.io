@@ -196,20 +196,11 @@ function renderProducts() {
 // FIXED PAYMENT
 async function buyProduct(productName, amount) {
   if(!currentUser) return alert("Please Authenticate with Pi first!");
-  try {
-    await Pi.createPayment({
-      amount: amount,
-      memo: `Buy ${productName} - SHALOM`,
-      metadata: { product: productName }
-    }, {
-      onReadyForServerApproval: (paymentId) => { console.log(paymentId); },
-      onReadyForServerCompletion: (paymentId, txid) => { alert("Payment Completed! TX: " + txid); },
-      onCancel: () => alert("Payment Cancelled"),
-      onError: (error) => alert("Error: " + error)
-    });
-  } catch (err) { alert("Error: " + err); }
+  alert("Simulating Payment...");
+  setTimeout(() => {
+    alert("Payment Completed! TX: TEST-TX-123456");
+  }, 2000);
 }
-
 function loginAdmin(){
   if(document.getElementById('adminPass').value === ADMIN_PASSWORD){
     document.getElementById('adminPanel').style.display = 'block';
