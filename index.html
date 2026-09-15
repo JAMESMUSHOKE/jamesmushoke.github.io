@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SHALOM ITEM 10 FIX</title>
+  <title>SHALOM ITEM 10 FINAL</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#000;color:#fff;text-align:center;padding:30px;font-family:Arial}
-    .box{background:#111;border:2px solid orange;padding:20px;border-radius:15px;margin-top:20px}
-    button{padding:20px 30px;background:orange;color:#000;border:none;border-radius:10px;font-size:18px;font-weight:bold;width:90%;margin:10px}
-    #status{margin-top:20px;padding:15px;background:#222;border-radius:8px}
+    .box{background:#111;border:2px solid orange;padding:25px;border-radius:15px;max-width:400px;margin:auto}
+    button{padding:20px 30px;background:orange;color:#000;border:none;border-radius:10px;font-size:18px;font-weight:bold;width:100%;margin:10px 0}
+    #status{margin-top:15px;padding:15px;background:#222;border-radius:8px;min-height:40px}
   </style>
 </head>
 <body>
@@ -15,7 +15,7 @@
   <div class="box">
     <p>Welcome: <b id="u">Guest</b></p>
     <button id="btn">START TEST PAYMENT</button>
-    <div id="status">Click button to start</div>
+    <div id="status">Ready</div>
   </div>
 
 <script>
@@ -23,25 +23,27 @@ Pi.init({version:"2.0",sandbox:true});
 
 Pi.authenticate(['username','payments']).then(a=>{
   document.getElementById("u").innerText = a.user.username;
+}).catch(e=>{
+  document.getElementById("status").innerText = "Login Error: "+e;
 });
 
 document.getElementById("btn").onclick = () => {
-  document.getElementById("status").innerText = "Creating payment...";
+  document.getElementById("status").innerText = "Opening Wallet...";
   
   Pi.createPayment({
     amount: 0.01,
-    memo: "Test",
-    metadata: {}
+    memo: "Item 10",
+    metadata: {test: "1"}  // Lazima iwe na kitu
   },{
     onReadyForServerApproval: (paymentId) => {
-      document.getElementById("status").innerText = "Auto Approving...";
-      // HII NDIO FIX: Approve mara moja bila delay
-      Pi.approvePayment(paymentId);
+      document.getElementById("status").innerText = "Approving...";
+      Pi.approvePayment(paymentId); // Hapa ndio 400 ilikuwa
     },
     onReadyForServerCompletion: (paymentId, txid) => {
+      document.getElementById("status").innerText = "Completing...";
       Pi.completePayment(paymentId, txid);
-      document.getElementById("status").innerHTML = "SUCCESS! ✅<br>TX: "+txid;
-      alert("IMEFIKA! Nenda Checklist sasa");
+      document.getElementById("status").innerHTML = "SUCCESS! ✅<br>TX: "+txid+"<br><br>RUDI CHECKLIST SASA!";
+      alert("CONGRATS! Item 10 Imepita!");
     },
     onCancel: () => { document.getElementById("status").innerText = "Cancelled"; },
     onError: (e) => { document.getElementById("status").innerText = "Error: " + e; }
