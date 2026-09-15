@@ -1,92 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SHALOM</title>
+  <title>SHALOM DEV</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <style>
-    body { font-family: Arial; text-align: center; padding: 20px; background: #f8f9fa; } 
-    #loader { font-size: 18px; color: #6f42c1; } 
-    #main-content { display: none; } 
-    #admin-panel { display:none; border:2px solid red; padding:15px; margin-top:20px; text-align:left; }
-    button { padding: 12px 24px; margin: 10px; background: #6f42c1; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
-    button:disabled { background: gray; }
-  </style>
 </head>
 <body>
-<div id="loader">Loading Shalom App...</div>
-<div id="main-content">
-  <h1>Welcome to SHALOM</h1>
-  <p>Web3 Payments for the World</p>
-  <button id="pi-login">Authenticate with Pi</button>
-  <button id="buy-btn">Pay 0.01 Pi</button>
-  <div id="admin-panel"><h3>ADMIN PANEL</h3><p>Owner: <span id="admin-user"></span></p></div>
-</div>
-
+<h1>SHALOM DEV MODE</h1>
+<button onclick="pay()">Test Pay 0.01</button>
 <script>
-let currentUser = null;
-
-// MUHIMU: Production Mode
-Pi.init({ version: "2.0", sandbox: false }); 
-
-function onIncompletePaymentFound(payment) { 
-  console.log("Incomplete payment found:", payment);
-  // I-complete malipo yaliyokwama
-  Pi.completePayment(payment);
-}
-
-window.addEventListener('load', async () => {
-  setTimeout(async () => {
-    try {
-      const authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
-      currentUser = authResult.user;
-      document.getElementById("loader").style.display = "none";
-      document.getElementById("main-content").style.display = "block";
-      document.getElementById("pi-login").innerText = `Welcome: ${currentUser.username}`;
-      document.getElementById("pi-login").disabled = true;
-      
-      // WEKA USERNAME YAKO YA PI HAPA ILI ADMIN PANEL ITOKEE
-      if(currentUser.username === "JAMESMUSHOKO"){ 
-        document.getElementById("admin-panel").style.display = "block";
-        document.getElementById("admin-user").innerText = currentUser.username;
-      }
-      
-    } catch (err) { 
-      document.getElementById("loader").innerText = "Login Failed. Refresh Pi Browser";
-      console.error(err); 
-    }
-  }, 1500);
-});
-
-// HII NDIO INAYOFUNGUA WALLET HALISI
-document.getElementById("buy-btn").onclick = async function() {
-  if(!currentUser) return alert("Please login first...");
-  
-  const paymentData = {
-    amount: 0.01,
-    memo: "SHALOM Product Payment",
-    metadata: { product: "Shalom Product" }
-  };
-
-  const callbacks = {
-    onReadyForServerApproval: function(paymentId) {
-      console.log("Approving:", paymentId);
-      // Kwa kuwa hatuna server, tuna-approve moja kwa moja
-      Pi.approvePayment(paymentId);
-    },
-    onReadyForServerCompletion: function(paymentId, txid) {
-      console.log("Completing:", paymentId, txid);
-      Pi.completePayment(paymentId, txid);
-      alert(`Payment Completed! \nProduct: Shalom Product\nTXID: ${txid}`);
-    },
-    onCancel: function(paymentId) {
-      alert("Payment Cancelled");
-    },
-    onError: function(error) {
-      alert("Payment Error: " + error);
-    }
-  };
-
-  Pi.createPayment(paymentData, callbacks);
+Pi.init({ version: "2.0", sandbox: true }); // TEST MODE
+function pay(){
+  Pi.createPayment({
+    amount: 0.01, memo: "Test", metadata: {}
+  }, {
+    onReadyForServerApproval: (id) => Pi.approvePayment(id),
+    onReadyForServerCompletion: (id, txid) => Pi.completePayment(id, txid)
+  });
 }
 </script>
 </body>
