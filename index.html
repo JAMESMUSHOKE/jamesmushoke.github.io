@@ -22,21 +22,23 @@
       padding: 30px;
       border-radius: 15px;
       border: 2px solid #f39c12;
+      box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
     }
-    h1 { color: #f39c12; }
+    h1 { color: #f39c12; margin: 0; }
     .badge {
       background: #f39c12;
       color: black;
-      padding: 5px 15px;
+      padding: 8px 20px;
       border-radius: 20px;
       font-weight: bold;
       display: inline-block;
       margin-bottom: 20px;
+      font-size: 14px;
     }
     button { 
       padding: 15px 30px; 
       margin: 10px; 
-      background: #f39c12; 
+      background: linear-gradient(135deg, #f39c12, #e67e22); 
       color: black; 
       border: none; 
       border-radius: 10px; 
@@ -44,15 +46,24 @@
       font-weight: bold; 
       cursor: pointer; 
       width: 90%;
+      transition: 0.3s;
     }
-    button:disabled { background: gray; }
-    #status { margin-top: 20px; padding: 15px; background: #0f3460; border-radius: 8px; }
+    button:hover { transform: scale(1.02); }
+    button:disabled { background: gray; transform: scale(1); }
+    #status { 
+      margin-top: 20px; 
+      padding: 15px; 
+      background: #0f3460; 
+      border-radius: 8px;
+      min-height: 50px;
+      white-space: pre-line;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="badge">DEVELOPER MODE</div>
+  <div class="badge">⚠️ DEVELOPER MODE ⚠️</div>
   <h1>SHALOM TEST APP</h1>
   <p>For Checklist Item 10 Testing Only</p>
   
@@ -67,12 +78,12 @@
 <script>
 let currentUser = null;
 
-// TEST MODE - HII NDIO YA CHECKLIST 10
+// TEST MODE - YA CHECKLIST 10
 Pi.init({ version: "2.0", sandbox: true }); 
 
 function onIncompletePaymentFound(payment) { 
   console.log("Incomplete payment found:", payment);
-  document.getElementById("status").innerText = "Found incomplete payment. Completing...";
+  document.getElementById("status").innerText = "Found incomplete payment.\nCompleting now...";
   Pi.completePayment(payment);
 }
 
@@ -86,22 +97,22 @@ document.getElementById("login-btn").onclick = async () => {
     document.getElementById("login-btn").innerText = "Logged In ✓";
     document.getElementById("login-btn").disabled = true;
     document.getElementById("pay-btn").disabled = false;
-    document.getElementById("status").innerText = "Login Success! Now click Test Pay";
+    document.getElementById("status").innerText = "Login Success!\nNow click 'Test Pay 0.01 Pi'";
   } catch (err) { 
     document.getElementById("status").innerText = "Login Failed: " + err;
     console.error(err); 
   }
 };
 
-// HATUA 2: TEST PAYMENT YA ITEM 10
+// HATUA 2: TEST PAYMENT YA ITEM 10 - IMEKEBISHWA
 document.getElementById("pay-btn").onclick = () => {
-  if(!currentUser) return alert("Login kwanza");
+  if(!currentUser) return alert("Tafadhali Login kwanza");
   
-  document.getElementById("status").innerText = "Opening Pi Wallet...";
+  document.getElementById("status").innerText = "Opening Pi Wallet...\nPlease wait";
   
   const paymentData = { 
     amount: 0.01, 
-    memo: "Checklist Item 10 Test Payment", 
+    memo: "Checklist Item 10 Test", 
     metadata: { purpose: "item_10_test" } 
   };
 
@@ -109,19 +120,23 @@ document.getElementById("pay-btn").onclick = () => {
     onReadyForServerApproval: (paymentId) => {
       console.log("Approving:", paymentId);
       document.getElementById("status").innerText = "Approving payment...";
-      Pi.approvePayment(paymentId);
+      // FIX: Weka delay ndogo ili wallet isikwame
+      setTimeout(() => {
+        Pi.approvePayment(paymentId);
+      }, 300);
     },
     onReadyForServerCompletion: (paymentId, txid) => {
       console.log("Completing:", paymentId, txid);
       Pi.completePayment(paymentId, txid);
-      document.getElementById("status").innerText = `SUCCESS! \nTXID: ${txid}`;
+      document.getElementById("status").innerText = `SUCCESS! ✅\nTXID: ${txid}`;
       alert(`Test Payment Complete! \n\nNenda Item 10 sasa iboneke ✓`);
     },
     onCancel: (paymentId) => {
-      document.getElementById("status").innerText = "Payment Cancelled";
+      document.getElementById("status").innerText = "Payment Cancelled by user";
     },
     onError: (error) => {
       document.getElementById("status").innerText = "Error: " + error;
+      console.error(error);
     }
   };
   
