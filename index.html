@@ -1,146 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM DEV MODE</title>
+  <title>SHALOM ITEM 10 FIX</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
-    body { 
-      font-family: 'Segoe UI', Arial; 
-      text-align: center; 
-      padding: 20px; 
-      background: #1a1a2e; 
-      color: white; 
-      min-height: 100vh; 
-      margin: 0;
-    } 
-    .container {
-      max-width: 500px;
-      margin: 30px auto;
-      background: #16213e;
-      padding: 30px;
-      border-radius: 15px;
-      border: 2px solid #f39c12;
-      box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
-    }
-    h1 { color: #f39c12; margin: 0; }
-    .badge {
-      background: #f39c12;
-      color: black;
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      display: inline-block;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-    button { 
-      padding: 15px 30px; 
-      margin: 10px; 
-      background: linear-gradient(135deg, #f39c12, #e67e22); 
-      color: black; 
-      border: none; 
-      border-radius: 10px; 
-      font-size: 16px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      width: 90%;
-      transition: 0.3s;
-    }
-    button:hover { transform: scale(1.02); }
-    button:disabled { background: gray; transform: scale(1); }
-    #status { 
-      margin-top: 20px; 
-      padding: 15px; 
-      background: #0f3460; 
-      border-radius: 8px;
-      min-height: 50px;
-      white-space: pre-line;
-    }
+    body{background:#000;color:#fff;text-align:center;padding:30px;font-family:Arial}
+    .box{background:#111;border:2px solid orange;padding:20px;border-radius:15px;margin-top:20px}
+    button{padding:20px 30px;background:orange;color:#000;border:none;border-radius:10px;font-size:18px;font-weight:bold;width:90%;margin:10px}
+    #status{margin-top:20px;padding:15px;background:#222;border-radius:8px}
   </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="badge">⚠️ DEVELOPER MODE ⚠️</div>
-  <h1>SHALOM TEST APP</h1>
-  <p>For Checklist Item 10 Testing Only</p>
-  
-  <p>Welcome: <b id="username">Not Logged In</b></p>
-  
-  <button id="login-btn">1. Login with Pi</button>
-  <button id="pay-btn" disabled>2. Test Pay 0.01 Pi</button>
-  
-  <div id="status">Status: Waiting for login...</div>
-</div>
+  <h1>SHALOM ITEM 10</h1>
+  <div class="box">
+    <p>Welcome: <b id="u">Guest</b></p>
+    <button id="btn">START TEST PAYMENT</button>
+    <div id="status">Click button to start</div>
+  </div>
 
 <script>
-let currentUser = null;
+Pi.init({version:"2.0",sandbox:true});
 
-// TEST MODE - YA CHECKLIST 10
-Pi.init({ version: "2.0", sandbox: true }); 
+Pi.authenticate(['username','payments']).then(a=>{
+  document.getElementById("u").innerText = a.user.username;
+});
 
-function onIncompletePaymentFound(payment) { 
-  console.log("Incomplete payment found:", payment);
-  document.getElementById("status").innerText = "Found incomplete payment.\nCompleting now...";
-  Pi.completePayment(payment);
-}
-
-// HATUA 1: LOGIN
-document.getElementById("login-btn").onclick = async () => {
-  try {
-    document.getElementById("status").innerText = "Logging in...";
-    const auth = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
-    currentUser = auth.user;
-    document.getElementById("username").innerText = auth.user.username;
-    document.getElementById("login-btn").innerText = "Logged In ✓";
-    document.getElementById("login-btn").disabled = true;
-    document.getElementById("pay-btn").disabled = false;
-    document.getElementById("status").innerText = "Login Success!\nNow click 'Test Pay 0.01 Pi'";
-  } catch (err) { 
-    document.getElementById("status").innerText = "Login Failed: " + err;
-    console.error(err); 
-  }
-};
-
-// HATUA 2: TEST PAYMENT YA ITEM 10 - IMEKEBISHWA
-document.getElementById("pay-btn").onclick = () => {
-  if(!currentUser) return alert("Tafadhali Login kwanza");
+document.getElementById("btn").onclick = () => {
+  document.getElementById("status").innerText = "Creating payment...";
   
-  document.getElementById("status").innerText = "Opening Pi Wallet...\nPlease wait";
-  
-  const paymentData = { 
-    amount: 0.01, 
-    memo: "Checklist Item 10 Test", 
-    metadata: { purpose: "item_10_test" } 
-  };
-
-  const callbacks = {
+  Pi.createPayment({
+    amount: 0.01,
+    memo: "Test",
+    metadata: {}
+  },{
     onReadyForServerApproval: (paymentId) => {
-      console.log("Approving:", paymentId);
-      document.getElementById("status").innerText = "Approving payment...";
-      // FIX: Weka delay ndogo ili wallet isikwame
-      setTimeout(() => {
-        Pi.approvePayment(paymentId);
-      }, 300);
+      document.getElementById("status").innerText = "Auto Approving...";
+      // HII NDIO FIX: Approve mara moja bila delay
+      Pi.approvePayment(paymentId);
     },
     onReadyForServerCompletion: (paymentId, txid) => {
-      console.log("Completing:", paymentId, txid);
       Pi.completePayment(paymentId, txid);
-      document.getElementById("status").innerText = `SUCCESS! ✅\nTXID: ${txid}`;
-      alert(`Test Payment Complete! \n\nNenda Item 10 sasa iboneke ✓`);
+      document.getElementById("status").innerHTML = "SUCCESS! ✅<br>TX: "+txid;
+      alert("IMEFIKA! Nenda Checklist sasa");
     },
-    onCancel: (paymentId) => {
-      document.getElementById("status").innerText = "Payment Cancelled by user";
-    },
-    onError: (error) => {
-      document.getElementById("status").innerText = "Error: " + error;
-      console.error(error);
-    }
-  };
-  
-  Pi.createPayment(paymentData, callbacks);
+    onCancel: () => { document.getElementById("status").innerText = "Cancelled"; },
+    onError: (e) => { document.getElementById("status").innerText = "Error: " + e; }
+  });
 }
 </script>
 </body>
