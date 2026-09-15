@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shalom Dev</title>
+  <title>SHALOM</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <style>body { font-family: Arial; text-align: center; padding: 20px; } #loader { font-size: 18px; color: #6f42c1; } #main-content { display: none; } #admin-panel { display:none; border:2px solid red; padding:15px; margin-top:20px; text-align:left; }</style>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 20px; background: #f8f9fa; } 
+    #loader { font-size: 18px; color: #6f42c1; } 
+    #main-content { display: none; } 
+    #admin-panel { display:none; border:2px solid red; padding:15px; margin-top:20px; text-align:left; }
+    button { padding: 12px 24px; margin: 10px; background: #6f42c1; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+    button:disabled { background: gray; }
+  </style>
 </head>
 <body>
 <div id="loader">Loading Shalom App...</div>
@@ -11,12 +18,21 @@
   <h1>Welcome to SHALOM</h1>
   <p>Web3 Payments for the World</p>
   <button id="pi-login">Authenticate with Pi</button>
-  <button id="buy-btn" onclick="buyProduct('Shalom Product', 1)">Pay with Pi</button>
-  <div id="admin-panel"><h3>ADMIN PANEL</h3><p>Owner Access Only</p></div>
+  <button id="buy-btn">Pay 0.01 Pi</button>
+  <div id="admin-panel"><h3>ADMIN PANEL</h3><p>Owner: <span id="admin-user"></span></p></div>
 </div>
+
 <script>
 let currentUser = null;
-Pi.init({ version: "2.0", sandbox: false });  // <-- HII NDO IMEBADILIKA KUWA FALSE
+let paymentId = null;
+
+// MUHIMU: Production
+Pi.init({ version: "2.0", sandbox: false }); 
+
+function onIncompletePaymentFound(payment) { 
+  console.log("Incomplete payment:", payment); 
+}
+
 window.addEventListener('load', async () => {
   setTimeout(async () => {
     try {
@@ -24,21 +40,51 @@ window.addEventListener('load', async () => {
       currentUser = authResult.user;
       document.getElementById("loader").style.display = "none";
       document.getElementById("main-content").style.display = "block";
-      document.getElementById("pi-login").innerText = `Welcome Admin: ${currentUser.username}`;
+      document.getElementById("pi-login").innerText = `Welcome: ${currentUser.username}`;
       document.getElementById("pi-login").disabled = true;
-      document.getElementById("admin-panel").style.display = "block";
-      alert(`Welcome back, ${currentUser.username}!`);
+      
+      // ADMIN PANEL
+      if(currentUser.username === "JAMESMUSHOKO"){ // weka username yako hapa
+        document.getElementById("admin-panel").style.display = "block";
+        document.getElementById("admin-user").innerText = currentUser.username;
+      }
+      
     } catch (err) { 
-      document.getElementById("loader").innerText = "Login Failed. Please Refresh";
+      document.getElementById("loader").innerText = "Login Failed. Refresh Pi Browser";
       console.error(err); 
     }
   }, 1500);
 });
-function onIncompletePaymentFound(payment) { console.log(payment); }
-async function buyProduct(productName, amount) {
-  if(!currentUser) return alert("Please wait...");
-  alert("Processing Payment with Pi...");
-  setTimeout(() => { alert(`Payment Success! \nProduct: ${productName}\nTX: SIM-TX-${Date.now()}`); }, 2000);
+
+// HII NDIO INAYOFUNGUA WALLET HALISI
+document.getElementById("buy-btn").onclick = async function() {
+  if(!currentUser) return alert("Please login first...");
+  
+  const paymentData = {
+    amount: 0.01,
+    memo: "SHALOM Product Payment",
+    metadata: { product: "Shalom Product" }
+  };
+
+  const callbacks = {
+    onReadyForServerApproval: function(paymentId) {
+      console.log("Ready for approval:", paymentId);
+      // Hapa unafaa kutuma kwa server yako. Kwa sasa tu-approve
+      fetch('/approve', {method: 'POST', body: JSON.stringify({paymentId})})
+    },
+    onReadyForServerCompletion: function(paymentId, txid) {
+      console.log("Completed:", paymentId, txid);
+      alert(`Payment Completed! \nProduct: Shalom Product\nTXID: ${txid}`);
+    },
+    onCancel: function(paymentId) {
+      alert("Payment Cancelled");
+    },
+    onError: function(error) {
+      alert("Payment Error: " + error);
+    }
+  };
+
+  Pi.createPayment(paymentData, callbacks);
 }
 </script>
 </body>
