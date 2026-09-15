@@ -1,74 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SHALOM</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHALOM - Buy Airtime & Bundles</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
-    body { font-family: 'Segoe UI', Arial; text-align: center; padding: 20px; background: linear-gradient(135deg, #6f42c1, #4a00e0); color: white; min-height: 100vh; margin: 0; } 
-    #loader { font-size: 20px; margin-top: 40%; } 
-    #main-content { display: none; max-width: 500px; margin: auto; background: white; color: #333; padding: 20px; border-radius: 15px; } 
-    h1 { color: #6f42c1; }
-    button { padding: 14px 28px; margin: 10px; background: #6f42c1; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; width: 80%; }
-    button:disabled { background: gray; }
+    body {font-family:Arial;text-align:center;background:#7209b7;color:#fff;padding:20px}
+    .card{background:#fff;color:#000;padding:20px;border-radius:15px;max-width:400px;margin:20px auto}
+    button{padding:15px 30px;background:#f39c12;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:90%;margin:10px;cursor:pointer}
   </style>
 </head>
 <body>
-<div id="loader">Loading SHALOM...</div>
-
-<div id="main-content">
-  <h1>SHALOM 🚀</h1>
-  <p>Web3 Payments for the World</p>
-  <p>Welcome: <b id="username">Guest</b></p>
+  <h1>Welcome to SHALOM</h1>
+  <p>Buy Airtime & Data with Pi</p>
   
-  <button id="login-btn">Connect with Pi</button>
-  <button id="pay-btn" style="background: #28a745;">Pay 0.01 Pi</button>
-</div>
+  <div class="card">
+    <p>Logged in as: <b id="user">Guest</b></p>
+    <button id="login">Login with Pi</button>
+    <button id="buy" disabled>Buy 1 Pi Airtime</button>
+    <p id="status"></p>
+  </div>
 
 <script>
+Pi.init({version:"2.0",sandbox:false}); // IMPORTANT: sandbox:false kwa Ecosystem
+
 let currentUser = null;
 
-// PRODUCTION - HII NDIO YA ECOSYSTEM
-Pi.init({ version: "2.0", sandbox: false }); 
-
-function onIncompletePaymentFound(payment) { 
-  Pi.completePayment(payment);
+document.getElementById("login").onclick = async () => {
+  const auth = await Pi.authenticate(['username','payments']);
+  currentUser = auth.user;
+  document.getElementById("user").innerText = auth.user.username;
+  document.getElementById("login").innerText = "Logged In ✓";
+  document.getElementById("buy").disabled = false;
+  document.getElementById("status").innerText = "You can now buy";
 }
 
-async function initApp() {
-  try {
-    const auth = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
-    currentUser = auth.user;
-    document.getElementById("loader").style.display = "none";
-    document.getElementById("main-content").style.display = "block";
-    document.getElementById("username").innerText = currentUser.username;
-    document.getElementById("login-btn").innerText = "Connected";
-    document.getElementById("login-btn").disabled = true;
-  } catch (err) { 
-    document.getElementById("loader").innerText = "Login Failed. Refresh App";
-    console.error(err); 
-  }
-}
-
-document.getElementById("login-btn").onclick = initApp;
-
-document.getElementById("pay-btn").onclick = function() {
-  if(!currentUser) return alert("Tafadhali Connect kwanza");
-  
-  const paymentData = { amount: 0.01, memo: "SHALOM Payment", metadata: {} };
-  const callbacks = {
-    onReadyForServerApproval: (paymentId) => Pi.approvePayment(paymentId),
-    onReadyForServerCompletion: (paymentId, txid) => {
-      Pi.completePayment(paymentId, txid);
-      alert(`Malipo Yamefanikiwa! \nTXID: ${txid}`);
+document.getElementById("buy").onclick = () => {
+  Pi.createPayment({
+    amount: 1, 
+    memo: "SHALOM Airtime Purchase",
+    metadata: {product: "airtime"}
+  },{
+    onReadyForServerApproval: (id) => Pi.approvePayment(id),
+    onReadyForServerCompletion: (id,tx) => {
+      Pi.completePayment(id,tx);
+      alert("Payment Success! TX: "+tx);
+      document.getElementById("status").innerText = "Success! TX: "+tx;
     },
-    onCancel: () => alert("Malipo Yameghairiwa"),
-    onError: (error) => alert("Error: " + error)
-  };
-  Pi.createPayment(paymentData, callbacks);
+    onError: (e) => alert("Error: "+e)
+  });
 }
-
-window.onload = initApp;
 </script>
 </body>
 </html>
