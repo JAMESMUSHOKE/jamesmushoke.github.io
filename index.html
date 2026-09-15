@@ -1,21 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SHALOM DEV</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHALOM DEV MODE</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Arial; 
+      text-align: center; 
+      padding: 20px; 
+      background: #1a1a2e; 
+      color: white; 
+      min-height: 100vh; 
+      margin: 0;
+    } 
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #16213e;
+      padding: 30px;
+      border-radius: 15px;
+      border: 2px solid #f39c12;
+    }
+    h1 { color: #f39c12; }
+    .badge {
+      background: #f39c12;
+      color: black;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    button { 
+      padding: 15px 30px; 
+      margin: 10px; 
+      background: #f39c12; 
+      color: black; 
+      border: none; 
+      border-radius: 10px; 
+      font-size: 16px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      width: 90%;
+    }
+    button:disabled { background: gray; }
+    #status { margin-top: 20px; padding: 15px; background: #0f3460; border-radius: 8px; }
+  </style>
 </head>
 <body>
-<h1>SHALOM DEV MODE</h1>
-<button onclick="pay()">Test Pay 0.01</button>
+
+<div class="container">
+  <div class="badge">DEVELOPER MODE</div>
+  <h1>SHALOM TEST APP</h1>
+  <p>For Checklist Item 10 Testing Only</p>
+  
+  <p>Welcome: <b id="username">Not Logged In</b></p>
+  
+  <button id="login-btn">1. Login with Pi</button>
+  <button id="pay-btn" disabled>2. Test Pay 0.01 Pi</button>
+  
+  <div id="status">Status: Waiting for login...</div>
+</div>
+
 <script>
-Pi.init({ version: "2.0", sandbox: true }); // TEST MODE
-function pay(){
-  Pi.createPayment({
-    amount: 0.01, memo: "Test", metadata: {}
-  }, {
-    onReadyForServerApproval: (id) => Pi.approvePayment(id),
-    onReadyForServerCompletion: (id, txid) => Pi.completePayment(id, txid)
-  });
+let currentUser = null;
+
+// TEST MODE - HII NDIO YA CHECKLIST 10
+Pi.init({ version: "2.0", sandbox: true }); 
+
+function onIncompletePaymentFound(payment) { 
+  console.log("Incomplete payment found:", payment);
+  document.getElementById("status").innerText = "Found incomplete payment. Completing...";
+  Pi.completePayment(payment);
+}
+
+// HATUA 1: LOGIN
+document.getElementById("login-btn").onclick = async () => {
+  try {
+    document.getElementById("status").innerText = "Logging in...";
+    const auth = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
+    currentUser = auth.user;
+    document.getElementById("username").innerText = auth.user.username;
+    document.getElementById("login-btn").innerText = "Logged In ✓";
+    document.getElementById("login-btn").disabled = true;
+    document.getElementById("pay-btn").disabled = false;
+    document.getElementById("status").innerText = "Login Success! Now click Test Pay";
+  } catch (err) { 
+    document.getElementById("status").innerText = "Login Failed: " + err;
+    console.error(err); 
+  }
+};
+
+// HATUA 2: TEST PAYMENT YA ITEM 10
+document.getElementById("pay-btn").onclick = () => {
+  if(!currentUser) return alert("Login kwanza");
+  
+  document.getElementById("status").innerText = "Opening Pi Wallet...";
+  
+  const paymentData = { 
+    amount: 0.01, 
+    memo: "Checklist Item 10 Test Payment", 
+    metadata: { purpose: "item_10_test" } 
+  };
+
+  const callbacks = {
+    onReadyForServerApproval: (paymentId) => {
+      console.log("Approving:", paymentId);
+      document.getElementById("status").innerText = "Approving payment...";
+      Pi.approvePayment(paymentId);
+    },
+    onReadyForServerCompletion: (paymentId, txid) => {
+      console.log("Completing:", paymentId, txid);
+      Pi.completePayment(paymentId, txid);
+      document.getElementById("status").innerText = `SUCCESS! \nTXID: ${txid}`;
+      alert(`Test Payment Complete! \n\nNenda Item 10 sasa iboneke ✓`);
+    },
+    onCancel: (paymentId) => {
+      document.getElementById("status").innerText = "Payment Cancelled";
+    },
+    onError: (error) => {
+      document.getElementById("status").innerText = "Error: " + error;
+    }
+  };
+  
+  Pi.createPayment(paymentData, callbacks);
 }
 </script>
 </body>
