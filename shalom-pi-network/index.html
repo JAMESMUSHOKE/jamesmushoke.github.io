@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM</title>
+  <title>SHALOM - Global Marketplace</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body {font-family:Arial;background:#3a0ca3;color:#fff;text-align:center;padding:0;margin:0;padding-bottom:80px}
-   .banner{width:100%;max-height:180px;object-fit:cover}
-   .logo{width:90px;height:90px;border-radius:50%;margin-top:-45px;border:4px solid #fff}
-   .card{background:#fff;color:#000;padding:18px;border-radius:15px;max-width:420px;margin:15px auto;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
-   .btn{padding:14px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:8px 0;cursor:pointer}
-   .service{padding:12px;background:#f1f1f1;border-radius:8px;margin:8px 0;text-align:left;border-left:4px solid #7209b7}
-   .coming{background:#d4edda;color:#155724;padding:10px;border-radius:8px;font-size:14px;font-weight:bold}
+  .banner{width:100%;max-height:180px;object-fit:cover}
+  .logo{width:90px;height:90px;border-radius:50%;margin-top:-45px;border:4px solid #fff}
+  .card{background:#fff;color:#000;padding:18px;border-radius:15px;max-width:420px;margin:15px auto;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
+  .btn{padding:14px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:8px 0;cursor:pointer}
+  .service{padding:12px;background:#f1f1f1;border-radius:8px;margin:8px 0;text-align:left;border-left:4px solid #7209b7}
+  .coming{background:#d4edda;color:#155724;padding:10px;border-radius:8px;font-size:14px;font-weight:bold}
+  .luxury-item{padding:12px;background:#fff3cd;border-left:4px solid #f39c12;border-radius:8px;margin:8px 0;text-align:left}
 
     /* BOTTOM NAVIGATION */
-   .navbar{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.2)}
-   .nav-item{color:#3a0ca3;text-align:center;font-size:12px;cursor:pointer}
-   .nav-item.active{color:#f39c12;font-weight:bold}
-   .nav-icon{font-size:22px;display:block}
+  .navbar{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.2)}
+  .nav-item{color:#3a0ca3;text-align:center;font-size:12px;cursor:pointer}
+  .nav-item.active{color:#f39c12;font-weight:bold}
+  .nav-icon{font-size:22px;display:block}
 
-   .lang-select{position:absolute;top:10px;right:10px;padding:5px;background:#fff;color:#000;border-radius:5px;border:none}
+  .lang-select{position:absolute;top:10px;right:10px;padding:5px;background:#fff;color:#000;border-radius:5px;border:none}
   </style>
 </head>
 <body>
@@ -56,11 +57,19 @@
     </div>
   </div>
 
-  <!-- ADD PRODUCT PAGE -->
+  <!-- ADD PRODUCT PAGE - VERSION YA MABIG THINGS -->
   <div id="addPage" style="display:none">
     <div class="card">
-      <h3 id="addTitle">Add Product</h3>
-      <p id="addDesc">Coming Soon. You will be able to sell airtime and data here.</p>
+      <h3 id="addTitle">Global Marketplace</h3>
+      <p id="addDesc">Buy & Sell with Pi. Coming Soon on Mainnet.</p>
+
+      <div class="luxury-item">🚗 <span id="item1">Luxury Cars - Tesla, BMW, Mercedes</span></div>
+      <div class="luxury-item">🏡 <span id="item2">Modern Houses & Apartments</span></div>
+      <div class="luxury-item">📱 <span id="item3">Latest Phones - iPhone, Samsung, Google Pixel</span></div>
+      <div class="luxury-item">💎 <span id="item4">Jewelry, Watches & Fashion</span></div>
+      <div class="luxury-item">💻 <span id="item5">Laptops, Electronics & Gadgets</span></div>
+      <div class="luxury-item">🛒 <span id="item6">Groceries & Daily Essentials</span></div>
+
     </div>
   </div>
 
@@ -81,7 +90,7 @@
     </div>
     <div class="nav-item" onclick="showPage('addPage')">
       <span class="nav-icon">➕</span>
-      <span id="navAdd">Add</span>
+      <span id="navAdd">Market</span>
     </div>
     <div class="nav-item" onclick="showPage('profilePage')">
       <span class="nav-icon">👤</span>
@@ -90,38 +99,53 @@
   </div>
 
 <script>
-// TRANSLATIONS
+// TRANSLATIONS - VERSION YA KIMATAIFA
 const translations = {
   en: {welcome:"Welcome to SHALOM", subtitle:"Your new way to pay with Pi", login:"Sign In with Pi",
        servicesTitle:"Services We Are Preparing", s1:"Airtime for All Networks", s2:"Internet Data Bundles",
        s3:"Electricity & Water Bills", s4:"TV Subscriptions", coming:"⏳ All services will be activated after Pi Mainnet",
-       addTitle:"Add Product", addDesc:"Coming Soon. You will be able to sell airtime and data here.",
+       addTitle:"Global Marketplace", addDesc:"Buy & Sell with Pi. Coming Soon on Mainnet.",
+       item1:"Luxury Cars - Tesla, BMW, Mercedes", item2:"Modern Houses & Apartments",
+       item3:"Latest Phones - iPhone, Samsung, Google Pixel", item4:"Jewelry, Watches & Fashion",
+       item5:"Laptops, Electronics & Gadgets", item6:"Groceries & Daily Essentials",
        profileTitle:"Profile", profileUser:"User: ", profileStatus:"Status: Not Signed In",
-       navHome:"Home", navAdd:"Add", navProfile:"Profile", signedIn:"Signed In ✓"},
+       navHome:"Home", navAdd:"Market", navProfile:"Profile", signedIn:"Signed In ✓"},
   sw: {welcome:"Karibu SHALOM", subtitle:"Njia yako mpya ya kulipia kwa Pi", login:"Ingia na Pi",
        servicesTitle:"Tunakuandalia Huduma Hizi", s1:"Airtime ya Mitandao Yote", s2:"Bundles za Internet",
        s3:"Bili za Luku na Maji", s4:"Kulipia TV", coming:"⏳ Huduma zote zitafunguliwa baada ya Pi Mainnet",
-       addTitle:"Ongeza Bidhaa", addDesc:"Inakuja Hivi Karibuni. Utauza airtime na data hapa.",
+       addTitle:"Soko la Kimataifa", addDesc:"Nunua & Uuze kwa Pi. Inakuja hivi karibuni kwenye Mainnet.",
+       item1:"Magari ya Kifahari - Tesla, BMW, Mercedes", item2:"Nyumba za Kisasa & Mabango",
+       item3:"Simu za Kisasa - iPhone, Samsung, Google Pixel", item4:"Vito, Saa & Mitindo",
+       item5:"Laptop, Vifaa vya Kielektroniki", item6:"Vyakula & Mahitaji ya Kila Siku",
        profileTitle:"Wasifu", profileUser:"Mtumiaji: ", profileStatus:"Hali: Haujiaingia",
-       navHome:"Nyumbani", navAdd:"Ongeza", navProfile:"Wasifu", signedIn:"Umeingia ✓"},
+       navHome:"Nyumbani", navAdd:"Soko", navProfile:"Wasifu", signedIn:"Umeingia ✓"},
   fr: {welcome:"Bienvenue sur SHALOM", subtitle:"Votre nouvelle façon de payer avec Pi", login:"Se connecter avec Pi",
        servicesTitle:"Services que nous préparons", s1:"Crédit pour tous les réseaux", s2:"Forfaits Internet",
        s3:"Factures d'électricité et d'eau", s4:"Abonnements TV", coming:"⏳ Tous les services seront activés après Pi Mainnet",
-       addTitle:"Ajouter Produit", addDesc:"Bientôt. Vous pourrez vendre du crédit ici.",
+       addTitle:"Marché Mondial", addDesc:"Acheter & Vendre avec Pi. Bientôt sur Mainnet.",
+       item1:"Voitures de Luxe - Tesla, BMW, Mercedes", item2:"Maisons Modernes & Appartements",
+       item3:"Derniers Téléphones - iPhone, Samsung, Google Pixel", item4:"Bijoux, Montres & Mode",
+       item5:"Ordinateurs, Électronique & Gadgets", item6:"Épicerie & Produits Essentiels",
        profileTitle:"Profil", profileUser:"Utilisateur: ", profileStatus:"Statut: Non connecté",
-       navHome:"Accueil", navAdd:"Ajouter", navProfile:"Profil", signedIn:"Connecté ✓"},
+       navHome:"Accueil", navAdd:"Marché", navProfile:"Profil", signedIn:"Connecté ✓"},
   zh: {welcome:"欢迎来到 SHALOM", subtitle:"您用 Pi 支付的新方式", login:"使用 Pi 登录",
        servicesTitle:"我们正在准备的服务", s1:"所有网络充值", s2:"互联网数据包",
        s3:"电费和水费", s4:"电视订阅", coming:"⏳ 所有服务将在 Pi 主网后激活",
-       addTitle:"添加产品", addDesc:"即将推出。您将可以在这里销售话费和数据。",
+       addTitle:"全球市场", addDesc:"使用 Pi 购买和销售。主网后即将推出。",
+       item1:"豪车 - 特斯拉, 宝马, 奔驰", item2:"现代房屋和公寓",
+       item3:"最新手机 - 苹果, 三星, 谷歌Pixel", item4:"珠宝, 手表和时尚",
+       item5:"笔记本电脑, 电子产品和小工具", item6:"杂货和日常必需品",
        profileTitle:"个人资料", profileUser:"用户: ", profileStatus:"状态: 未登录",
-       navHome:"首页", navAdd:"添加", navProfile:"我的", signedIn:"已登录 ✓"},
+       navHome:"首页", navAdd:"市场", navProfile:"我的", signedIn:"已登录 ✓"},
   pt: {welcome:"Bem-vindo ao SHALOM", subtitle:"Sua nova forma de pagar com Pi", login:"Entrar com Pi",
        servicesTitle:"Serviços que estamos preparando", s1:"Crédito para todas as redes", s2:"Pacotes de Internet",
        s3:"Contas de Luz e Água", s4:"Assinaturas de TV", coming:"⏳ Todos os serviços serão ativados após a Pi Mainnet",
-       addTitle:"Adicionar Produto", addDesc:"Em breve. Você poderá vender crédito aqui.",
+       addTitle:"Mercado Global", addDesc:"Comprar e Vender com Pi. Em breve na Mainnet.",
+       item1:"Carros de Luxo - Tesla, BMW, Mercedes", item2:"Casas Modernas e Apartamentos",
+       item3:"Últimos Celulares - iPhone, Samsung, Google Pixel", item4:"Joias, Relógios e Moda",
+       item5:"Laptops, Eletrônicos e Gadgets", item6:"Mantimentos e Itens Essenciais",
        profileTitle:"Perfil", profileUser:"Usuário: ", profileStatus:"Status: Não conectado",
-       navHome:"Início", navAdd:"Adicionar", navProfile:"Perfil", signedIn:"Conectado ✓"}
+       navHome:"Início", navAdd:"Mercado", navProfile:"Perfil", signedIn:"Conectado ✓"}
 };
 
 let currentUser = "Guest";
