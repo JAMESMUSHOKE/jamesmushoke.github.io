@@ -3,56 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Welcome</title>
+  <title>SHALOM</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
-    body {font-family:Arial;background:#3a0ca3;color:#fff;text-align:center;padding:0;margin:0}
-    .banner{width:100%;max-height:200px;object-fit:cover}
-    .logo{width:100px;height:100px;border-radius:50%;margin-top:-50px;border:4px solid #fff}
-    .card{background:#fff;color:#000;padding:20px;border-radius:15px;max-width:400px;margin:20px auto;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
-    .btn{padding:15px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:10px 0;cursor:pointer}
-    .service{padding:12px;background:#f1f1f1;border-radius:8px;margin:8px 0;text-align:left;border-left:4px solid #7209b7}
-    .coming{background:#d4edda;color:#155724;padding:10px;border-radius:8px;font-size:14px;font-weight:bold}
+    body {font-family:Arial;background:#3a0ca3;color:#fff;text-align:center;padding:0;margin:0;padding-bottom:80px}
+   .banner{width:100%;max-height:180px;object-fit:cover}
+   .logo{width:90px;height:90px;border-radius:50%;margin-top:-45px;border:4px solid #fff}
+   .card{background:#fff;color:#000;padding:18px;border-radius:15px;max-width:420px;margin:15px auto;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
+   .btn{padding:14px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:8px 0;cursor:pointer}
+   .service{padding:12px;background:#f1f1f1;border-radius:8px;margin:8px 0;text-align:left;border-left:4px solid #7209b7}
+   .coming{background:#d4edda;color:#155724;padding:10px;border-radius:8px;font-size:14px;font-weight:bold}
+
+    /* BOTTOM NAVIGATION */
+   .navbar{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.2)}
+   .nav-item{color:#3a0ca3;text-align:center;font-size:12px;cursor:pointer}
+   .nav-item.active{color:#f39c12;font-weight:bold}
+   .nav-icon{font-size:22px;display:block}
+
+   .lang-select{position:absolute;top:10px;right:10px;padding:5px;background:#fff;color:#000;border-radius:5px;border:none}
   </style>
 </head>
 <body>
-  <!-- YOUR BANNER -->
-  <img src="banner.jpg" alt="SHALOM Banner" class="banner">
+  <!-- LANGUAGE SELECTOR -->
+  <select class="lang-select" id="lang" onchange="changeLang()">
+    <option value="en">EN</option>
+    <option value="sw">SW</option>
+    <option value="fr">FR</option>
+    <option value="zh">中文</option>
+    <option value="pt">PT</option>
+  </select>
 
-  <!-- YOUR LOGO -->
+  <!-- BANNER & LOGO -->
+  <img src="banner.jpg" alt="SHALOM Banner" class="banner">
   <img src="logo.png" alt="SHALOM Logo" class="logo">
 
-  <div class="card">
-    <h3 id="welcome">Welcome to SHALOM</h3>
-    <p>Your new way to pay with Pi</p>
-    <button class="btn" id="login">Sign In with Pi Username</button>
+  <!-- HOME PAGE -->
+  <div id="homePage">
+    <div class="card">
+      <h3 id="welcome">Welcome to SHALOM</h3>
+      <p id="subtitle">Your new way to pay with Pi</p>
+      <button class="btn" id="login">Sign In with Pi</button>
+    </div>
+
+    <div class="card" id="services" style="display:none">
+      <h3 id="servicesTitle">Services We Are Preparing</h3>
+      <div class="service">📱 <span id="s1">Airtime for All Networks</span></div>
+      <div class="service">🌐 <span id="s2">Internet Data Bundles</span></div>
+      <div class="service">💡 <span id="s3">Electricity & Water Bills</span></div>
+      <div class="service">📺 <span id="s4">TV Subscriptions</span></div>
+      <br>
+      <div class="coming" id="coming">⏳ All services will be activated after Pi Mainnet</div>
+    </div>
   </div>
 
-  <div class="card" id="services" style="display:none">
-    <h3>Services We Are Preparing</h3>
-    <div class="service">📱 Airtime for All Networks</div>
-    <div class="service">🌐 Internet Data Bundles</div>
-    <div class="service">💡 Electricity & Water Bills</div>
-    <div class="service">📺 TV Subscriptions - DSTV, Azam</div>
-    
-    <br>
-    <div class="coming">
-      ⏳ All services will be activated after Pi Mainnet <br>
-      For now you can browse and follow our updates
+  <!-- ADD PRODUCT PAGE -->
+  <div id="addPage" style="display:none">
+    <div class="card">
+      <h3 id="addTitle">Add Product</h3>
+      <p id="addDesc">Coming Soon. You will be able to sell airtime and data here.</p>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="profilePage" style="display:none">
+    <div class="card">
+      <h3 id="profileTitle">Profile</h3>
+      <p id="profileUser">User: Guest</p>
+      <p id="profileStatus">Status: Not Signed In</p>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVBAR -->
+  <div class="navbar">
+    <div class="nav-item active" onclick="showPage('homePage')">
+      <span class="nav-icon">🏠</span>
+      <span id="navHome">Home</span>
+    </div>
+    <div class="nav-item" onclick="showPage('addPage')">
+      <span class="nav-icon">➕</span>
+      <span id="navAdd">Add</span>
+    </div>
+    <div class="nav-item" onclick="showPage('profilePage')">
+      <span class="nav-icon">👤</span>
+      <span id="navProfile">Profile</span>
     </div>
   </div>
 
 <script>
-Pi.init({version:"2.0", sandbox:false}); // Ecosystem version - NO payments
+// TRANSLATIONS
+const translations = {
+  en: {welcome:"Welcome to SHALOM", subtitle:"Your new way to pay with Pi", login:"Sign In with Pi",
+       servicesTitle:"Services We Are Preparing", s1:"Airtime for All Networks", s2:"Internet Data Bundles",
+       s3:"Electricity & Water Bills", s4:"TV Subscriptions", coming:"⏳ All services will be activated after Pi Mainnet",
+       addTitle:"Add Product", addDesc:"Coming Soon. You will be able to sell airtime and data here.",
+       profileTitle:"Profile", profileUser:"User: ", profileStatus:"Status: Not Signed In",
+       navHome:"Home", navAdd:"Add", navProfile:"Profile", signedIn:"Signed In ✓"},
+  sw: {welcome:"Karibu SHALOM", subtitle:"Njia yako mpya ya kulipia kwa Pi", login:"Ingia na Pi",
+       servicesTitle:"Tunakuandalia Huduma Hizi", s1:"Airtime ya Mitandao Yote", s2:"Bundles za Internet",
+       s3:"Bili za Luku na Maji", s4:"Kulipia TV", coming:"⏳ Huduma zote zitafunguliwa baada ya Pi Mainnet",
+       addTitle:"Ongeza Bidhaa", addDesc:"Inakuja Hivi Karibuni. Utauza airtime na data hapa.",
+       profileTitle:"Wasifu", profileUser:"Mtumiaji: ", profileStatus:"Hali: Haujiaingia",
+       navHome:"Nyumbani", navAdd:"Ongeza", navProfile:"Wasifu", signedIn:"Umeingia ✓"},
+  fr: {welcome:"Bienvenue sur SHALOM", subtitle:"Votre nouvelle façon de payer avec Pi", login:"Se connecter avec Pi",
+       servicesTitle:"Services que nous préparons", s1:"Crédit pour tous les réseaux", s2:"Forfaits Internet",
+       s3:"Factures d'électricité et d'eau", s4:"Abonnements TV", coming:"⏳ Tous les services seront activés après Pi Mainnet",
+       addTitle:"Ajouter Produit", addDesc:"Bientôt. Vous pourrez vendre du crédit ici.",
+       profileTitle:"Profil", profileUser:"Utilisateur: ", profileStatus:"Statut: Non connecté",
+       navHome:"Accueil", navAdd:"Ajouter", navProfile:"Profil", signedIn:"Connecté ✓"},
+  zh: {welcome:"欢迎来到 SHALOM", subtitle:"您用 Pi 支付的新方式", login:"使用 Pi 登录",
+       servicesTitle:"我们正在准备的服务", s1:"所有网络充值", s2:"互联网数据包",
+       s3:"电费和水费", s4:"电视订阅", coming:"⏳ 所有服务将在 Pi 主网后激活",
+       addTitle:"添加产品", addDesc:"即将推出。您将可以在这里销售话费和数据。",
+       profileTitle:"个人资料", profileUser:"用户: ", profileStatus:"状态: 未登录",
+       navHome:"首页", navAdd:"添加", navProfile:"我的", signedIn:"已登录 ✓"},
+  pt: {welcome:"Bem-vindo ao SHALOM", subtitle:"Sua nova forma de pagar com Pi", login:"Entrar com Pi",
+       servicesTitle:"Serviços que estamos preparando", s1:"Crédito para todas as redes", s2:"Pacotes de Internet",
+       s3:"Contas de Luz e Água", s4:"Assinaturas de TV", coming:"⏳ Todos os serviços serão ativados após a Pi Mainnet",
+       addTitle:"Adicionar Produto", addDesc:"Em breve. Você poderá vender crédito aqui.",
+       profileTitle:"Perfil", profileUser:"Usuário: ", profileStatus:"Status: Não conectado",
+       navHome:"Início", navAdd:"Adicionar", navProfile:"Perfil", signedIn:"Conectado ✓"}
+};
+
+let currentUser = "Guest";
+
+// AUTO DETECT LANGUAGE
+const userLang = navigator.language || navigator.userLanguage;
+if(userLang.startsWith("sw")) document.getElementById("lang").value = "sw";
+if(userLang.startsWith("fr")) document.getElementById("lang").value = "fr";
+if(userLang.startsWith("zh")) document.getElementById("lang").value = "zh";
+if(userLang.startsWith("pt")) document.getElementById("lang").value = "pt";
+changeLang();
+
+function changeLang(){
+  const lang = document.getElementById("lang").value;
+  const t = translations[lang];
+  for(let key in t){
+    if(document.getElementById(key)) document.getElementById(key).innerText = t[key];
+  }
+  if(currentUser!== "Guest") document.getElementById("profileUser").innerText = t.profileUser + currentUser;
+}
+
+// NAVIGATION
+function showPage(pageId){
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("addPage").style.display = "none";
+  document.getElementById("profilePage").style.display = "none";
+  document.getElementById(pageId).style.display = "block";
+
+  document.querySelectorAll(".nav-item").forEach(i=>i.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+}
+
+// PI LOGIN
+Pi.init({version:"2.0", sandbox:false});
 
 document.getElementById("login").onclick = async () => {
   try{
-    const auth = await Pi.authenticate(['username']); // Username ONLY
-    document.getElementById("welcome").innerText = "Welcome, " + auth.user.username;
-    document.getElementById("login").innerText = "Signed In ✓";
+    const auth = await Pi.authenticate(['username']);
+    currentUser = auth.user.username;
+    const lang = document.getElementById("lang").value;
+    document.getElementById("welcome").innerText = translations[lang].welcome + ", " + currentUser;
+    document.getElementById("login").innerText = translations[lang].signedIn;
     document.getElementById("login").style.background = "#28a745";
     document.getElementById("login").disabled = true;
     document.getElementById("services").style.display = "block";
+    document.getElementById("profileUser").innerText = translations[lang].profileUser + currentUser;
+    document.getElementById("profileStatus").innerText = "Status: Online";
   }catch(e){
     alert("Please open this app inside Pi Browser first");
   }
