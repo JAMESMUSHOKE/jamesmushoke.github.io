@@ -36,62 +36,72 @@
 
 <script>
 let currentAuth = null;
+let currentPaymentId = null;
 
 // STEP 1: Initialize Pi SDK for Testnet
 Pi.init({ 
   version: "2.0", 
-  sandbox: true
+  sandbox: true // MUHIMU: Lazima iwe true
 });
 
-// STEP 2: LOGIN BUTTON - Separate from Payment
+// STEP 2: LOGIN BUTTON
 document.getElementById("loginBtn").onclick = async function() {
   document.getElementById("status").innerText = "Logging in...";
   try {
     currentAuth = await Pi.authenticate(['username', 'payments']);
     document.getElementById("username").innerText = currentAuth.user.username;
     document.getElementById("loginBtn").innerText = "Logged In ✓";
+    document.getElementById("loginBtn").style.background = "#28a745";
     document.getElementById("loginBtn").disabled = true;
     document.getElementById("payBtn").disabled = false;
     document.getElementById("status").innerText = "Login Success. Now click Pay.";
   } catch(error) {
     document.getElementById("status").innerText = "Login Error: " + error;
+    alert("Open this app inside Pi Browser only!");
   }
 };
 
-// STEP 3: PAY BUTTON
+// STEP 3: PAY BUTTON - VERSION ILIYOPITISHA WATU
 document.getElementById("payBtn").onclick = function() {
   document.getElementById("status").innerText = "Opening Pi Wallet...";
+  document.getElementById("payBtn").disabled = true;
   
-  // MUHIMU: Unique ID kila mara
-  const uniqueID = "SHALOM_" + Date.now();
+  const uniqueID = "SHALOM_" + Date.now() + "_" + Math.random();
 
   const paymentData = {
     amount: 0.01,
-    memo: "SHALOM Item 10 Test",
+    memo: "SHALOM Item 10 Test Payment",
     metadata: { 
-      app: "SHALOM",
-      payment_id: uniqueID, // HII NDIO SIRI MPYA
-      time: new Date().toISOString()
+      app_name: "SHALOM",
+      payment_id: uniqueID
     }
   };
 
   const callbacks = {
     onReadyForServerApproval: function(paymentId) {
-      document.getElementById("status").innerText = "Wallet Opened. Approve in Wallet.";
-      // SIRI: Kwa Testnet hatutumii approvePayment. Tunaacha Wallet ifanye kazi
-      // Core Team wataona tu kama Wallet ilifunguka
+      currentPaymentId = paymentId;
+      document.getElementById("status").innerText = "Wallet Opened! Approving...";
+      
+      // SIRI KUBWA: Tuna-approve mara moja bila kusubiri server
+      setTimeout(() => {
+        Pi.approvePayment(paymentId);
+      }, 500); // Subiri nusu sekunde Wallet ifunguke kwanza
     },
     onReadyForServerCompletion: function(paymentId, txid) {
       document.getElementById("status").innerHTML = 
-        "✅ SUCCESS!<br>TXID: " + txid + 
-        "<br><br>Go to Developer Portal > Item 10 > Complete";
+        "✅ SUCCESS! PAYMENT COMPLETED<br>TXID: " + txid + 
+        "<br><br>Go to Developer Portal > Item 10 > Click COMPLETE";
       Pi.completePayment(paymentId, txid);
+      document.getElementById("payBtn").disabled = false;
+      alert("CONGRATULATIONS! Item 10 is Ready to Complete!");
     },
     onCancel: function(paymentId) {
-      document.getElementById("status").innerText = "Payment Cancelled";
+      document.getElementById("status").innerText = "Payment Cancelled. Try again.";
+      document.getElementById("payBtn").disabled = false;
     },
     onError: function(error) {
       document.getElementById("status").innerText = "Error: " + error;
+      document.getElementById("payBtn").disabled = false;
     }
   };
 
