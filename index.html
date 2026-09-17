@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Item 10 FINAL</title>
+  <title>SHALOM - Item 10 FINAL FIX</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#000;color:#fff;text-align:center;padding:20px;font-family:Arial}
     .container{max-width:400px;margin:20px auto}
-    .box{background:#111;border:3px solid #f39c12;padding:20px;border-radius:15px}
-    h1{color:#f39c12;font-size:22px}
-    button{padding:18px;background:#f39c12;color:#000;border:none;border-radius:10px;font-size:17px;font-weight:bold;width:100%;cursor:pointer;margin-top:12px}
+    .box{background:#111;border:3px solid #00ff88;padding:20px;border-radius:15px}
+    h1{color:#00ff88}
+    button{padding:18px;background:#00ff88;color:#000;border:none;border-radius:10px;font-size:17px;font-weight:bold;width:100%;cursor:pointer;margin-top:12px}
     button:disabled{background:#444}
     #status{margin-top:15px;padding:10px;background:#222;border-radius:8px;font-size:13px;min-height:40px}
   </style>
@@ -27,9 +27,9 @@
   </div>
 
 <script>
-let myPaymentId = null;
+let paymentIdGlobal = null;
 
-Pi.init({ version: "2.0", sandbox: true }); // LAZIMA TRUE
+Pi.init({ version: "2.0", sandbox: true });
 
 document.getElementById("login").onclick = async () => {
   document.getElementById("status").innerText = "Logging in...";
@@ -39,9 +39,9 @@ document.getElementById("login").onclick = async () => {
     document.getElementById("login").innerText = "LOGGED IN ✓";
     document.getElementById("login").disabled = true;
     document.getElementById("pay").disabled = false;
-    document.getElementById("status").innerText = "2. Now Click PAY";
+    document.getElementById("status").innerText = "2. Click PAY";
   } catch(e) {
-    document.getElementById("status").innerText = "Error: Open in Pi Browser Only!";
+    alert("Open in Pi Browser Only!");
   }
 };
 
@@ -49,30 +49,28 @@ document.getElementById("pay").onclick = () => {
   document.getElementById("status").innerText = "Opening Wallet...";
   document.getElementById("pay").disabled = true;
 
-  const paymentData = {
+  Pi.createPayment({
     amount: 0.01,
-    memo: `SHALOM-TEST-${Date.now()}`, // Unique
-    metadata: {paymentId: `SHALOM-${Date.now()}`}
-  };
-
-  Pi.createPayment(paymentData, {
+    memo: `SHALOM-TEST-${Date.now()}`,
+    metadata: {app: "SHALOM"}
+  }, {
     onReadyForServerApproval: (paymentId) => {
-      myPaymentId = paymentId;
-      document.getElementById("status").innerText = "Wallet Opened! Approving now...";
-      // SIRI KUBWA: Lazima tumwambie Pi tumepokea
+      paymentIdGlobal = paymentId;
+      document.getElementById("status").innerText = "Wallet Opened! Approving...";
+      // SIRI KUBWA: APPROVE MARA MOJA BILA KUSUBIRI
       Pi.approvePayment(paymentId); 
     },
     onReadyForServerCompletion: (paymentId, txid) => {
       document.getElementById("status").innerHTML = `✅ SUCCESS!<br>TX: ${txid}<br>Go Complete Item 10!`;
       Pi.completePayment(paymentId, txid);
-      alert("CONGRATS! Screenshot this and go to Developer Portal > Item 10 > COMPLETE");
+      alert("CONGRATS! Screenshot and go to Developer Portal");
     },
     onCancel: (paymentId) => {
-      document.getElementById("status").innerText = "Cancelled. Refresh page and try again.";
+      document.getElementById("status").innerText = "Cancelled. Refresh and try again.";
       document.getElementById("pay").disabled = false;
     },
     onError: (error) => {
-      document.getElementById("status").innerText = "Error: " + JSON.stringify(error);
+      document.getElementById("status").innerText = "Error: " + error;
       document.getElementById("pay").disabled = false;
     }
   });
