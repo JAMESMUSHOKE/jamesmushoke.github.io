@@ -3,109 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Item 10 Test</title>
+  <title>SHALOM - Item 10 Test V3</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#0a0a0a;color:#fff;text-align:center;padding:20px;font-family:Arial}
     .container{max-width:420px;margin:30px auto}
-    .box{background:#1a1a1a;border:2px solid #f39c12;padding:25px;border-radius:15px}
-    h1{color:#f39c12}
-    button{padding:20px;background:#f39c12;color:#000;border:none;border-radius:12px;font-size:18px;font-weight:bold;width:100%;cursor:pointer;margin-top:15px}
+    .box{background:#1a1a1a;border:2px solid #00ff88;padding:25px;border-radius:15px}
+    h1{color:#00ff88}
+    button{padding:20px;background:#00ff88;color:#000;border:none;border-radius:12px;font-size:18px;font-weight:bold;width:100%;cursor:pointer;margin-top:15px}
     button:disabled{background:#555;cursor:not-allowed}
     #status{margin-top:15px;padding:12px;background:#222;border-radius:8px;min-height:25px;font-size:14px}
     .logo{width:80px;margin-bottom:15px}
+    .warning{color:#ffaa00;font-size:13px;margin-top:10px}
   </style>
 </head>
 <body>
   <div class="container">
     <img src="logo.png" class="logo">
-    <h1>SHALOM PAYMENT TEST</h1>
-    <p>For Developer Portal Checklist Item 10</p>
+    <h1>SHALOM ITEM 10</h1>
+    <p>Official Payment Test</p>
     
     <div class="box">
       <p>Welcome: <b id="username">Guest</b></p>
-      <button id="loginBtn">1. LOGIN FIRST</button>
-      <button id="payBtn" disabled>2. TEST PAY 0.01 Pi</button>
+      <button id="loginBtn">STEP 1: LOGIN</button>
+      <button id="payBtn" disabled>STEP 2: PAY 0.01 TEST PI</button>
       <div id="status">Status: Please Login First</div>
+      <p class="warning">IMPORTANT: Must open Wallet and Click "Pay" manually</p>
     </div>
-    
-    <p style="font-size:12px;color:#aaa;margin-top:20px">
-      Note: This uses Testnet Pi. No real Pi will be deducted.
-    </p>
   </div>
 
 <script>
-let currentAuth = null;
-let currentPaymentId = null;
+let authResult = null;
 
-// STEP 1: Initialize Pi SDK for Testnet
-Pi.init({ 
-  version: "2.0", 
-  sandbox: true // MUHIMU: Lazima iwe true
-});
+// 1. INIT
+Pi.init({ version: "2.0", sandbox: true });
 
-// STEP 2: LOGIN BUTTON
-document.getElementById("loginBtn").onclick = async function() {
+// 2. LOGIN
+document.getElementById("loginBtn").onclick = async () => {
   document.getElementById("status").innerText = "Logging in...";
   try {
-    currentAuth = await Pi.authenticate(['username', 'payments']);
-    document.getElementById("username").innerText = currentAuth.user.username;
+    authResult = await Pi.authenticate(['username', 'payments']);
+    document.getElementById("username").innerText = authResult.user.username;
     document.getElementById("loginBtn").innerText = "Logged In ✓";
-    document.getElementById("loginBtn").style.background = "#28a745";
     document.getElementById("loginBtn").disabled = true;
     document.getElementById("payBtn").disabled = false;
-    document.getElementById("status").innerText = "Login Success. Now click Pay.";
-  } catch(error) {
-    document.getElementById("status").innerText = "Login Error: " + error;
-    alert("Open this app inside Pi Browser only!");
+    document.getElementById("status").innerText = "Ready. Click Pay to open Wallet.";
+  } catch(err) {
+    document.getElementById("status").innerText = "Login Failed. Open in Pi Browser.";
   }
 };
 
-// STEP 3: PAY BUTTON - VERSION ILIYOPITISHA WATU
-document.getElementById("payBtn").onclick = function() {
-  document.getElementById("status").innerText = "Opening Pi Wallet...";
+// 3. PAY - VERSION INAYOFUNGUA WALLET 100%
+document.getElementById("payBtn").onclick = () => {
+  document.getElementById("status").innerText = "Opening Pi Wallet... Please Wait";
   document.getElementById("payBtn").disabled = true;
-  
-  const uniqueID = "SHALOM_" + Date.now() + "_" + Math.random();
 
-  const paymentData = {
+  Pi.createPayment({
     amount: 0.01,
-    memo: "SHALOM Item 10 Test Payment",
-    metadata: { 
-      app_name: "SHALOM",
-      payment_id: uniqueID
-    }
-  };
-
-  const callbacks = {
-    onReadyForServerApproval: function(paymentId) {
-      currentPaymentId = paymentId;
-      document.getElementById("status").innerText = "Wallet Opened! Approving...";
-      
-      // SIRI KUBWA: Tuna-approve mara moja bila kusubiri server
-      setTimeout(() => {
-        Pi.approvePayment(paymentId);
-      }, 500); // Subiri nusu sekunde Wallet ifunguke kwanza
+    memo: "SHALOM Item 10 Test " + Date.now(), // Unique memo kila mara
+    metadata: {item: "checklist_10"}
+  }, {
+    onReadyForServerApproval: (paymentId) => {
+      // SIRI: HAPA HATUFANYI KITU. Tunaacha Wallet ifunguke
+      document.getElementById("status").innerText = "Wallet should be open now. Click PAY in Wallet.";
     },
-    onReadyForServerCompletion: function(paymentId, txid) {
+    onReadyForServerCompletion: (paymentId, txid) => {
       document.getElementById("status").innerHTML = 
-        "✅ SUCCESS! PAYMENT COMPLETED<br>TXID: " + txid + 
-        "<br><br>Go to Developer Portal > Item 10 > Click COMPLETE";
+        `✅ SUCCESS!<br>TXID: ${txid}<br><br>Go to Developer Portal > Item 10 > COMPLETE`;
       Pi.completePayment(paymentId, txid);
-      document.getElementById("payBtn").disabled = false;
-      alert("CONGRATULATIONS! Item 10 is Ready to Complete!");
+      alert("DONE! Now go complete Item 10 in Portal");
     },
-    onCancel: function(paymentId) {
-      document.getElementById("status").innerText = "Payment Cancelled. Try again.";
+    onCancel: (paymentId) => {
+      document.getElementById("status").innerText = "Cancelled. Try again. Make sure you click PAY in Wallet.";
       document.getElementById("payBtn").disabled = false;
     },
-    onError: function(error) {
+    onError: (error) => {
       document.getElementById("status").innerText = "Error: " + error;
       document.getElementById("payBtn").disabled = false;
     }
-  };
-
-  Pi.createPayment(paymentData, callbacks);
+  });
 };
 </script>
 </body>
