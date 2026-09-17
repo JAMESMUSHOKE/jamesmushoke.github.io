@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Global Marketplace</title>
+  <title>SHALOM - Global Super App</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
-    body {font-family:Arial;background:#3a0ca3;color:#fff;text-align:center;padding:0;margin:0;padding-bottom:80px}
-  .banner{width:100%;max-height:180px;object-fit:cover}
-  .logo{width:90px;height:90px;border-radius:50%;margin-top:-45px;border:4px solid #fff}
-  .card{background:#fff;color:#000;padding:18px;border-radius:15px;max-width:420px;margin:15px auto;box-shadow:0 5px 20px rgba(0,0,0,0.3)}
-  .btn{padding:14px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:8px 0;cursor:pointer}
-  .service{padding:12px;background:#f1f1f1;border-radius:8px;margin:8px 0;text-align:left;border-left:4px solid #7209b7}
-  .coming{background:#d4edda;color:#155724;padding:10px;border-radius:8px;font-size:14px;font-weight:bold}
-  .luxury-item{padding:12px;background:#fff3cd;border-left:4px solid #f39c12;border-radius:8px;margin:8px 0;text-align:left}
-
-    /* BOTTOM NAVIGATION */
-  .navbar{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.2)}
-  .nav-item{color:#3a0ca3;text-align:center;font-size:12px;cursor:pointer}
-  .nav-item.active{color:#f39c12;font-weight:bold}
-  .nav-icon{font-size:22px;display:block}
-
-  .lang-select{position:absolute;top:10px;right:10px;padding:5px;background:#fff;color:#000;border-radius:5px;border:none}
+    body {font-family:Arial;background:#3a0ca3;color:#fff;text-align:center;padding:0;margin:0;padding-bottom:90px}
+   .banner{width:100%;max-height:160px;object-fit:cover}
+   .logo{width:80px;height:80px;border-radius:50%;margin-top:-40px;border:3px solid #fff}
+   .card{background:#fff;color:#000;padding:15px;border-radius:15px;max-width:430px;margin:12px auto;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+   .btn{padding:14px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:8px 0;cursor:pointer}
+   .service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+   .service-item{background:#f1f1f1;padding:10px;border-radius:10px;font-size:12px;cursor:pointer}
+   .service-item span{display:block;margin-top:5px}
+   .luxury-item{padding:12px;background:#fff3cd;border-left:4px solid #f39c12;border-radius:8px;margin:8px 0;text-align:left;font-size:14px}
+   .coming{background:#d4edda;color:#155724;padding:10px;border-radius:8px;font-size:13px;font-weight:bold}
+   .navbar{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:8px 0;box-shadow:0 -2px 10px rgba(0,0,0,0.2)}
+   .nav-item{color:#3a0ca3;text-align:center;font-size:11px;cursor:pointer}
+   .nav-item.active{color:#f39c12;font-weight:bold}
+   .nav-icon{font-size:20px;display:block}
+   .lang-select{position:absolute;top:10px;right:10px;padding:5px;background:#fff;color:#000;border-radius:5px;border:none;z-index:10}
+   .search{width:90%;padding:10px;border-radius:8px;border:1px solid #ccc;margin:10px auto}
   </style>
 </head>
 <body>
-  <!-- LANGUAGE SELECTOR -->
   <select class="lang-select" id="lang" onchange="changeLang()">
     <option value="en">EN</option>
     <option value="sw">SW</option>
@@ -34,7 +33,6 @@
     <option value="pt">PT</option>
   </select>
 
-  <!-- BANNER & LOGO -->
   <img src="banner.jpg" alt="SHALOM Banner" class="banner">
   <img src="logo.png" alt="SHALOM Logo" class="logo">
 
@@ -46,30 +44,66 @@
       <button class="btn" id="login">Sign In with Pi</button>
     </div>
 
-    <div class="card" id="services" style="display:none">
-      <h3 id="servicesTitle">Services We Are Preparing</h3>
-      <div class="service">📱 <span id="s1">Airtime for All Networks</span></div>
-      <div class="service">🌐 <span id="s2">Internet Data Bundles</span></div>
-      <div class="service">💡 <span id="s3">Electricity & Water Bills</span></div>
-      <div class="service">📺 <span id="s4">TV Subscriptions</span></div>
-      <br>
-      <div class="coming" id="coming">⏳ All services will be activated after Pi Mainnet</div>
+    <div class="card" id="dashboard" style="display:none">
+      <h3 id="quickAccess">Quick Access</h3>
+      <div class="service-grid">
+        <div class="service-item" onclick="showPage('marketPage')">🛒<span id="m1">Marketplace</span></div>
+        <div class="service-item" onclick="showPage('jengaPage')">🏗️<span id="m2">Jenga</span></div>
+        <div class="service-item" onclick="showPage('bookingPage')">📅<span id="m3">Booking</span></div>
+        <div class="service-item" onclick="showPage('communityPage')">👥<span id="m4">Community</span></div>
+        <div class="service-item">📱<span id="m5">Airtime</span></div>
+        <div class="service-item">💡<span id="m6">Bills</span></div>
+        <div class="service-item">🤖<span id="m7">AI Help</span></div>
+        <div class="service-item">💬<span id="m8">Chatroom</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- ADD PRODUCT PAGE - VERSION YA MABIG THINGS -->
-  <div id="addPage" style="display:none">
+  <!-- MARKETPLACE PAGE - FROM SHALOM -->
+  <div id="marketPage" style="display:none">
     <div class="card">
-      <h3 id="addTitle">Global Marketplace</h3>
-      <p id="addDesc">Buy & Sell with Pi. Coming Soon on Mainnet.</p>
-
+      <h3 id="marketTitle">Global Marketplace</h3>
+      <input type="text" class="search" id="search" placeholder="Search products...">
       <div class="luxury-item">🚗 <span id="item1">Luxury Cars - Tesla, BMW, Mercedes</span></div>
       <div class="luxury-item">🏡 <span id="item2">Modern Houses & Apartments</span></div>
-      <div class="luxury-item">📱 <span id="item3">Latest Phones - iPhone, Samsung, Google Pixel</span></div>
-      <div class="luxury-item">💎 <span id="item4">Jewelry, Watches & Fashion</span></div>
-      <div class="luxury-item">💻 <span id="item5">Laptops, Electronics & Gadgets</span></div>
-      <div class="luxury-item">🛒 <span id="item6">Groceries & Daily Essentials</span></div>
+      <div class="luxury-item">📱 <span id="item3">iPhone, Samsung, Google Pixel</span></div>
+      <div class="luxury-item">🛒 <span id="item4">Groceries: Rice, Shoes, Watch</span></div>
+      <div class="coming" id="marketComing">⏳ Buying with Pi coming on Mainnet</div>
+    </div>
+  </div>
 
+  <!-- JENGA PAGE - FROM JENGAPAY -->
+  <div id="jengaPage" style="display:none">
+    <div class="card">
+      <h3 id="jengaTitle">Jenga Bora</h3>
+      <p id="jengaDesc">Building materials & construction services</p>
+      <div class="luxury-item">🧱 <span id="j1">Cement, Blocks, Steel</span></div>
+      <div class="luxury-item">🚛 <span id="j2">Fast Delivery</span></div>
+      <div class="luxury-item">👷 <span id="j3">Professional Builders</span></div>
+      <div class="coming" id="jengaComing">⏳ Order with Pi coming soon</div>
+    </div>
+  </div>
+
+  <!-- BOOKING PAGE -->
+  <div id="bookingPage" style="display:none">
+    <div class="card">
+      <h3 id="bookingTitle">Booking Services</h3>
+      <p id="bookingDesc">Book builders, delivery, and more</p>
+      <div class="coming">⏳ Coming Soon</div>
+    </div>
+  </div>
+
+  <!-- COMMUNITY PAGE -->
+  <div id="communityPage" style="display:none">
+    <div class="card">
+      <h3 id="communityTitle">Community</h3>
+      <p id="communityDesc">Chat, Help, Legal, Notifications</p>
+      <div class="service-grid">
+        <div class="service-item">💬<span id="c1">Chatroom</span></div>
+        <div class="service-item">🔔<span id="c2">Notification</span></div>
+        <div class="service-item">⚖️<span id="c3">Legal</span></div>
+        <div class="service-item">❓<span id="c4">Help</span></div>
+      </div>
     </div>
   </div>
 
@@ -79,18 +113,27 @@
       <h3 id="profileTitle">Profile</h3>
       <p id="profileUser">User: Guest</p>
       <p id="profileStatus">Status: Not Signed In</p>
+      <button class="btn" style="background:#dc3545;color:#fff" id="logoutBtn">Log Out</button>
     </div>
   </div>
 
-  <!-- BOTTOM NAVBAR -->
+  <!-- BOTTOM NAVBAR - 5 TABS KAMA JENGAPAY -->
   <div class="navbar">
     <div class="nav-item active" onclick="showPage('homePage')">
       <span class="nav-icon">🏠</span>
       <span id="navHome">Home</span>
     </div>
-    <div class="nav-item" onclick="showPage('addPage')">
-      <span class="nav-icon">➕</span>
-      <span id="navAdd">Market</span>
+    <div class="nav-item" onclick="showPage('marketPage')">
+      <span class="nav-icon">🛒</span>
+      <span id="navMarket">Market</span>
+    </div>
+    <div class="nav-item" onclick="showPage('jengaPage')">
+      <span class="nav-icon">🏗️</span>
+      <span id="navJenga">Jenga</span>
+    </div>
+    <div class="nav-item" onclick="showPage('bookingPage')">
+      <span class="nav-icon">📅</span>
+      <span id="navBooking">Booking</span>
     </div>
     <div class="nav-item" onclick="showPage('profilePage')">
       <span class="nav-icon">👤</span>
@@ -99,58 +142,49 @@
   </div>
 
 <script>
-// TRANSLATIONS - VERSION YA KIMATAIFA
 const translations = {
-  en: {welcome:"Welcome to SHALOM", subtitle:"Your new way to pay with Pi", login:"Sign In with Pi",
-       servicesTitle:"Services We Are Preparing", s1:"Airtime for All Networks", s2:"Internet Data Bundles",
-       s3:"Electricity & Water Bills", s4:"TV Subscriptions", coming:"⏳ All services will be activated after Pi Mainnet",
-       addTitle:"Global Marketplace", addDesc:"Buy & Sell with Pi. Coming Soon on Mainnet.",
-       item1:"Luxury Cars - Tesla, BMW, Mercedes", item2:"Modern Houses & Apartments",
-       item3:"Latest Phones - iPhone, Samsung, Google Pixel", item4:"Jewelry, Watches & Fashion",
-       item5:"Laptops, Electronics & Gadgets", item6:"Groceries & Daily Essentials",
+  en: {welcome:"Welcome to SHALOM", subtitle:"Your new way to pay with Pi", login:"Sign In with Pi", signedIn:"Signed In ✓",
+       quickAccess:"Quick Access", m1:"Marketplace", m2:"Jenga", m3:"Booking", m4:"Community", m5:"Airtime", m6:"Bills", m7:"AI Help", m8:"Chatroom",
+       marketTitle:"Global Marketplace", item1:"Luxury Cars - Tesla, BMW, Mercedes", item2:"Modern Houses & Apartments",
+       item3:"iPhone, Samsung, Google Pixel", item4:"Groceries: Rice, Shoes, Watch", marketComing:"⏳ Buying with Pi coming on Mainnet",
+       jengaTitle:"Jenga Bora", jengaDesc:"Building materials & construction services", j1:"Cement, Blocks, Steel", j2:"Fast Delivery", j3:"Professional Builders", jengaComing:"⏳ Order with Pi coming soon",
+       bookingTitle:"Booking Services", bookingDesc:"Book builders, delivery, and more",
+       communityTitle:"Community", communityDesc:"Chat, Help, Legal, Notifications", c1:"Chatroom", c2:"Notification", c3:"Legal", c4:"Help",
        profileTitle:"Profile", profileUser:"User: ", profileStatus:"Status: Not Signed In",
-       navHome:"Home", navAdd:"Market", navProfile:"Profile", signedIn:"Signed In ✓"},
-  sw: {welcome:"Karibu SHALOM", subtitle:"Njia yako mpya ya kulipia kwa Pi", login:"Ingia na Pi",
-       servicesTitle:"Tunakuandalia Huduma Hizi", s1:"Airtime ya Mitandao Yote", s2:"Bundles za Internet",
-       s3:"Bili za Luku na Maji", s4:"Kulipia TV", coming:"⏳ Huduma zote zitafunguliwa baada ya Pi Mainnet",
-       addTitle:"Soko la Kimataifa", addDesc:"Nunua & Uuze kwa Pi. Inakuja hivi karibuni kwenye Mainnet.",
-       item1:"Magari ya Kifahari - Tesla, BMW, Mercedes", item2:"Nyumba za Kisasa & Mabango",
-       item3:"Simu za Kisasa - iPhone, Samsung, Google Pixel", item4:"Vito, Saa & Mitindo",
-       item5:"Laptop, Vifaa vya Kielektroniki", item6:"Vyakula & Mahitaji ya Kila Siku",
+       navHome:"Home", navMarket:"Market", navJenga:"Jenga", navBooking:"Booking", navProfile:"Profile", search:"Search products...", logout:"Log Out"},
+  sw: {welcome:"Karibu SHALOM", subtitle:"Njia yako mpya ya kulipia kwa Pi", login:"Ingia na Pi", signedIn:"Umeingia ✓",
+       quickAccess:"Upatikanaji wa Haraka", m1:"Soko", m2:"Jenga", m3:"Booking", m4:"Jamii", m5:"Airtime", m6:"Bili", m7:"Msaada wa AI", m8:"Chatroom",
+       marketTitle:"Soko la Kimataifa", item1:"Magari ya Kifahari - Tesla, BMW, Mercedes", item2:"Nyumba za Kisasa & Mabango",
+       item3:"iPhone, Samsung, Google Pixel", item4:"Vyakula: Mchele, Viatu, Saa", marketComing:"⏳ Ununuzi kwa Pi unakuja Mainnet",
+       jengaTitle:"Jenga Bora", jengaDesc:"Vifaa vya ujenzi na huduma za ujenzi", j1:"Sementi, Vitalu, Chuma", j2:"Usafirishaji wa Haraka", j3:"Mabwana Mafundi", jengaComing:"⏳ Agiza kwa Pi inakuja hivi karibuni",
+       bookingTitle:"Huduma za Booking", bookingDesc:"Panga mafundi, usafirishaji na zaidi",
+       communityTitle:"Jamii", communityDesc:"Chat, Msaada, Sheria, Arifa", c1:"Chatroom", c2:"Arifa", c3:"Sheria", c4:"Msaada",
        profileTitle:"Wasifu", profileUser:"Mtumiaji: ", profileStatus:"Hali: Haujiaingia",
-       navHome:"Nyumbani", navAdd:"Soko", navProfile:"Wasifu", signedIn:"Umeingia ✓"},
-  fr: {welcome:"Bienvenue sur SHALOM", subtitle:"Votre nouvelle façon de payer avec Pi", login:"Se connecter avec Pi",
-       servicesTitle:"Services que nous préparons", s1:"Crédit pour tous les réseaux", s2:"Forfaits Internet",
-       s3:"Factures d'électricité et d'eau", s4:"Abonnements TV", coming:"⏳ Tous les services seront activés après Pi Mainnet",
-       addTitle:"Marché Mondial", addDesc:"Acheter & Vendre avec Pi. Bientôt sur Mainnet.",
-       item1:"Voitures de Luxe - Tesla, BMW, Mercedes", item2:"Maisons Modernes & Appartements",
-       item3:"Derniers Téléphones - iPhone, Samsung, Google Pixel", item4:"Bijoux, Montres & Mode",
-       item5:"Ordinateurs, Électronique & Gadgets", item6:"Épicerie & Produits Essentiels",
-       profileTitle:"Profil", profileUser:"Utilisateur: ", profileStatus:"Statut: Non connecté",
-       navHome:"Accueil", navAdd:"Marché", navProfile:"Profil", signedIn:"Connecté ✓"},
-  zh: {welcome:"欢迎来到 SHALOM", subtitle:"您用 Pi 支付的新方式", login:"使用 Pi 登录",
-       servicesTitle:"我们正在准备的服务", s1:"所有网络充值", s2:"互联网数据包",
-       s3:"电费和水费", s4:"电视订阅", coming:"⏳ 所有服务将在 Pi 主网后激活",
-       addTitle:"全球市场", addDesc:"使用 Pi 购买和销售。主网后即将推出。",
-       item1:"豪车 - 特斯拉, 宝马, 奔驰", item2:"现代房屋和公寓",
-       item3:"最新手机 - 苹果, 三星, 谷歌Pixel", item4:"珠宝, 手表和时尚",
-       item5:"笔记本电脑, 电子产品和小工具", item6:"杂货和日常必需品",
-       profileTitle:"个人资料", profileUser:"用户: ", profileStatus:"状态: 未登录",
-       navHome:"首页", navAdd:"市场", navProfile:"我的", signedIn:"已登录 ✓"},
-  pt: {welcome:"Bem-vindo ao SHALOM", subtitle:"Sua nova forma de pagar com Pi", login:"Entrar com Pi",
-       servicesTitle:"Serviços que estamos preparando", s1:"Crédito para todas as redes", s2:"Pacotes de Internet",
-       s3:"Contas de Luz e Água", s4:"Assinaturas de TV", coming:"⏳ Todos os serviços serão ativados após a Pi Mainnet",
-       addTitle:"Mercado Global", addDesc:"Comprar e Vender com Pi. Em breve na Mainnet.",
-       item1:"Carros de Luxo - Tesla, BMW, Mercedes", item2:"Casas Modernas e Apartamentos",
-       item3:"Últimos Celulares - iPhone, Samsung, Google Pixel", item4:"Joias, Relógios e Moda",
-       item5:"Laptops, Eletrônicos e Gadgets", item6:"Mantimentos e Itens Essenciais",
-       profileTitle:"Perfil", profileUser:"Usuário: ", profileStatus:"Status: Não conectado",
-       navHome:"Início", navAdd:"Mercado", navProfile:"Perfil", signedIn:"Conectado ✓"}
+       navHome:"Nyumbani", navMarket:"Soko", navJenga:"Jenga", navBooking:"Booking", navProfile:"Wasifu", search:"Tafuta bidhaa...", logout:"Toka"},
+  fr: {welcome:"Bienvenue sur SHALOM", subtitle:"Votre nouvelle façon de payer avec Pi", login:"Se connecter avec Pi", signedIn:"Connecté ✓",
+       quickAccess:"Accès Rapide", m1:"Marché", m2:"Jenga", m3:"Réservation", m4:"Communauté", m5:"Crédit", m6:"Factures", m7:"Aide IA", m8:"Chat",
+       marketTitle:"Marché Mondial", item1:"Voitures de Luxe - Tesla, BMW, Mercedes", item2:"Maisons Modernes", item3:"iPhone, Samsung", item4:"Épicerie", marketComing:"⏳ Paiement Pi bientôt",
+       jengaTitle:"Jenga Bora", jengaDesc:"Matériaux de construction", j1:"Ciment, Blocs", j2:"Livraison Rapide", j3:"Constructeurs", jengaComing:"⏳ Bientôt",
+       bookingTitle:"Réservation", bookingDesc:"Réserver des services", communityTitle:"Communauté", c1:"Chat", c2:"Notification", c3:"Légal", c4:"Aide",
+       profileTitle:"Profil", profileUser:"Utilisateur: ", profileStatus:"Non connecté",
+       navHome:"Accueil", navMarket:"Marché", navJenga:"Jenga", navBooking:"Réservation", navProfile:"Profil", search:"Recher...", logout:"Déconnexion"},
+  zh: {welcome:"欢迎来到 SHALOM", subtitle:"您用 Pi 支付的新方式", login:"使用 Pi 登录", signedIn:"已登录 ✓",
+       quickAccess:"快速访问", m1:"市场", m2:"建筑", m3:"预订", m4:"社区", m5:"话费", m6:"账单", m7:"AI助手", m8:"聊天室",
+       marketTitle:"全球市场", item1:"豪车", item2:"现代房屋", item3:"手机", item4:"杂货", marketComing:"⏳ Pi支付即将推出",
+       jengaTitle:"优质建筑", jengaDesc:"建筑材料", j1:"水泥, 砖块", j2:"快速配送", j3:"专业建筑商", jengaComing:"⏳ 即将推出",
+       bookingTitle:"预订服务", bookingDesc:"预订服务", communityTitle:"社区", c1:"聊天", c2:"通知", c3:"法律", c4:"帮助",
+       profileTitle:"个人资料", profileUser:"用户: ", profileStatus:"未登录",
+       navHome:"首页", navMarket:"市场", navJenga:"建筑", navBooking:"预订", navProfile:"我的", search:"搜索...", logout:"退出"},
+  pt: {welcome:"Bem-vindo ao SHALOM", subtitle:"Sua nova forma de pagar com Pi", login:"Entrar com Pi", signedIn:"Conectado ✓",
+       quickAccess:"Acesso Rápido", m1:"Mercado", m2:"Jenga", m3:"Reserva", m4:"Comunidade", m5:"Crédito", m6:"Contas", m7:"Ajuda IA", m8:"Chat",
+       marketTitle:"Mercado Global", item1:"Carros de Luxo", item2:"Casas Modernas", item3:"Celulares", item4:"Mantimentos", marketComing:"⏳ Pagamento Pi em breve",
+       jengaTitle:"Jenga Bora", jengaDesc:"Materiais de construção", j1:"Cimento, Blocos", j2:"Entrega Rápida", j3:"Construtores", jengaComing:"⏳ Em breve",
+       bookingTitle:"Serviços de Reserva", bookingDesc:"Reservar serviços", communityTitle:"Comunidade", c1:"Chat", c2:"Notificação", c3:"Legal", c4:"Ajuda",
+       profileTitle:"Perfil", profileUser:"Usuário: ", profileStatus:"Não conectado",
+       navHome:"Início", navMarket:"Mercado", navJenga:"Jenga", navBooking:"Reserva", navProfile:"Perfil", search:"Pesquisar...", logout:"Sair"}
 };
 
 let currentUser = "Guest";
-
-// AUTO DETECT LANGUAGE
 const userLang = navigator.language || navigator.userLanguage;
 if(userLang.startsWith("sw")) document.getElementById("lang").value = "sw";
 if(userLang.startsWith("fr")) document.getElementById("lang").value = "fr";
@@ -163,22 +197,18 @@ function changeLang(){
   const t = translations[lang];
   for(let key in t){
     if(document.getElementById(key)) document.getElementById(key).innerText = t[key];
+    if(key=="search" && document.getElementById("search")) document.getElementById("search").placeholder = t[key];
   }
   if(currentUser!== "Guest") document.getElementById("profileUser").innerText = t.profileUser + currentUser;
 }
 
-// NAVIGATION
 function showPage(pageId){
-  document.getElementById("homePage").style.display = "none";
-  document.getElementById("addPage").style.display = "none";
-  document.getElementById("profilePage").style.display = "none";
-  document.getElementById(pageId).style.display = "block";
-
+  ["homePage","marketPage","jengaPage","bookingPage","communityPage","profilePage"].forEach(id=>document.getElementById(id).style.display="none");
+  document.getElementById(pageId).style.display="block";
   document.querySelectorAll(".nav-item").forEach(i=>i.classList.remove("active"));
   event.currentTarget.classList.add("active");
 }
 
-// PI LOGIN
 Pi.init({version:"2.0", sandbox:false});
 
 document.getElementById("login").onclick = async () => {
@@ -190,13 +220,13 @@ document.getElementById("login").onclick = async () => {
     document.getElementById("login").innerText = translations[lang].signedIn;
     document.getElementById("login").style.background = "#28a745";
     document.getElementById("login").disabled = true;
-    document.getElementById("services").style.display = "block";
+    document.getElementById("dashboard").style.display = "block";
     document.getElementById("profileUser").innerText = translations[lang].profileUser + currentUser;
     document.getElementById("profileStatus").innerText = "Status: Online";
-  }catch(e){
-    alert("Please open this app inside Pi Browser first");
-  }
+  }catch(e){alert("Please open in Pi Browser first");}
 }
+
+document.getElementById("logoutBtn").onclick = () => location.reload();
 </script>
 </body>
 </html>
