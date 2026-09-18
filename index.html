@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Item 10 FINAL FIX</title>
+  <title>SHALOM - Item 10 FINAL</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#000;color:#fff;text-align:center;padding:20px;font-family:Arial}
@@ -20,28 +20,42 @@
     <h1>SHALOM ITEM 10</h1>
     <div class="box">
       <p>User: <b id="username">Not Logged In</b></p>
-      <button id="login">LOGIN</button>
-      <button id="pay" disabled>PAY 0.01 TEST PI</button>
+      <button id="login">LOGIN WITH PI</button>
+      <button id="pay" disabled>PAY 0.01 PI</button>
       <div id="status">1. Login First</div>
     </div>
   </div>
 
 <script>
-let paymentIdGlobal = null;
+let authResult = null;
 
-Pi.init({ version: "2.0", sandbox: true });
+// IMPORTANT 1: PUT YOUR REAL VERCEL LINK HERE
+const BACKEND_URL = "https://shalom-backend.vercel.app"; 
+
+// IMPORTANT 2: SANDBOX MUST BE FALSE FOR ITEM 10
+Pi.init({ version: "2.0", sandbox: false });
+
+// IMPORTANT 3: RECOVER INCOMPLETE PAYMENTS
+function onIncompletePaymentFound(payment) {
+  document.getElementById("status").innerText = "Recovering old payment...";
+  fetch(`${BACKEND_URL}/api/complete`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ paymentId: payment.identifier, txid: payment.transaction.txid })
+  });
+}
 
 document.getElementById("login").onclick = async () => {
   document.getElementById("status").innerText = "Logging in...";
   try {
-    const auth = await Pi.authenticate(['username', 'payments']);
-    document.getElementById("username").innerText = auth.user.username;
+    authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
+    document.getElementById("username").innerText = authResult.user.username;
     document.getElementById("login").innerText = "LOGGED IN ✓";
     document.getElementById("login").disabled = true;
     document.getElementById("pay").disabled = false;
-    document.getElementById("status").innerText = "2. Click PAY";
+    document.getElementById("status").innerText = "2. Click PAY 0.01 Pi";
   } catch(e) {
-    alert("Open in Pi Browser Only!");
+    alert("Open this in Pi Browser Only!");
   }
 };
 
@@ -51,22 +65,34 @@ document.getElementById("pay").onclick = () => {
 
   Pi.createPayment({
     amount: 0.01,
-    memo: `SHALOM-TEST-${Date.now()}`,
-    metadata: {app: "SHALOM"}
+    memo: `SHALOM-ITEM10-${Date.now()}`,
+    metadata: { app: "SHALOM" }
   }, {
-    onReadyForServerApproval: (paymentId) => {
-      paymentIdGlobal = paymentId;
-      document.getElementById("status").innerText = "Wallet Opened! Approving...";
-      // SIRI KUBWA: APPROVE MARA MOJA BILA KUSUBIRI
-      Pi.approvePayment(paymentId); 
+    onReadyForServerApproval: async (paymentId) => {
+      document.getElementById("status").innerText = "Approving payment...";
+      // SEND TO BACKEND FOR APPROVAL
+      const res = await fetch(`${BACKEND_URL}/api/approve`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ paymentId, userAccessToken: authResult.accessToken })
+      });
+      if(!res.ok) alert("Approval Failed!");
     },
-    onReadyForServerCompletion: (paymentId, txid) => {
-      document.getElementById("status").innerHTML = `✅ SUCCESS!<br>TX: ${txid}<br>Go Complete Item 10!`;
-      Pi.completePayment(paymentId, txid);
-      alert("CONGRATS! Screenshot and go to Developer Portal");
+    onReadyForServerCompletion: async (paymentId, txid) => {
+      document.getElementById("status").innerText = "Completing payment...";
+      // SEND TO BACKEND FOR COMPLETION
+      const res = await fetch(`${BACKEND_URL}/api/complete`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ paymentId, txid })
+      });
+      if(res.ok){
+        document.getElementById("status").innerHTML = `✅ SUCCESS!<br>TX: ${txid}<br>Go Complete Item 10 Now!`;
+        alert("CONGRATS! Go to Developer Portal and complete Item 10");
+      }
     },
     onCancel: (paymentId) => {
-      document.getElementById("status").innerText = "Cancelled. Refresh and try again.";
+      document.getElementById("status").innerText = "Cancelled. Try again.";
       document.getElementById("pay").disabled = false;
     },
     onError: (error) => {
