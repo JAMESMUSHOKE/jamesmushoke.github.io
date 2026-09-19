@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/validation-key.txt", "destination": "/validation-key.txt" }
-  ]
-}
