@@ -1,1 +1,7 @@
-
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" },
+    { "source": "/validation-key.txt", "destination": "/validation-key.txt" },
+    { "source": "/.well-known/pi-manifest", "destination": "/api/manifest" }
+  ]
+}
