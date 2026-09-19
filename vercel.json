@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/**/*.js": {
+    "api/payment.js": {
       "runtime": "@vercel/node"
     }
   }
