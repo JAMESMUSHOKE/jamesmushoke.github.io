@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Item 10 FINAL</title>
+  <title>SHALOM - Item 10 READY</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#000;color:#fff;text-align:center;padding:20px;font-family:Arial}
@@ -11,8 +11,9 @@
     .box{background:#111;border:3px solid #00ff88;padding:20px;border-radius:15px}
     h1{color:#00ff88}
     button{padding:18px;background:#00ff88;color:#000;border:none;border-radius:10px;font-size:17px;font-weight:bold;width:100%;cursor:pointer;margin-top:12px}
-    button:disabled{background:#444}
-    #status{margin-top:15px;padding:10px;background:#222;border-radius:8px;font-size:13px;min-height:40px}
+    button:disabled{background:#444;cursor:not-allowed}
+    #status{margin-top:15px;padding:10px;background:#222;border-radius:8px;font-size:13px;min-height:60px}
+    .success{color:#00ff88}
   </style>
 </head>
 <body>
@@ -21,85 +22,93 @@
     <div class="box">
       <p>User: <b id="username">Not Logged In</b></p>
       <button id="login">LOGIN WITH PI</button>
-      <button id="pay" disabled>PAY 0.01 PI</button>
-      <div id="status">1. Login First</div>
+      <button id="pay" disabled>PAY 0.01 TEST PI</button>
+      <div id="status">Step 1: Login First</div>
     </div>
   </div>
 
 <script>
-let authResult = null;
-
-// IMPORTANT 1: PUT YOUR REAL VERCEL LINK HERE
-const BACKEND_URL = "https://shalom-backend.vercel.app"; 
-
-// IMPORTANT 2: SANDBOX MUST BE FALSE FOR ITEM 10
-Pi.init({ version: "2.0", sandbox: false });
-
-// IMPORTANT 3: RECOVER INCOMPLETE PAYMENTS
-function onIncompletePaymentFound(payment) {
-  document.getElementById("status").innerText = "Recovering old payment...";
-  fetch(`${BACKEND_URL}/api/complete`, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ paymentId: payment.identifier, txid: payment.transaction.txid })
-  });
-}
+// Initialize Pi SDK
+Pi.init({ version: "2.0", sandbox: true });
 
 document.getElementById("login").onclick = async () => {
   document.getElementById("status").innerText = "Logging in...";
   try {
-    authResult = await Pi.authenticate(['username', 'payments'], onIncompletePaymentFound);
-    document.getElementById("username").innerText = authResult.user.username;
+    const scopes = ['username', 'payments'];
+    const auth = await Pi.authenticate(scopes);
+    document.getElementById("username").innerText = auth.user.username;
     document.getElementById("login").innerText = "LOGGED IN ✓";
     document.getElementById("login").disabled = true;
     document.getElementById("pay").disabled = false;
-    document.getElementById("status").innerText = "2. Click PAY 0.01 Pi";
+    document.getElementById("status").innerText = "Step 2: Click PAY 0.01 PI";
   } catch(e) {
-    alert("Open this in Pi Browser Only!");
+    alert("Error: Open this app in Pi Browser Only!");
+    console.error(e);
   }
 };
 
-document.getElementById("pay").onclick = () => {
-  document.getElementById("status").innerText = "Opening Wallet...";
+document.getElementById("pay").onclick = async () => {
+  document.getElementById("status").innerText = "Opening Pi Wallet...";
   document.getElementById("pay").disabled = true;
 
-  Pi.createPayment({
+  const paymentData = {
     amount: 0.01,
-    memo: `SHALOM-ITEM10-${Date.now()}`,
-    metadata: { app: "SHALOM" }
-  }, {
+    memo: `SHALOM-TEST-${Date.now()}`,
+    metadata: {app: "SHALOM", item: "test"}
+  };
+
+  const callbacks = {
+    // SIRI YA ITEM 10: TUMA KWA BACKEND, USITUMIE Pi.approvePayment
     onReadyForServerApproval: async (paymentId) => {
-      document.getElementById("status").innerText = "Approving payment...";
-      // SEND TO BACKEND FOR APPROVAL
-      const res = await fetch(`${BACKEND_URL}/api/approve`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ paymentId, userAccessToken: authResult.accessToken })
-      });
-      if(!res.ok) alert("Approval Failed!");
-    },
-    onReadyForServerCompletion: async (paymentId, txid) => {
-      document.getElementById("status").innerText = "Completing payment...";
-      // SEND TO BACKEND FOR COMPLETION
-      const res = await fetch(`${BACKEND_URL}/api/complete`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ paymentId, txid })
-      });
-      if(res.ok){
-        document.getElementById("status").innerHTML = `✅ SUCCESS!<br>TX: ${txid}<br>Go Complete Item 10 Now!`;
-        alert("CONGRATS! Go to Developer Portal and complete Item 10");
+      document.getElementById("status").innerText = "Approving with Server...";
+      try {
+        const res = await fetch('/api/payments/approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId })
+        });
+        const data = await res.json();
+        console.log("Approved:", data);
+        document.getElementById("status").innerText = "Approved! Waiting for Blockchain...";
+      } catch(e) {
+        document.getElementById("status").innerText = "Approve Failed: " + e;
+        document.getElementById("pay").disabled = false;
       }
     },
-    onCancel: (paymentId) => {
-      document.getElementById("status").innerText = "Cancelled. Try again.";
+
+    // SIRI YA PILI: COMPLETE KWA BACKEND
+    onReadyForServerCompletion: async (paymentId, txid) => {
+      document.getElementById("status").innerText = "Completing Payment...";
+      try {
+        const res = await fetch('/api/payments/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId, txid })
+        });
+        const data = await res.json();
+        console.log("Completed:", data);
+        
+        document.getElementById("status").innerHTML = `<span class="success">✅ PAYMENT SUCCESS!</span><br>TXID: ${txid}<br><br>Now go to Developer Portal > Item 10 will appear`;
+        alert("CONGRATS! Screenshot this and go submit Item 10");
+      } catch(e) {
+        document.getElementById("status").innerText = "Complete Failed: " + e;
+      }
       document.getElementById("pay").disabled = false;
     },
+
+    onCancel: (paymentId) => {
+      document.getElementById("status").innerText = "Payment Cancelled. Try again.";
+      document.getElementById("pay").disabled = false;
+    },
+
     onError: (error) => {
       document.getElementById("status").innerText = "Error: " + error;
       document.getElementById("pay").disabled = false;
     }
-  });
+  };
+
+  // Fungua Wallet
+  Pi.createPayment(paymentData, callbacks);
 };
 </script>
 </body>
