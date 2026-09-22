@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Item 10 READY</title>
+  <title>SHALOM - Item 10 FINAL</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#000;color:#fff;text-align:center;padding:20px;font-family:Arial}
@@ -22,14 +22,14 @@
     <div class="box">
       <p>User: <b id="username">Not Logged In</b></p>
       <button id="login">LOGIN WITH PI</button>
-      <button id="pay" disabled>PAY 0.01 TEST PI</button>
+      <button id="pay" disabled>PAY 1 TEST PI</button>
       <div id="status">Step 1: Login First</div>
     </div>
   </div>
 
 <script>
-// Initialize Pi SDK
-Pi.init({ version: "2.0", sandbox: true });
+// CRITICAL: sandbox must be FALSE for Item 10 Review
+Pi.init({ version: "2.0", sandbox: false });
 
 document.getElementById("login").onclick = async () => {
   document.getElementById("status").innerText = "Logging in...";
@@ -40,7 +40,7 @@ document.getElementById("login").onclick = async () => {
     document.getElementById("login").innerText = "LOGGED IN ✓";
     document.getElementById("login").disabled = true;
     document.getElementById("pay").disabled = false;
-    document.getElementById("status").innerText = "Step 2: Click PAY 0.01 PI";
+    document.getElementById("status").innerText = "Step 2: Click PAY 1 PI";
   } catch(e) {
     alert("Error: Open this app in Pi Browser Only!");
     console.error(e);
@@ -52,17 +52,17 @@ document.getElementById("pay").onclick = async () => {
   document.getElementById("pay").disabled = true;
 
   const paymentData = {
-    amount: 0.01,
-    memo: `SHALOM-TEST-${Date.now()}`,
-    metadata: {app: "SHALOM", item: "test"}
+    amount: 1, // CRITICAL: Must be 1 or more for review
+    memo: "SHALOM Premium Access",
+    metadata: {app: "SHALOM", item: "premium"}
   };
 
   const callbacks = {
-    // SIRI YA ITEM 10: TUMA KWA BACKEND, USITUMIE Pi.approvePayment
+    // Send to backend for approval
     onReadyForServerApproval: async (paymentId) => {
       document.getElementById("status").innerText = "Approving with Server...";
       try {
-        const res = await fetch('/api/payments/approve', {
+        const res = await fetch('/api/approve', {  // FIXED PATH
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentId })
@@ -76,11 +76,11 @@ document.getElementById("pay").onclick = async () => {
       }
     },
 
-    // SIRI YA PILI: COMPLETE KWA BACKEND
+    // Send to backend for completion
     onReadyForServerCompletion: async (paymentId, txid) => {
       document.getElementById("status").innerText = "Completing Payment...";
       try {
-        const res = await fetch('/api/payments/complete', {
+        const res = await fetch('/api/complete', {  // FIXED PATH
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentId, txid })
@@ -88,8 +88,8 @@ document.getElementById("pay").onclick = async () => {
         const data = await res.json();
         console.log("Completed:", data);
         
-        document.getElementById("status").innerHTML = `<span class="success">✅ PAYMENT SUCCESS!</span><br>TXID: ${txid}<br><br>Now go to Developer Portal > Item 10 will appear`;
-        alert("CONGRATS! Screenshot this and go submit Item 10");
+        document.getElementById("status").innerHTML = `<span class="success">✅ PAYMENT SUCCESS!</span><br>TXID: ${txid}<br><br>Go to Developer Portal > Item 10 is ready`;
+        alert("CONGRATS! Screenshot this and submit Item 10");
       } catch(e) {
         document.getElementById("status").innerText = "Complete Failed: " + e;
       }
@@ -107,7 +107,7 @@ document.getElementById("pay").onclick = async () => {
     }
   };
 
-  // Fungua Wallet
+  // Open Wallet
   Pi.createPayment(paymentData, callbacks);
 };
 </script>
