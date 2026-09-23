@@ -1,5 +1,5 @@
-// This file is called when blockchain confirms the payment
-// We verify the transaction and give user the product
+// This file is called when user approves payment in Pi Wallet
+// We must respond with 200 OK within 15 seconds or payment expires
 export default async function handler(req, res) {
   
   // CRITICAL: Allow Pi servers to call this API
@@ -12,27 +12,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { paymentId, txid } = req.body;
+    const { paymentId } = req.body;
     
-    // Log the completed payment
-    console.log("Payment COMPLETED on blockchain:", paymentId, "TXID:", txid);
+    // Log the approved payment - Like Core Team logs transactions
+    console.log("Payment APPROVED by user:", paymentId);
     
-    // Here you should:
-    // 1. Verify txid with Pi Server API if needed
-    // 2. Update payment status to "completed" in database
-    // 3. Deliver product/service to user
-    // Example: await completePayment(paymentId, txid);
+    // TODO: Save paymentId to database with status "pending"
+    // Example: await savePayment(paymentId, "pending");
     
-    // CRITICAL: Respond 200 OK to Pi so it marks payment as complete
+    // CRITICAL: Respond 200 OK IMMEDIATELY to Pi so it doesn't timeout
     return res.status(200).json({ 
       success: true, 
-      message: "Payment completed",
-      paymentId: paymentId,
-      txid: txid
+      message: "Payment approved",
+      paymentId: paymentId 
     });
 
   } catch (error) {
-    console.error("Complete payment error:", error);
-    return res.status(500).json({ error: "Failed to complete payment" });
+    console.error("Approve payment error:", error);
+    return res.status(500).json({ error: "Failed to approve payment" });
   }
 }
