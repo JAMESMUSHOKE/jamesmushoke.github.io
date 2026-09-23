@@ -14,10 +14,10 @@ export default async function handler(req, res) {
   try {
     const { paymentId } = req.body;
     
-    // Log the approved payment
+    // Log the approved payment - Like Core Team logs transactions
     console.log("Payment APPROVED by user:", paymentId);
     
-    // Here you should save paymentId to your database with status "pending"
+    // TODO: Save paymentId to database with status "pending"
     // Example: await savePayment(paymentId, "pending");
     
     // CRITICAL: Respond 200 OK IMMEDIATELY to Pi so it doesn't timeout
