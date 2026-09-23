@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Item 10 FINAL</title>
+  <title>SHALOM - Item 10 FINAL TESTNET</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
   <style>
     body{background:#000;color:#fff;text-align:center;padding:20px;font-family:Arial}
@@ -12,8 +12,9 @@
     h1{color:#00ff88}
     button{padding:18px;background:#00ff88;color:#000;border:none;border-radius:10px;font-size:17px;font-weight:bold;width:100%;cursor:pointer;margin-top:12px}
     button:disabled{background:#444;cursor:not-allowed}
-    #status{margin-top:15px;padding:10px;background:#222;border-radius:8px;font-size:13px;min-height:60px}
-    .success{color:#00ff88}
+    #status{margin-top:15px;padding:10px;background:#222;border-radius:8px;font-size:13px;min-height:80px}
+    .success{color:#00ff88;font-weight:bold}
+    .error{color:#ff4444}
   </style>
 </head>
 <body>
@@ -28,14 +29,17 @@
   </div>
 
 <script>
-// CRITICAL: sandbox must be FALSE for Item 10 Review
+// CRITICAL FOR ITEM 10: sandbox must be FALSE for review
 Pi.init({ version: "2.0", sandbox: false });
+
+let currentUser = null;
 
 document.getElementById("login").onclick = async () => {
   document.getElementById("status").innerText = "Logging in...";
   try {
     const scopes = ['username', 'payments'];
-    const auth = await Pi.authenticate(scopes);
+    const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
+    currentUser = auth.user;
     document.getElementById("username").innerText = auth.user.username;
     document.getElementById("login").innerText = "LOGGED IN ✓";
     document.getElementById("login").disabled = true;
@@ -47,22 +51,29 @@ document.getElementById("login").onclick = async () => {
   }
 };
 
+// Handle incomplete payments - Core Team requirement
+function onIncompletePaymentFound(payment) {
+  console.log("Found incomplete payment:", payment);
+  document.getElementById("status").innerHTML = `<span class="error">Found incomplete payment. Completing...</span>`;
+  // Pi will auto-call onReadyForServerCompletion
+}
+
 document.getElementById("pay").onclick = async () => {
   document.getElementById("status").innerText = "Opening Pi Wallet...";
   document.getElementById("pay").disabled = true;
 
   const paymentData = {
-    amount: 1, // CRITICAL: Must be 1 or more for review
-    memo: "SHALOM Premium Access",
-    metadata: {app: "SHALOM", item: "premium"}
+    amount: 1, // CRITICAL: Must be 1+ for review. 0.01 is rejected
+    memo: "SHALOM Premium Access Testnet",
+    metadata: {app: "SHALOM", item: "premium", network: "testnet"}
   };
 
   const callbacks = {
-    // Send to backend for approval
+    // STEP 1: Send to backend for approval within 15s
     onReadyForServerApproval: async (paymentId) => {
-      document.getElementById("status").innerText = "Approving with Server...";
+      document.getElementById("status").innerText = "Step 1/2: Approving with Server...";
       try {
-        const res = await fetch('/api/approve', {  // FIXED PATH
+        const res = await fetch('/api/approve', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentId })
@@ -71,16 +82,16 @@ document.getElementById("pay").onclick = async () => {
         console.log("Approved:", data);
         document.getElementById("status").innerText = "Approved! Waiting for Blockchain...";
       } catch(e) {
-        document.getElementById("status").innerText = "Approve Failed: " + e;
+        document.getElementById("status").innerHTML = `<span class="error">Approve Failed: ${e}</span>`;
         document.getElementById("pay").disabled = false;
       }
     },
 
-    // Send to backend for completion
+    // STEP 2: Send to backend for completion
     onReadyForServerCompletion: async (paymentId, txid) => {
-      document.getElementById("status").innerText = "Completing Payment...";
+      document.getElementById("status").innerText = "Step 2/2: Completing Payment...";
       try {
-        const res = await fetch('/api/complete', {  // FIXED PATH
+        const res = await fetch('/api/complete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentId, txid })
@@ -88,26 +99,26 @@ document.getElementById("pay").onclick = async () => {
         const data = await res.json();
         console.log("Completed:", data);
         
-        document.getElementById("status").innerHTML = `<span class="success">✅ PAYMENT SUCCESS!</span><br>TXID: ${txid}<br><br>Go to Developer Portal > Item 10 is ready`;
-        alert("CONGRATS! Screenshot this and submit Item 10");
+        document.getElementById("status").innerHTML = `<span class="success">✅ PAYMENT SUCCESS!</span><br>TXID: ${txid}<br><br>Go to Developer Portal > Refresh > Submit Item 10`;
+        alert("CONGRATULATIONS! Screenshot this and submit Item 10");
       } catch(e) {
-        document.getElementById("status").innerText = "Complete Failed: " + e;
+        document.getElementById("status").innerHTML = `<span class="error">Complete Failed: ${e}</span>`;
       }
       document.getElementById("pay").disabled = false;
     },
 
     onCancel: (paymentId) => {
-      document.getElementById("status").innerText = "Payment Cancelled. Try again.";
+      document.getElementById("status").innerHTML = `<span class="error">Payment Cancelled. Try again.</span>`;
       document.getElementById("pay").disabled = false;
     },
 
     onError: (error) => {
-      document.getElementById("status").innerText = "Error: " + error;
+      document.getElementById("status").innerHTML = `<span class="error">Error: ${error}</span>`;
       document.getElementById("pay").disabled = false;
     }
   };
 
-  // Open Wallet
+  // Open Pi Wallet
   Pi.createPayment(paymentData, callbacks);
 };
 </script>
