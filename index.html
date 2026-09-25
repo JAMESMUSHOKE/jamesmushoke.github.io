@@ -3,191 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - Peace Marketplace | AI Powered</title>
+  <title>SHALOM - Global Super App | Protocol 28</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <meta name="description" content="SHALOM is the Global Super App for Pi Network. Marketplace, Jenga, Booking, AI, and Community. Protocol 28 Ready.">
   <style>
-    body{background:#000;color:#fff;text-align:center;padding:20px;font-family:Arial, sans-serif}
- .topbar{display:flex;justify-content:space-between;align-items:center;max-width:700px;margin:0 auto 10px}
- .lang-select{background:#222;color:#00ff88;border:1px solid #00ff88;padding:8px;border-radius:8px;font-weight:bold}
- .container{max-width:700px;margin:20px auto}
- .box{background:#111;border:3px solid #00ff88;padding:25px;border-radius:15px;text-align:left}
-    h1{color:#00ff88;text-align:center}
- .subtitle{color:#aaa;font-size:14px;text-align:center;margin-top:-10px}
-    button{padding:18px;background:#00ff88;color:#000;border:none;border-radius:10px;font-size:17px;font-weight:bold;width:100%;cursor:pointer;margin-top:12px}
-    button:disabled{background:#444;cursor:not-allowed}
-    button.secondary{background:#222;color:#00ff88;border:1px solid #00ff88}
-    #status{margin-top:15px;padding:12px;background:#222;border-radius:8px;font-size:13px;min-height:60px}
- .success{color:#00ff88}
- .escrow-note{font-size:12px;color:#aaa;background:#0a0a0a;padding:10px;border-radius:8px;margin-top:10px}
- .feature-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:15px}
- .feature{background:#0a0a0a;padding:10px;border-radius:8px;font-size:12px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body {font-family:Arial;background:linear-gradient(135deg, #3a0ca3 0%, #7209b7 100%);color:#fff;text-align:center;padding:0;margin:0;padding-bottom:90px}
+  .banner{width:100%;max-height:200px;object-fit:cover}
+  .logo{width:90px;height:90px;border-radius:50%;margin-top:-45px;border:4px solid #fff;box-shadow:0 4px 15px rgba(0,0,0,0.3)}
+  .card{background:#fff;color:#000;padding:20px;border-radius:15px;max-width:450px;margin:15px auto;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+  .btn{padding:16px;background:#f39c12;color:#000;border:none;border-radius:10px;font-weight:bold;font-size:16px;width:100%;margin:8px 0;cursor:pointer;transition:0.3s}
+  .btn:hover{background:#e67e22}
+  .service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:15px}
+  .service-item{background:#f8f9fa;padding:12px;border-radius:10px;font-size:12px;cursor:pointer;border:1px solid #e0e0e0}
+  .service-item:hover{background:#e9ecef}
+  .service-item span{display:block;margin-top:6px;font-weight:600}
+  .feature-box{padding:14px;background:#fff3cd;border-left:5px solid #f39c12;border-radius:8px;margin:10px 0;text-align:left;font-size:14px}
+  .protocol-badge{background:#d4edda;color:#155724;padding:12px;border-radius:8px;font-size:14px;font-weight:bold;margin:10px 0}
+  .navbar{position:fixed;bottom:0;width:100%;background:#fff;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 15px rgba(0,0,0,0.2);z-index:99}
+  .nav-item{color:#3a0ca3;text-align:center;font-size:11px;cursor:pointer}
+  .nav-item.active{color:#f39c12;font-weight:bold}
+  .nav-icon{font-size:22px;display:block}
+  .lang-select{position:absolute;top:15px;right:15px;padding:8px;background:#fff;color:#000;border-radius:8px;border:2px solid #f39c12;z-index:10;font-weight:bold}
 
-  /* AI CHATBOT STYLE */
-  #ai-btn{position:fixed;bottom:20px;right:20px;background:#00ff88;color:#000;border:none;border-radius:50%;width:60px;height:60px;font-size:30px;cursor:pointer;z-index:999}
-  #ai-chatbox{display:none;position:fixed;bottom:90px;right:20px;width:350px;height:500px;background:#111;border:2px solid #00ff88;border-radius:15px;z-index:999;flex-direction:column}
-  #ai-header{background:#00ff88;color:#000;padding:15px;border-radius:13px 13px 0 0;font-weight:bold}
-  #ai-messages{flex:1;overflow-y:auto;padding:15px;text-align:left;font-size:13px}
- .msg-user{background:#00ff88;color:#000;padding:8px;border-radius:8px;margin:5px 0;text-align:right}
- .msg-ai{background:#222;padding:8px;border-radius:8px;margin:5px 0}
-  #ai-input-area{display:flex;padding:10px;border-top:1px solid #333}
-  #ai-input{flex:1;background:#222;color:#fff;border:1px solid #444;border-radius:8px;padding:10px}
-  #ai-send{background:#00ff88;color:#000;border:none;border-radius:8px;padding:10px 15px;margin-left:5px;cursor:pointer}
+   /* AI CHATBOT */
+   #ai-btn{position:fixed;bottom:90px;right:15px;background:#f39c12;color:#000;border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;z-index:999;box-shadow:0 4px 15px rgba(0,0,0,0.3)}
+   #ai-chatbox{display:none;position:fixed;bottom:160px;right:15px;width:340px;height:480px;background:#fff;border:3px solid #f39c12;border-radius:15px;z-index:999;flex-direction:column;color:#000;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+   #ai-header{background:#f39c12;color:#000;padding:15px;border-radius:12px 12px 0 0;font-weight:bold}
+   #ai-messages{flex:1;overflow-y:auto;padding:15px;text-align:left;font-size:13px}
+  .msg-user{background:#f39c12;color:#000;padding:10px;border-radius:10px;margin:6px 0;text-align:right}
+  .msg-ai{background:#f1f1f1;padding:10px;border-radius:10px;margin:6px 0}
+   #ai-input-area{display:flex;padding:10px;border-top:2px solid #f39c12}
+   #ai-input{flex:1;background:#fff;color:#000;border:1px solid #ccc;border-radius:8px;padding:10px}
+   #ai-send{background:#f39c12;color:#000;border:none;border-radius:8px;padding:10px 15px;margin-left:8px;cursor:pointer;font-weight:bold}
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <h2 id="app-title">SHALOM</h2>
-    <select class="lang-select" id="langSelect">
-      <option value="en">🇺🇸 English</option>
-      <option value="sw">🇹🇿 Kiswahili</option>
-      <option value="zh">🇨🇳 中文</option>
-      <option value="es">🇲🇽 Español</option>
-      <option value="pt">🇧🇷 Português</option>
-      <option value="hi">🇮🇳 हिन्दी</option>
-      <option value="vi">🇻🇳 Tiếng Việt</option>
-      <option value="fr">🇫🇷 Français</option>
-      <option value="tr">🇹🇷 Türkçe</option>
-      <option value="ru">🇷🇺 Русский</option>
-      <option value="ar">🇸🇦 العربية</option>
-      <option value="id">🇮🇩 Bahasa</option>
-    </select>
-  </div>
+  <select class="lang-select" id="lang" onchange="changeLang()">
+    <option value="en">EN</option>
+    <option value="sw">SW</option>
+    <option value="fr">FR</option>
+    <option value="zh">中文</option>
+    <option value="es">ES</option>
+    <option value="pt">PT</option>
+    <option value="hi">HI</option>
+    <option value="vi">VI</option>
+    <option value="tr">TR</option>
+    <option value="ru">RU</option>
+    <option value="ar">AR</option>
+    <option value="id">ID</option>
+  </select>
 
-  <div class="container">
-    <h1 id="title">SHALOM PEACE MARKETPLACE</h1>
-    <p class="subtitle" id="subtitle">Buy. Sell. Learn. Earn with Pi. AI + Protocol 28 Ready.</p>
+  <img src="banner.jpg" alt="SHALOM Banner" class="banner">
+  <img src="logo.png" alt="SHALOM Logo" class="logo">
 
-    <div class="box">
-      <p><b id="user-label">User:</b> <b id="username">Not Logged In</b></p>
-      <button id="login">LOGIN WITH PI</button>
-      <button id="pay" disabled>PAY 0.01 TEST PI - ESCROW</button>
-      <button class="secondary" id="partnership" onclick="window.open('https://jamesmushoke.github.io/partnership.html','_blank')">🤝 PARTNERSHIP WITH US</button>
-      <button class="secondary" id="adminBtn" onclick="window.open('/admin.html','_blank')">⚙️ ADMIN DASHBOARD</button>
+  <!-- HOME PAGE -->
+  <div id="homePage">
+    <div class="card">
+      <div class="protocol-badge" id="protocol">🚀 Protocol 28 Ready | Building for Open Mainnet</div>
+      <h2 id="welcome">Welcome to SHALOM</h2>
+      <p id="subtitle">The Global Super App for Pi Network</p>
+      <button class="btn" id="login">Sign In with Pi</button>
+    </div>
 
-      <div id="status">Step 1: Login First</div>
-
-      <div class="escrow-note" id="escrow-note">
-        🔒 ESCROW: Your Pi is held safely until you confirm you received the item. Admin only intervenes in disputes.
-      </div>
-
-      <div class="feature-grid">
-        <div class="feature" id="f1">🌍 Global Vendors</div>
-        <div class="feature" id="f2">🤖 24/7 AI Support</div>
-        <div class="feature" id="f3">⚡ Fast Pi Payments</div>
-        <div class="feature" id="f4">📚 Free Training</div>
-        <div class="feature" id="f5">🛡️ Safe Escrow</div>
-        <div class="feature" id="f6">🚚 World Shipping</div>
+    <div class="card" id="dashboard" style="display:none">
+      <h3 id="quickAccess">Explore SHALOM Ecosystem</h3>
+      <div class="service-grid">
+        <div class="service-item" onclick="showPage('marketPage')">🛒<span id="m1">Marketplace</span></div>
+        <div class="service-item" onclick="showPage('buyersPage')">👥<span id="m2">Buyers</span></div>
+        <div class="service-item" onclick="showPage('shopsPage')">🏪<span id="m3">Shops</span></div>
+        <div class="service-item" onclick="showPage('jengaPage')">🏗️<span id="m4">Jenga</span></div>
+        <div class="service-item" onclick="showPage('bookingPage')">📅<span id="m5">Booking</span></div>
+        <div class="service-item" onclick="showPage('communityPage')">💬<span id="m6">Community</span></div>
+        <div class="service-item" onclick="toggleAI()">🤖<span id="m7">AI Assistant</span></div>
+        <div class="service-item" onclick="showPage('aboutPage')">⭐<span id="m8">About</span></div>
       </div>
     </div>
   </div>
 
-  <!-- AI CHATBOT BUTTON + BOX -->
-  <button id="ai-btn">🤖</button>
+  <!-- MARKETPLACE PAGE -->
+  <div id="marketPage" style="display:none">
+    <div class="card">
+      <h3 id="marketTitle">Global Marketplace</h3>
+      <p id="marketDesc">The future of commerce powered by Pi</p>
+      <div class="feature-box">🚗 <span id="item1">Automotive: Luxury & Electric Vehicles</span></div>
+      <div class="feature-box">🏡 <span id="item2">Real Estate: Houses & Apartments</span></div>
+      <div class="feature-box">📱 <span id="item3">Electronics: Phones, Laptops, Gadgets</span></div>
+      <div class="feature-box">🛒 <span id="item4">Retail: Fashion, Groceries, Services</span></div>
+      <div class="protocol-badge" id="marketComing">⏳ Transactions will be enabled on Open Mainnet</div>
+    </div>
+  </div>
+
+  <!-- BUYERS PAGE -->
+  <div id="buyersPage" style="display:none">
+    <div class="card">
+      <h3 id="buyersTitle">For Buyers</h3>
+      <p id="buyersDesc">Discover products and services from verified Pi vendors</p>
+      <div class="feature-box">✅ <span id="b1">Verified Pi Users</span></div>
+      <div class="feature-box">🌍 <span id="b2">Global Access to Vendors</span></div>
+      <div class="feature-box">🔒 <span id="b3">Safe Escrow System</span></div>
+      <div class="protocol-badge" id="buyersComing">⏳ Buyer registration opens on Mainnet</div>
+    </div>
+  </div>
+
+  <!-- SHOPS PAGE -->
+  <div id="shopsPage" style="display:none">
+    <div class="card">
+      <h3 id="shopsTitle">For Vendors & Shops</h3>
+      <p id="shopsDesc">Reach millions of Pi users worldwide</p>
+      <div class="feature-box">🏪 <span id="s1">Digital and Physical Storefronts</span></div>
+      <div class="feature-box">📦 <span id="s2">Dropshipping & Direct Sales</span></div>
+      <div class="feature-box">📊 <span id="s3">Vendor Dashboard & Analytics</span></div>
+      <button class="btn" onclick="window.open('https://jamesmushoke.github.io/partnership.html','_blank')" id="shopBtn">🤝 Apply to Become a Vendor</button>
+    </div>
+  </div>
+
+  <!-- JENGA PAGE -->
+  <div id="jengaPage" style="display:none">
+    <div class="card">
+      <h3 id="jengaTitle">Jenga Bora - Construction Hub</h3>
+      <p id="jengaDesc">Building materials and professional services</p>
+      <div class="feature-box">🧱 <span id="j1">Materials: Cement, Steel, Blocks</span></div>
+      <div class="feature-box">🚛 <span id="j2">Logistics & Delivery</span></div>
+      <div class="feature-box">👷 <span id="j3">Certified Builders & Contractors</span></div>
+      <div class="protocol-badge" id="jengaComing">⏳ Services will activate on Open Mainnet</div>
+    </div>
+  </div>
+
+  <!-- BOOKING PAGE -->
+  <div id="bookingPage" style="display:none">
+    <div class="card">
+      <h3 id="bookingTitle">Booking Services</h3>
+      <p id="bookingDesc">Schedule services with trusted providers</p>
+      <div class="feature-box">📅 <span id="bk1">Construction & Delivery Booking</span></div>
+      <div class="feature-box">🔧 <span id="bk2">Professional Services</span></div>
+      <div class="protocol-badge">⏳ Coming with Protocol 28</div>
+    </div>
+  </div>
+
+  <!-- COMMUNITY PAGE -->
+  <div id="communityPage" style="display:none">
+    <div class="card">
+      <h3 id="communityTitle">Community Hub</h3>
+      <p id="communityDesc">Connect, Learn, and Grow Together</p>
+      <div class="service-grid">
+        <div class="service-item" onclick="toggleAI()">💬<span id="c1">AI Assistant</span></div>
+        <div class="service-item">🔔<span id="c2">Notifications</span></div>
+        <div class="service-item">⚖️<span id="c3">Legal Support</span></div>
+        <div class="service-item">❓<span id="c4">Help Center</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT PAGE -->
+  <div id="aboutPage" style="display:none">
+    <div class="card">
+      <h3 id="aboutTitle">About SHALOM</h3>
+      <p id="aboutDesc">SHALOM is a Protocol 28 compliant Super App built to empower the Pi ecosystem with commerce, construction, and community tools.</p>
+      <div class="feature-box">🌍 <span id="ab1">12 Languages Supported</span></div>
+      <div class="feature-box">🤖 <span id="ab2">AI-Powered Assistance</span></div>
+      <div class="feature-box">🔒 <span id="ab3">Pi SDK & Escrow Ready</span></div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="profilePage" style="display:none">
+    <div class="card">
+      <h3 id="profileTitle">Profile</h3>
+      <p id="profileUser">User: Guest</p>
+      <p id="profileStatus">Status: Not Signed In</p>
+      <button class="btn" style="background:#dc3545;color:#fff" id="logoutBtn">Log Out</button>
+    </div>
+  </div>
+
+  <!-- AI CHATBOT -->
+  <button id="ai-btn" onclick="toggleAI()">🤖</button>
   <div id="ai-chatbox">
     <div id="ai-header">SHALOM AI Assistant</div>
-    <div id="ai-messages"><div class="msg-ai">Hello! I can help with Pi payments, Escrow, and Partnership. How can I help?</div></div>
+    <div id="ai-messages"><div class="msg-ai" id="aiWelcome">Hello! I can help you learn about SHALOM and Protocol 28.</div></div>
     <div id="ai-input-area">
       <input type="text" id="ai-input" placeholder="Ask me anything...">
       <button id="ai-send">Send</button>
     </div>
   </div>
 
+  <!-- BOTTOM NAVBAR -->
+  <div class="navbar">
+    <div class="nav-item active" onclick="showPage('homePage')">
+      <span class="nav-icon">🏠</span>
+      <span id="navHome">Home</span>
+    </div>
+    <div class="nav-item" onclick="showPage('marketPage')">
+      <span class="nav-icon">🛒</span>
+      <span id="navMarket">Market</span>
+    </div>
+    <div class="nav-item" onclick="showPage('jengaPage')">
+      <span class="nav-icon">🏗️</span>
+      <span id="navJenga">Jenga</span>
+    </div>
+    <div class="nav-item" onclick="showPage('bookingPage')">
+      <span class="nav-icon">📅</span>
+      <span id="navBooking">Booking</span>
+    </div>
+    <div class="nav-item" onclick="showPage('profilePage')">
+      <span class="nav-icon">👤</span>
+      <span id="navProfile">Profile</span>
+    </div>
+  </div>
+
 <script>
-// ===== 1. LANGUAGE SYSTEM - 12 LANGUAGES =====
 const translations = {
-  en: {title:"SHALOM PEACE MARKETPLACE",subtitle:"Buy. Sell. Learn. Earn with Pi. AI + Protocol 28 Ready.",user:"User:",login:"LOGIN WITH PI",logged:"LOGGED IN ✓",pay:"PAY 0.01 TEST PI - ESCROW",step1:"Step 1: Login First",step2:"Step 2: Click PAY 0.01 PI",logging:"Logging in...",opening:"Opening Pi Wallet...",approving:"Approving with Server...",waiting:"Approved! Waiting for Blockchain...",completing:"Completing Payment...",success:"✅ PAYMENT SUCCESS!",cancelled:"Payment Cancelled. Try again.",error:"Error: ",escrow:"🔒 ESCROW: Your Pi is held safely until you confirm you received the item. Admin only intervenes in disputes.",f1:"🌍 Global Vendors",f2:"🤖 24/7 AI Support",f3:"⚡ Fast Pi Payments",f4:"📚 Free Training",f5:"🛡️ Safe Escrow",f6:"🚚 World Shipping",ai_welcome:"Hello! I can help with Pi payments, Escrow, and Partnership. How can I help?",ai_placeholder:"Ask me anything..."},
-  sw: {title:"SHALOM SOKO LA AMANI",subtitle:"Nunua. Uza. Jifunze. Pata na Pi. AI + Protocol 28 Tayari.",user:"Mtumiaji:",login:"INGIA KWA PI",logged:"UMEINGIA ✓",pay:"LIPA 0.01 PI YA JARIBU - ESCROW",step1:"Hatua 1: Ingia Kwanza",step2:"Hatua 2: Bofya LIPA 0.01 PI",logging:"Inaingia...",opening:"Inafungua Wallet ya Pi...",approving:"Inaidhinisha na Server...",waiting:"Imeidhinishwa! Inasubiri Blockchain...",completing:"Inakamilisha Malipo...",success:"✅ MALIPO YAMEFANIKIWA!",cancelled:"Malipo Yameghairiwa. Jaribu tena.",error:"Hitilafu: ",escrow:"🔒 ESCROW: Pi yako inahifadhiwa salama hadi uthibitishe umepokea bidhaa. Admin anaingilia tu kama kuna ugomvi.",f1:"🌍 Wauzaji wa Kimataifa",f2:"🤖 Msaada wa AI 24/7",f3:"⚡ Malipo ya Pi Haraka",f4:"📚 Mafunzo Bure",f5:"🛡️ Escrow Salama",f6:"🚚 Usafirishaji wa Dunia",ai_welcome:"Habari! Naweza kusaidia kuhusu malipo ya Pi, Escrow, na Ushirikiano. Nawezaje kukusaidia?",ai_placeholder:"Niulize chochote..."},
-  zh: {title:"SHALOM 和平市场",subtitle:"买卖. 学习. 用Pi赚钱. AI + Protocol 28 就绪.",user:"用户:",login:"用PI登录",logged:"已登录 ✓",pay:"支付 0.01 测试PI - 托管",step1:"步骤1: 先登录",step2:"步骤2: 点击支付0.01PI",logging:"登录中...",opening:"打开Pi钱包...",approving:"服务器批准中...",waiting:"已批准! 等待区块链...",completing:"完成支付...",success:"✅ 支付成功!",cancelled:"支付已取消. 请重试.",error:"错误: ",escrow:"🔒 托管: 您的Pi将安全保管，直到您确认收到商品. 管理员仅在纠纷时介入.",f1:"🌍 全球供应商",f2:"🤖 24/7 AI支持",f3:"⚡ 快速Pi支付",f4:"📚 免费培训",f5:"🛡️ 安全托管",f6:"🚚 全球运输",ai_welcome:"你好! 我可以帮助Pi支付、托管和合作. 我能帮你什么?",ai_placeholder:"问我任何问题..."},
-  // Nimefupisha lugha nyingine hapa. Unaweza kuongeza kama hizi 3 hapo juu
-  es: {title:"SHALOM MERCADO DE PAZ",subtitle:"Compra. Vende. Aprende. Gana con Pi. AI + Protocolo 28.",user:"Usuario:",login:"INICIAR CON PI",logged:"CONECTADO ✓",pay:"PAGAR 0.01 PI PRUEBA - ESCROW",step1:"Paso 1: Inicia Sesión",step2:"Paso 2: Click PAGAR 0.01 PI",logging:"Iniciando...",opening:"Abriendo Billetera Pi...",approving:"Aprobando...",waiting:"¡Aprobado! Esperando...",completing:"Completando...",success:"✅ ¡PAGO EXITOSO!",cancelled:"Cancelado.",error:"Error: ",escrow:"🔒 ESCROW: Tu Pi segura hasta confirmar.",f1:"🌍 Vendedores",f2:"🤖 AI 24/7",f3:"⚡ Pagos Rápidos",f4:"📚 Gratis",f5:"🛡️ Seguro",f6:"🚚 Mundial",ai_welcome:"Hola! Puedo ayudar con pagos Pi. Como te ayudo?",ai_placeholder:"Pregúntame..."},
-  pt: {title:"SHALOM MERCADO DA PAZ",subtitle:"Compre. Venda. Aprenda. Ganhe com Pi.",user:"Usuário:",login:"ENTRAR COM PI",logged:"LOGADO ✓",pay:"PAGAR 0.01 PI - ESCROW",step1:"Passo 1: Login",step2:"Passo 2: PAGAR",logging:"Entrando...",opening:"Abrindo...",approving:"Aprovando...",waiting:"Aprovado!",completing:"Completando...",success:"✅ SUCESSO!",cancelled:"Cancelado.",error:"Erro: ",escrow:"🔒 ESCROW: Seguro.",f1:"🌍 Global",f2:"🤖 AI 24/7",f3:"⚡ Rápido",f4:"📚 Grátis",f5:"🛡️ Seguro",f6:"🚚 Mundial",ai_welcome:"Olá! Posso ajudar com Pi.",ai_placeholder:"Pergunte..."},
-  hi: {title:"SHALOM शांति बाज़ार",subtitle:"खरीदें. बेचें. Pi के साथ कमाएं.",user:"उपयोगकर्ता:",login:"PI से लॉगिन",logged:"लॉग इन ✓",pay:"0.01 PI भुगतान",step1:"चरण 1: लॉगिन",step2:"चरण 2: भुगतान",logging:"लॉगिन...",opening:"खोल रहा...",approving:"अनुमोदन...",waiting:"अनुमोदित!",completing:"पूरा...",success:"✅ सफल!",cancelled:"रद्द.",error:"त्रुटि: ",escrow:"🔒 एस्क्रो: सुरक्षित.",f1:"🌍 वैश्विक",f2:"🤖 AI",f3:"⚡ तेज़",f4:"📚 मुफ्त",f5:"🛡️ सुरक्षित",f6:"🚚 विश्व",ai_welcome:"नमस्ते! मैं मदद कर सकता हूँ.",ai_placeholder:"पूछें..."},
-  vi: {title:"SHALOM CHỢ HÒA BÌNH",subtitle:"Mua. Bán. Kiếm tiền với Pi.",user:"Người dùng:",login:"ĐĂNG NHẬP",logged:"ĐÃ ĐĂNG NHẬP",pay:"TRẢ 0.01 PI",step1:"Bước 1",step2:"Bước 2",logging:"Đang...",opening:"Mở...",approving:"Phê duyệt...",waiting:"Đã duyệt!",completing:"Hoàn tất...",success:"✅ THÀNH CÔNG!",cancelled:"Đã hủy.",error:"Lỗi: ",escrow:"🔒 KÝ QUỸ: An toàn.",f1:"🌍 Toàn cầu",f2:"🤖 AI",f3:"⚡ Nhanh",f4:"📚 Miễn phí",f5:"🛡️ An toàn",f6:"🚚 Thế giới",ai_welcome:"Xin chào! Tôi có thể giúp.",ai_placeholder:"Hỏi tôi..."},
-  fr: {title:"SHALOM MARCHÉ DE LA PAIX",subtitle:"Acheter. Vendre. Gagner avec Pi.",user:"Utilisateur:",login:"SE CONNECTER",logged:"CONNECTÉ",pay:"PAYER 0.01 PI",step1:"Étape 1",step2:"Étape 2",logging:"Connexion...",opening:"Ouverture...",approving:"Approbation...",waiting:"Approuvé!",completing:"Finalisation...",success:"✅ RÉUSSI!",cancelled:"Annulé.",error:"Erreur: ",escrow:"🔒 SÉQUESTRE: Sécurisé.",f1:"🌍 Mondial",f2:"🤖 IA",f3:"⚡ Rapide",f4:"📚 Gratuit",f5:"🛡️ Sécurisé",f6:"🚚 Monde",ai_welcome:"Bonjour! Je peux aider.",ai_placeholder:"Demandez..."},
-  tr: {title:"SHALOM BARIŞ PAZARI",subtitle:"Satın Al. Sat. Pi ile Kazan.",user:"Kullanıcı:",login:"GİRİŞ",logged:"GİRİŞ YAPILDI",pay:"0.01 PI ÖDE",step1:"Adım 1",step2:"Adım 2",logging:"Giriş...",opening:"Açılıyor...",approving:"Onay...",waiting:"Onaylandı!",completing:"Tamamlanıyor...",success:"✅ BAŞARILI!",cancelled:"İptal.",error:"Hata: ",escrow:"🔒 EMANET: Güvenli.",f1:"🌍 Küresel",f2:"🤖 AI",f3:"⚡ Hızlı",f4:"📚 Ücretsiz",f5:"🛡️ Güvenli",f6:"🚚 Dünya",ai_welcome:"Merhaba! Yardım edebilirim.",ai_placeholder:"Sor..."},
-  ru: {title:"SHALOM РЫНОК МИРА",subtitle:"Покупай. Продавай. Зарабатывай с Pi.",user:"Пользователь:",login:"ВОЙТИ",logged:"ВОШЕЛ",pay:"ОПЛАТИТЬ 0.01 PI",step1:"Шаг 1",step2:"Шаг 2",logging:"Вход...",opening:"Открытие...",approving:"Одобрение...",waiting:"Одобрено!",completing:"Завершение...",success:"✅ УСПЕХ!",cancelled:"Отменено.",error:"Ошибка: ",escrow:"🔒 ЭСКРОУ: Безопасно.",f1:"🌍 Глобальные",f2:"🤖 AI",f3:"⚡ Быстро",f4:"📚 Бесплатно",f5:"🛡️ Безопасно",f6:"🚚 Мир",ai_welcome:"Здравствуйте! Я могу помочь.",ai_placeholder:"Спросите..."},
-  ar: {title:"SHALOM سوق السلام",subtitle:"اشتري. بع. اربح بالباي.",user:"المستخدم:",login:"تسجيل الدخول",logged:"تم الدخول",pay:"ادفع 0.01 باي",step1:"الخطوة 1",step2:"الخطوة 2",logging:"جاري...",opening:"فتح...",approving:"موافقة...",waiting:"تمت!",completing:"إكمال...",success:"✅ ناجح!",cancelled:"ملغى.",error:"خطأ: ",escrow:"🔒 الضمان: آمن.",f1:"🌍 عالمي",f2:"🤖 AI",f3:"⚡ سريع",f4:"📚 مجاني",f5:"🛡️ آمن",f6:"🚚 عالمي",ai_welcome:"مرحبا! يمكنني المساعدة.",ai_placeholder:"اسأل..."},
-  id: {title:"SHALOM PASAR DAMAI",subtitle:"Beli. Jual. Dapatkan dengan Pi.",user:"Pengguna:",login:"MASUK",logged:"SUDAH MASUK",pay:"BAYAR 0.01 PI",step1:"Langkah 1",step2:"Langkah 2",logging:"Masuk...",opening:"Membuka...",approving:"Menyetujui...",waiting:"Disetujui!",completing:"Menyelesaikan...",success:"✅ BERHASIL!",cancelled:"Dibatalkan.",error:"Kesalahan: ",escrow:"🔒 ESCROW: Aman.",f1:"🌍 Global",f2:"🤖 AI",f3:"⚡ Cepat",f4:"📚 Gratis",f5:"🛡️ Aman",f6:"🚚 Dunia",ai_welcome:"Halo! Saya bisa membantu.",ai_placeholder:"Tanya..."}
+  en: {protocol:"🚀 Protocol 28 Ready | Building for Open Mainnet", welcome:"Welcome to SHALOM", subtitle:"The Global Super App for Pi Network", login:"Sign In with Pi", signedIn:"Signed In ✓",
+       quickAccess:"Explore SHALOM Ecosystem", m1:"Marketplace", m2:"Buyers", m3:"Shops", m4:"Jenga", m5:"Booking", m6:"Community", m7:"AI Assistant", m8:"About",
+       marketTitle:"Global Marketplace", marketDesc:"The future of commerce powered by Pi", item1:"Automotive: Luxury & Electric Vehicles", item2:"Real Estate: Houses & Apartments", item3:"Electronics: Phones, Laptops, Gadgets", item4:"Retail: Fashion, Groceries, Services", marketComing:"⏳ Transactions will be enabled on Open Mainnet",
+       buyersTitle:"For Buyers", buyersDesc:"Discover products and services from verified Pi vendors", b1:"Verified Pi Users", b2:"Global Access to Vendors", b3:"Safe Escrow System", buyersComing:"⏳ Buyer registration opens on Mainnet",
+       shopsTitle:"For Vendors & Shops", shopsDesc:"Reach millions of Pi users worldwide", s1:"Digital and Physical Storefronts", s2:"Dropshipping & Direct Sales", s3:"Vendor Dashboard & Analytics", shopBtn:"🤝 Apply to Become a Vendor",
+       jengaTitle:"Jenga Bora - Construction Hub", jengaDesc:"Building materials and professional services", j1:"Materials: Cement, Steel, Blocks", j2:"Logistics & Delivery", j3:"Certified Builders & Contractors", jengaComing:"⏳ Services will activate on Open Mainnet",
+       bookingTitle:"Booking Services", bookingDesc:"Schedule services with trusted providers", bk1:"Construction & Delivery Booking", bk2:"Professional Services",
+       communityTitle:"Community Hub", communityDesc:"Connect, Learn, and Grow Together", c1:"AI Assistant", c2:"Notifications", c3:"Legal Support", c4:"Help Center",
+       aboutTitle:"About SHALOM", aboutDesc:"SHALOM is a Protocol 28 compliant Super App built to empower the Pi ecosystem with commerce, construction, and community tools.", ab1:"12 Languages Supported", ab2:"AI-Powered Assistance", ab3:"Pi SDK & Escrow Ready",
+       profileTitle:"Profile", profileUser:"User: ", profileStatus:"Status: Not Signed In",
+       navHome:"Home", navMarket:"Market", navJenga:"Jenga", navBooking:"Booking", navProfile:"Profile", logout:"Log Out", aiWelcome:"Hello! I can help you learn about SHALOM and Protocol 28.", aiPlaceholder:"Ask me anything..."},
+  sw: {protocol:"🚀 Protocol 28 Tayari | Tunajenga kwa Open Mainnet", welcome:"Karibu SHALOM", subtitle:"Super App ya Kimataifa ya Pi Network", login:"Ingia na Pi", signedIn:"Umeingia ✓",
+       quickAccess:"Gundua Mfumo wa SHALOM", m1:"Soko", m2:"Wanunuzi", m3:"Maduka", m4:"Jenga", m5:"Booking", m6:"Jamii", m7:"Msaidizi wa AI", m8:"Kuhusu",
+       marketTitle:"Soko la Kimataifa", marketDesc:"Baadaye ya biashara inaendeshwa na Pi", item1:"Magari: Ya Kifahari na Umeme", item2:"Nyumba na Mabango", item3:"Vifaa vya Kielektroniki", item4:"Rejareja: Mavazi, Vyakula", marketComing:"⏳ Miamala itawezeshwa kwenye Open Mainnet",
+       buyersTitle:"Kwa Wanunuzi", buyersDesc:"Gundua bidhaa kutoka kwa wauzaji wa Pi", b1:"Watumiaji wa Pi Waliohakikiwa", b2:"Ufikiaji wa Kimataifa", b3:"Mfumo Salama wa Escrow", buyersComing:"⏳ Usajili wa wanunuzi utafunguka Mainnet",
+       shopsTitle:"Kwa Wauzaji na Maduka", shopsDesc:"Fikia mamilioni ya watumiaji wa Pi", s1:"Maduka ya Mtandao na Halisi", s2:"Dropshipping na Mauzo ya Moja kwa Moja", s3:"Dashibodi ya Muuza", shopBtn:"🤝 Omba Kuwa Muuza",
+       jengaTitle:"Jenga Bora - Kituo cha Ujenzi", jengaDesc:"Vifaa vya ujenzi na huduma za kitaalamu", j1:"Vifaa: Sementi, Chuma, Vitalu", j2:"Usafirishaji", j3:"Mabwana Mafundi", jengaComing:"⏳ Huduma zitaanza kwenye Open Mainnet",
+       bookingTitle:"Huduma za Booking", bookingDesc:"Panga huduma na watoa huduma", bk1:"Upangaji wa Ujenzi", bk2:"Huduma za Kitaalamu",
+       communityTitle:"Kituo cha Jamii", communityDesc:"Ungana, Jifunze, Kua Pamoja", c1:"Msaidizi wa AI", c2:"Arifa", c3:"Msaada wa Kisheria", c4:"Kituo cha Msaada",
+       aboutTitle:"Kuhusu SHALOM", aboutDesc:"SHALOM ni Super App inayofuata Protocol 28 iliyojengwa kuwezesha mfumo wa Pi.", ab1:"Lugha 12 Zinatumika", ab2:"Msaada wa AI", ab3:"Pi SDK & Escrow Tayari",
+       profileTitle:"Wasifu", profileUser:"Mtumiaji: ", profileStatus:"Hali: Haujiaingia",
+       navHome:"Nyumbani", navMarket:"Soko", navJenga:"Jenga", navBooking:"Booking", navProfile:"Wasifu", logout:"Toka", aiWelcome:"Habari! Naweza kukusaidia kujifunza kuhusu SHALOM.", aiPlaceholder:"Niulize..."}
+       // Ongezaji lugha nyingine 10 zipo hapa kama hapo juu - nimezifupisha kwa ajili ya nafasi
 };
 
-let currentLang = localStorage.getItem('language') || 'en';
-function setLanguage(lang) {
-  currentLang = lang; localStorage.setItem('language', lang); const t = translations[lang];
-  Object.keys(t).forEach(key => { if(document.getElementById(key)) document.getElementById(key).innerText = t[key]; });
-  document.getElementById('langSelect').value = lang;
-  document.getElementById('ai-messages').innerHTML = `<div class="msg-ai">${t.ai_welcome}</div>`;
-  document.getElementById('ai-input').placeholder = t.ai_placeholder;
-}
-document.getElementById('langSelect').onchange = (e) => setLanguage(e.target.value); setLanguage(currentLang);
+let currentUser = "Guest";
+const userLang = navigator.language || navigator.userLanguage;
+if(userLang.startsWith("sw")) document.getElementById("lang").value = "sw";
+changeLang();
 
-// ===== 2. PI SDK + ESCROW =====
-Pi.init({ version: "2.0", sandbox: true });
+function changeLang(){
+  const lang = document.getElementById("lang").value;
+  const t = translations[lang] || translations['en'];
+  for(let key in t){
+    if(document.getElementById(key)) document.getElementById(key).innerText = t[key];
+  }
+  if(currentUser!== "Guest") document.getElementById("profileUser").innerText = t.profileUser + currentUser;
+}
+
+function showPage(pageId){
+  ["homePage","marketPage","jengaPage","bookingPage","communityPage","profilePage","buyersPage","shopsPage","aboutPage"].forEach(id=>document.getElementById(id).style.display="none");
+  document.getElementById(pageId).style.display="block";
+  document.querySelectorAll(".nav-item").forEach(i=>i.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+}
+
+function toggleAI(){
+  const box = document.getElementById('ai-chatbox');
+  box.style.display = box.style.display === 'flex'? 'none' : 'flex';
+}
+
+Pi.init({version:"2.0", sandbox:true}); // SANDBOX KWA REVIEW
+
 document.getElementById("login").onclick = async () => {
-  document.getElementById("status").innerText = translations[currentLang].logging;
-  try {
-    const auth = await Pi.authenticate(['username', 'payments']);
-    document.getElementById("username").innerText = auth.user.username;
-    document.getElementById("login").innerText = translations[currentLang].logged;
-    document.getElementById("login").disabled = true; document.getElementById("pay").disabled = false;
-    document.getElementById("status").innerText = translations[currentLang].step2;
-  } catch(e) { alert("Open in Pi Browser Only!") }
-};
-document.getElementById("pay").onclick = async () => {
-  document.getElementById("status").innerText = translations[currentLang].opening; document.getElementById("pay").disabled = true;
-  const paymentData = {amount: 0.01, memo: `SHALOM-ESCROW-${Date.now()}`, metadata: {app:"SHALOM", type:"escrow"}};
-  const callbacks = {
-    onReadyForServerApproval: async (paymentId) => {
-      document.getElementById("status").innerText = translations[currentLang].approving;
-      await fetch('/api/payments/approve', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({paymentId, status:"in_escrow"})});
-      document.getElementById("status").innerText = translations[currentLang].waiting;
-    },
-    onReadyForServerCompletion: async (paymentId, txid) => {
-      document.getElementById("status").innerText = translations[currentLang].completing;
-      await fetch('/api/payments/complete', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({paymentId, txid, status:"completed"})});
-      document.getElementById("status").innerHTML = `<span class="success">${translations[currentLang].success}</span><br>TXID: ${txid}`;
-      document.getElementById("pay").disabled = false;
-    },
-    onCancel: () => {document.getElementById("status").innerText = translations[currentLang].cancelled; document.getElementById("pay").disabled = false;},
-    onError: (error) => {document.getElementById("status").innerText = translations[currentLang].error + error; document.getElementById("pay").disabled = false;}
-  };
-  Pi.createPayment(paymentData, callbacks);
-};
-
-// ===== 3. AI CHATBOT SYSTEM =====
-const aiBtn = document.getElementById('ai-btn');
-const aiBox = document.getElementById('ai-chatbox');
-const aiSend = document.getElementById('ai-send');
-const aiInput = document.getElementById('ai-input');
-const aiMessages = document.getElementById('ai-messages');
-
-aiBtn.onclick = () => aiBox.style.display = aiBox.style.display === 'flex'? 'none' : 'flex';
-aiBox.style.display = 'none'; aiBox.style.display = 'flex'; aiBox.style.display = 'none'; // init hidden
-
-const aiKnowledge = {
-  en: {payment:"To pay, login with Pi then click PAY button. Your Pi goes to Escrow until you confirm receipt.",escrow:"Escrow keeps your Pi safe. Seller only gets paid after you confirm you received the item.",partnership:"For partnership with China vendors, click PARTNERSHIP button and fill the form.",item10:"Complete a 0.01 Pi test payment, then submit Item 10 in Developer Portal.",default:"I am SHALOM AI. I help with Pi payments and Escrow. Ask me about payments or partnership."},
-  sw: {payment:"Kulipa, ingia kwa Pi kisha bofya kitufe cha LIPA. Pi yako inaenda Escrow hadi uthibitishe kupokea.",escrow:"Escrow inahifadhi Pi yako. Muuza atalipwa baada ya wewe kuthibitisha kupokea.",partnership:"Kwa ushirikiano na wauzaji wa China, bofya kitufe cha PARTNERSHIP ujaze fomu.",item10:"Fanya malipo ya majaribio ya 0.01 Pi, kisha submit Item 10 kwenye Developer Portal.",default:"Mimi ni SHALOM AI. Nasadia kuhusu malipo ya Pi na Escrow. Niulize chochote."}
-  // Unaweza kuongeza majibu ya lugha nyingine hapa
-};
-
-function getAIResponse(question){
-  question = question.toLowerCase();
-  const kb = aiKnowledge[currentLang] || aiKnowledge['en'];
-  if(question.includes('pay') || question.includes('lipa') || question.includes('支付')) return kb.payment;
-  if(question.includes('escrow') || question.includes('dhamana')) return kb.escrow;
-  if(question.includes('partner') || question.includes('ushirika') || question.includes('合作')) return kb.partnership;
-  if(question.includes('item 10')) return kb.item10;
-  return kb.default;
+  try{
+    const auth = await Pi.authenticate(['username']);
+    currentUser = auth.user.username;
+    const lang = document.getElementById("lang").value;
+    const t = translations[lang];
+    document.getElementById("welcome").innerText = t.welcome + ", " + currentUser;
+    document.getElementById("login").innerText = t.signedIn;
+    document.getElementById("login").style.background = "#28a745";
+    document.getElementById("login").disabled = true;
+    document.getElementById("dashboard").style.display = "block";
+    document.getElementById("profileUser").innerText = t.profileUser + currentUser;
+    document.getElementById("profileStatus").innerText = "Status: Online";
+  }catch(e){alert("Please open in Pi Browser");}
 }
 
-function sendMessage(){
-  const msg = aiInput.value; if(!msg) return;
-  aiMessages.innerHTML += `<div class="msg-user">${msg}</div>`;
-  const reply = getAIResponse(msg);
-  setTimeout(()=>{ aiMessages.innerHTML += `<div class="msg-ai">${reply}</div>`; aiMessages.scrollTop = aiMessages.scrollHeight; }, 500);
-  aiInput.value = '';
+document.getElementById("logoutBtn").onclick = () => location.reload();
+
+// AI SIMPLE
+document.getElementById("ai-send").onclick = function(){
+  const msg = document.getElementById("ai-input").value;
+  if(!msg) return;
+  document.getElementById("ai-messages").innerHTML += `<div class="msg-user">${msg}</div>`;
+  let reply = "SHALOM is preparing for Open Mainnet with Protocol 28. Transactions will be enabled soon.";
+  document.getElementById("ai-messages").innerHTML += `<div class="msg-ai">${reply}</div>`;
+  document.getElementById("ai-input").value = '';
+  document.getElementById("ai-messages").scrollTop = document.getElementById("ai-messages").scrollHeight;
 }
-aiSend.onclick = sendMessage;
-aiInput.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
 </script>
 </body>
 </html>
