@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHALOM - Global Partnership Program</title>
+  <style>
+    body{background:#000;color:#fff;font-family:Arial, sans-serif;margin:0;padding:20px}
+    .container{max-width:700px;margin:0 auto}
+    h1{color:#00ff88;text-align:center}
+    .subtitle{text-align:center;color:#aaa;margin-bottom:30px}
+    .box{background:#111;border:2px solid #00ff88;padding:25px;border-radius:15px;margin-bottom:20px}
+    label{display:block;margin-top:15px;margin-bottom:5px;color:#00ff88;font-weight:bold}
+    input, textarea, select{width:100%;padding:12px;background:#222;border:1px solid #444;border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box}
+    button{width:100%;padding:18px;background:#00ff88;color:#000;border:none;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer;margin-top:20px}
+    button:hover{background:#00dd77}
+    .info{font-size:13px;color:#aaa;line-height:1.6}
+    .success{display:none;background:#00ff88;color:#000;padding:15px;border-radius:8px;text-align:center;margin-top:15px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SHALOM GLOBAL PARTNERSHIP</h1>
+    <p class="subtitle">Join the World's First Pi-Powered Peace Marketplace 🌍</p>
 
+    <div class="box">
+      <h2>🤝 Become a SHALOM Vendor</h2>
+      <p class="info">
+        We are looking for manufacturers, wholesalers, and service providers worldwide to join SHALOM. 
+        Sell your products to millions of Pi users and get paid in Pi instantly via our Escrow System.
+      </p>
+
+      <form id="partnershipForm">
+        <label>Company Name *</label>
+        <input type="text" id="company" required placeholder="Your Company Name">
+
+        <label>Contact Person *</label>
+        <input type="text" id="contact" required placeholder="Full Name">
+
+        <label>Email *</label>
+        <input type="email" id="email" required placeholder="company@email.com">
+
+        <label>Country *</label>
+        <select id="country" required>
+          <option value="">Select Country</option>
+          <option>China</option>
+          <option>USA</option>
+          <option>India</option>
+          <option>Nigeria</option>
+          <option>Brazil</option>
+          <option>Vietnam</option>
+          <option>Tanzania</option>
+          <option>Kenya</option>
+          <option>South Africa</option>
+          <option>Other</option>
+        </select>
+
+        <label>What do you sell? *</label>
+        <textarea id="products" rows="4" required placeholder="e.g. Electronics, Clothing, Digital Services, Training..."></textarea>
+
+        <label>Do you accept Pi Payment?</label>
+        <select id="acceptPi">
+          <option value="Yes">Yes, Ready Now</option>
+          <option value="Need Help">Need Help to Setup</option>
+        </select>
+
+        <label>Message to SHALOM Team</label>
+        <textarea id="message" rows="3" placeholder="Tell us more about your business..."></textarea>
+
+        <button type="submit">SUBMIT PARTNERSHIP REQUEST</button>
+      </form>
+
+      <div id="successMsg" class="success">
+        ✅ THANK YOU! Your request has been received. 
+        <br>SHALOM Team will contact you within 48 hours.
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>🌍 Why Partner with SHALOM?</h2>
+      <div class="info">
+        <b>1. Global Reach:</b> Access Pi users in 230+ countries<br>
+        <b>2. Safe Payments:</b> Escrow System protects both Buyer and Seller<br>
+        <b>3. No Fees for Vendors:</b> We only take small commission in Pi<br>
+        <b>4. AI Support:</b> 24/7 AI answers customer questions in 12 languages<br>
+        <b>5. Dropshipping Ready:</b> Ship directly from your warehouse to customer<br>
+        <br>
+        <b>Contact:</b> partnership@shalompi.com
+      </div>
+    </div>
+  </div>
+
+<script>
+document.getElementById('partnershipForm').onsubmit = function(e){
+  e.preventDefault();
+  
+  // HAPA UNAWEZA KUTUMA DATA KWENYE GOOGLE SHEET AU EMAIL
+  // Kwa sasa inahifadhi kwenye localStorage tu
+  const data = {
+    company: document.getElementById('company').value,
+    contact: document.getElementById('contact').value,
+    email: document.getElementById('email').value,
+    country: document.getElementById('country').value,
+    products: document.getElementById('products').value,
+    acceptPi: document.getElementById('acceptPi').value,
+    message: document.getElementById('message').value,
+    date: new Date().toISOString()
+  };
+  
+  let partners = JSON.parse(localStorage.getItem('shalom_partners') || '[]');
+  partners.push(data);
+  localStorage.setItem('shalom_partners', JSON.stringify(partners));
+
+  // Onyesha ujumbe wa mafanikio
+  document.getElementById('successMsg').style.display = 'block';
+  document.getElementById('partnershipForm').reset();
+  
+  console.log("New Partner:", data);
+}
+</script>
+</body>
+</html>
