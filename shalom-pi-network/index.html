@@ -10,31 +10,39 @@
     :root { --purple:#4c1d95; --gold:#f59e0b; --dark:#1a0033; }
     *{margin:0;padding:0;box-sizing:border-box}
     body {font-family:'Roboto',Arial;background:linear-gradient(135deg, var(--purple) 0%, var(--dark) 100%);color:#fff;text-align:center;padding:0;margin:0;padding-bottom:90px;min-height:100vh}
-    
-    .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 15px}
-    .lang-select{padding:8px;background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;border:1px solid var(--gold);font-weight:bold}
-    .logo{width:90px;height:90px;border-radius:50%;border:4px solid var(--gold);background:#fff;margin:-45px auto 10px;box-shadow:0 0 20px var(--gold)}
-    
-    .hero-banner{width:100%;height:180px;object-fit:cover;border-bottom:3px solid var(--gold)}
-    
-    .card{background:rgba(255,255,255,0.95);color:#000;padding:25px;border-radius:20px;max-width:450px;margin:15px auto;box-shadow:0 10px 30px rgba(0,0,0,0.4);border:2px solid var(--gold)}
-    .card h2{font-family:'Orbitron',sans-serif;color:var(--purple);margin-bottom:8px}
-    .btn{padding:18px;background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;border:none;border-radius:15px;font-weight:900;font-size:17px;width:95%;margin:12px auto;cursor:pointer;box-shadow:0 4px 15px rgba(245,158,11,0.4)}
-    .btn:disabled{background:#ccc;box-shadow:none}
-    .protocol-badge{background:linear-gradient(90deg, #10b981, #059669);color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:bold;margin:15px 0}
-    
-    .navbar{position:fixed;bottom:0;left:0;width:100%;background:rgba(26,0,51,0.95);backdrop-filter:blur(10px);display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid var(--gold)}
-    .nav-item{color:#ccc;text-align:center;font-size:11px;cursor:pointer;padding:5px}.nav-item.active{color:var(--gold);font-weight:bold;transform:scale(1.1)}
-    .nav-icon{font-size:24px;display:block}
-    .page{display:none}.page.active{display:block}
+
+   .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 15px}
+   .lang-select{padding:8px;background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;border:1px solid var(--gold);font-weight:bold}
+   .logo{width:90px;height:90px;border-radius:50%;border:4px solid var(--gold);background:#fff;margin:-45px auto 10px;box-shadow:0 0 20px var(--gold)}
+
+   .hero-banner{width:100%;height:180px;object-fit:cover;border-bottom:3px solid var(--gold)}
+
+   .card{background:rgba(255,255,255,0.95);color:#000;padding:25px;border-radius:20px;max-width:450px;margin:15px auto;box-shadow:0 10px 30px rgba(0,0,0,0.4);border:2px solid var(--gold)}
+   .card h2{font-family:'Orbitron',sans-serif;color:var(--purple);margin-bottom:8px}
+   .btn{padding:18px;background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;border:none;border-radius:15px;font-weight:900;font-size:17px;width:95%;margin:12px auto;cursor:pointer;box-shadow:0 4px 15px rgba(245,158,11,0.4)}
+   .btn:disabled{background:#ccc;box-shadow:none}
+   .protocol-badge{background:linear-gradient(90deg, #10b981, #059669);color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:bold;margin:15px 0}
+
+   .navbar{position:fixed;bottom:0;left:0;width:100%;background:rgba(26,0,51,0.95);backdrop-filter:blur(10px);display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid var(--gold)}
+   .nav-item{color:#ccc;text-align:center;font-size:11px;cursor:pointer;padding:5px}.nav-item.active{color:var(--gold);font-weight:bold;transform:scale(1.1)}
+   .nav-icon{font-size:24px;display:block}
+   .page{display:none}.page.active{display:block}
+
+    /* PRODUCTS GRID MPYA */
+   .products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px}
+   .product-card{background:#fff;color:#000;border-radius:12px;padding:8px;text-align:left}
+   .product-card img{width:100%;height:120px;object-fit:cover;border-radius:8px}
+   .product-card h4{font-size:12px;margin:5px 0}
+   .product-price{color:var(--purple);font-weight:900;font-size:16px}
+   .product-btn{padding:8px;width:100%;font-size:13px;margin-top:5px}
 
     /* AI PREMIUM */
     #ai-btn{position:fixed;bottom:100px;right:15px;background:linear-gradient(135deg, var(--gold), #ffcc00);border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(245,158,11,0.6)}
     #ai-chatbox{display:none;position:fixed;bottom:170px;right:15px;width:340px;height:450px;background:#fff;border:3px solid var(--gold);border-radius:20px;flex-direction:column;color:#000;z-index:999;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
     #ai-header{background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;padding:14px;font-weight:900;font-family:'Orbitron'}
     #ai-messages{flex:1;overflow-y:auto;padding:12px;text-align:left;font-size:14px}
-    .msg-user{background:var(--gold);color:#000;padding:10px;border-radius:15px 15px 0 15px;margin:6px 0 6px auto;max-width:80%;text-align:right}
-    .msg-ai{background:#f1f1f1;padding:10px;border-radius:15px 15px 15px 0;margin:6px auto 6px 0;max-width:80%}
+   .msg-user{background:var(--gold);color:#000;padding:10px;border-radius:15px 15px 0 15px;margin:6px 0 6px auto;max-width:80%;text-align:right}
+   .msg-ai{background:#f1f1f1;padding:10px;border-radius:15px 15px 15px 0;margin:6px auto 6px 0;max-width:80%}
     #ai-input-area{display:flex;padding:10px;border-top:1px solid #ddd}
     #ai-input{flex:1;border:2px solid var(--gold);border-radius:10px;padding:10px;color:#000}
     #ai-send{background:var(--purple);color:#fff;border:none;border-radius:10px;padding:10px 15px;margin-left:5px;cursor:pointer;font-weight:bold}
@@ -64,13 +72,13 @@
     </div>
   </div>
 
-  <!-- MARKET -->
+  <!-- MARKET - IMEBADILISHWA IWE NA BIDHAA -->
   <div id="marketPage" class="page">
     <div class="card">
       <h2 id="marketTitle">🛒 Global Marketplace</h2>
-      <p id="marketDesc">List your products. Pay with Pi. Zero Fees until OM.</p>
-      <button class="btn" onclick="comingSoon()">Become a Seller</button>
+      <p id="marketDesc">Pay with Pi. All prices in Pi only.</p>
     </div>
+    <div class="products-grid" id="productsGrid"></div> <!-- HAPA BIDHAA ZITAINGIA -->
   </div>
 
   <!-- JENGA -->
@@ -119,18 +127,50 @@
   </div>
 
 <script>
-// LUGHA 6 ZA KUANZIA - ZINGINE 6 ZIONGEZWE
+// LUGHA 6 ZA KUANZIA
 const translations = {
-  en: {protocol:"🚀 PROTOCOL 28 READY | BUILDING FOR OPEN MAINNET",welcome:"The Future of Commerce is Here",subtitle:"Join 60M+ Pioneers. Buy, Sell, and Build with Pi.",login:"Connect with Pi Wallet",connected:"Connected ✓",marketTitle:"🛒 Global Marketplace",marketDesc:"List your products. Pay with Pi. Zero Fees until OM.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Construction materials, contractors, and project funding - all on Pi.",bookingTitle:"📅 Services & Booking",bookingDesc:"Book architects, engineers, and services. Pay securely with Pi.",profileTitle:"👤 Pioneer Profile",profileUser:"Status: Guest",profilePi:"Pi Balance: --",logout:"Disconnect",navHome:"Home",navMarket:"Market",navJenga:"Jenga",navBooking:"Booking",navProfile:"Profile",aiTitle:"SHALOM AI ASSISTANT",aiWelcome:"Hello Pioneer! Ask me anything about SHALOM.",aiPlaceholder:"Ask me anything..."},
-  sw: {protocol:"🚀 PROTOCOL 28 TAYARI | TUNAJENGA KWA OPEN MAINNET",welcome:"Mustakabali wa Biashara Umefika",subtitle:"Jiunge na Wapioneer 60M+. Nunua, Uza, na Jenga kwa Pi.",login:"Unganisha na Wallet ya Pi",connected:"Umeunganishwa ✓",marketTitle:"🛒 Soko la Kimataifa",marketDesc:"Orodhesha bidhaa zako. Lipa kwa Pi. Hakuna Ada hadi OM.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Vifaa vya ujenzi, mafundi, na ufadhili wa miradi - yote kwa Pi.",bookingTitle:"📅 Huduma & Booking",bookingDesc:"Panga wabunifu, wahandisi, na huduma. Lipa kwa usalama kwa Pi.",profileTitle:"👤 Wasifu wa Pioneer",profileUser:"Hali: Mgeni",profilePi:"Salio la Pi: --",logout:"Kata Muunganisho",navHome:"Nyumbani",navMarket:"Soko",navJenga:"Jenga",navBooking:"Booking",navProfile:"Wasifu",aiTitle:"AI MSAIDIZI WA SHALOM",aiWelcome:"Habari Pioneer! Niulize chochote kuhusu SHALOM.",aiPlaceholder:"Niulize chochote..."},
-  fr: {protocol:"🚀 PROTOCOLE 28 PRÊT",welcome:"L'Avenir du Commerce est Là",subtitle:"Rejoignez 60M+ Pionniers. Achetez, Vendez avec Pi.",login:"Connecter avec Portefeuille Pi",connected:"Connecté ✓",marketTitle:"🛒 Marché Mondial",marketDesc:"Listez vos produits. Payez avec Pi.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Matériaux de construction sur Pi.",bookingTitle:"📅 Services",bookingDesc:"Réservez des services.",profileTitle:"👤 Profil",profileUser:"Statut: Invité",profilePi:"Solde Pi: --",logout:"Déconnecter",navHome:"Accueil",navMarket:"Marché",navJenga:"Jenga",navBooking:"Réservation",navProfile:"Profil",aiTitle:"ASSISTANT IA SHALOM",aiWelcome:"Bonjour Pionnier!",aiPlaceholder:"Demandez..."}
+  en: {protocol:"🚀 PROTOCOL 28 READY | BUILDING FOR OPEN MAINNET",welcome:"The Future of Commerce is Here",subtitle:"Join 60M+ Pioneers. Buy, Sell, and Build with Pi.",login:"Connect with Pi Wallet",connected:"Connected ✓",marketTitle:"🛒 Global Marketplace",marketDesc:"Pay with Pi. All prices in Pi only.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Construction materials, contractors, and project funding - all on Pi.",bookingTitle:"📅 Services & Booking",bookingDesc:"Book architects, engineers, and services. Pay securely with Pi.",profileTitle:"👤 Pioneer Profile",profileUser:"Status: Guest",profilePi:"Pi Balance: --",logout:"Disconnect",navHome:"Home",navMarket:"Market",navJenga:"Jenga",navBooking:"Booking",navProfile:"Profile",aiTitle:"SHALOM AI ASSISTANT",aiWelcome:"Hello Pioneer! Ask me anything about SHALOM.",aiPlaceholder:"Ask me anything...",payBtn:"Pay with Pi"},
+  sw: {protocol:"🚀 PROTOCOL 28 TAYARI | TUNAJENGA KWA OPEN MAINNET",welcome:"Mustakabali wa Biashara Umefika",subtitle:"Jiunge na Wapioneer 60M+. Nunua, Uza, na Jenga kwa Pi.",login:"Unganisha na Wallet ya Pi",connected:"Umeunganishwa ✓",marketTitle:"🛒 Soko la Kimataifa",marketDesc:"Lipa kwa Pi. Bei zote ni Pi tu.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Vifaa vya ujenzi, mafundi, na ufadhili wa miradi - yote kwa Pi.",bookingTitle:"📅 Huduma & Booking",bookingDesc:"Panga wabunifu, wahandisi, na huduma. Lipa kwa usalama kwa Pi.",profileTitle:"👤 Wasifu wa Pioneer",profileUser:"Hali: Mgeni",profilePi:"Salio la Pi: --",logout:"Kata Muunganisho",navHome:"Nyumbani",navMarket:"Soko",navJenga:"Jenga",navBooking:"Booking",navProfile:"Wasifu",aiTitle:"AI MSAIDIZI WA SHALOM",aiWelcome:"Habari Pioneer! Niulize chochote kuhusu SHALOM.",aiPlaceholder:"Niulize chochote...",payBtn:"Lipa kwa Pi"}
 };
+
+// BIDHAA 12 ZA KIMATAIFA - BEI ZIMETUMIA GCV KUFANYA HESABU LAKINI HAZIONYESHWI
+// Formula: dollarPrice / 314159 = priceInPi
+const products = [
+  {name:"SHALOM VILLA DUBAI", price:5.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=VILLA+DUBAI"},
+  {name:"BUGATTI CHIRON", price:10.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=BUGATTI"},
+  {name:"TESLA MODEL S", price:0.2, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=TESLA"},
+  {name:"IPHONE 17 PRO MAX", price:0.005, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=IPHONE"},
+  {name:"ROLEX GMT MASTER", price:0.1, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=ROLEX"},
+  {name:"MALDIVES ISLAND", price:50.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=ISLAND"},
+  {name:"1KG GOLD BAR", price:0.8, img:"https://via.placeholder.com/400x300/f59e0b/4c1d95?text=GOLD"},
+  {name:"PRIVATE JET 1H", price:0.5, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=JET"},
+  {name:"BURJ AL ARAB 1 NIGHT", price:0.01, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HOTEL"},
+  {name:"TEXAS RANCH 1000AC", price:10.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=RANCH"},
+  {name:"HARVARD COURSE", price:0.2, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HARVARD"},
+  {name:"LUXURY HEALTH CHECK", price:0.5, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HEALTH"}
+];
+
+function loadProducts(){
+  const lang = document.getElementById("lang").value;
+  let html = "";
+  products.forEach(p=>{
+    html += `
+    <div class="product-card">
+      <img src="${p.img}">
+      <h4>${p.name}</h4>
+      <p class="product-price">π ${p.price}</p> <!-- BEI NI PI TU -->
+      <button class="btn product-btn" onclick="payWithPi(${p.price}, '${p.name}')">${translations[lang].payBtn}</button>
+    </div>`;
+  });
+  document.getElementById("productsGrid").innerHTML = html;
+}
 
 function changeLang(){
   const lang = document.getElementById("lang").value;
   const t = translations[lang] || translations['en'];
   for(let key in t){ if(document.getElementById(key)) document.getElementById(key).innerText = t[key]; }
   document.getElementById("ai-input").placeholder = t.aiPlaceholder;
+  loadProducts(); // pakia tena ili button ibadilike lugha
 }
 
 document.querySelectorAll('.nav-item').forEach(item => {
@@ -140,50 +180,32 @@ document.querySelectorAll('.nav-item').forEach(item => {
     document.getElementById(pageId).classList.add('active');
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
     this.classList.add('active');
+    if(pageId === 'marketPage') loadProducts(); // pakia bidhaa ukiingia market
   });
 });
 
-function comingSoon(){ alert(translations[document.getElementById("lang").value].lang==='sw'?'Inakuja kwenye Open Mainnet':'Coming on Open Mainnet'); }
+function comingSoon(){ alert('Coming on Open Mainnet'); }
 
-// AI YA KIMATAIFA - INAJIBU KWA AKILI
+// AI YA KIMATAIFA
 const aiBrain = {
-  sw: {
-    "shalom ni nini": "SHALOM ni Super App ya kwanza ya kimataifa kujengwa juu ya Pi Network. Dhamira yetu ni kuunganisha Wapioneer 60M+ kwenye uchumi halisi. Tunatoa soko, huduma za ujenzi, na fursa za kibiashara - zote zikiendeshwa na Pi.",
-    "mnafaidika vipi": "Wapioneer wanafaidika kwa: 1. Kuuzia bidhaa zao duniani bila ada 2. Kupata kazi za ujenzi 3. Kupata airdrop ya $SHL token 4. Kujenga biashara ndani ya Ecosystem. Hii ndio Web3 ya kweli.",
-    "lini mtaanza": "Tunangoja Pi Core Team itangaze Open Mainnet. Mara tu ikifunguka, SHALOM itaanza shughuli zote mara moja. Tuko tayari 100%.",
-    "default": "Asante kwa swali lako nzuri. SHALOM inajengwa na Wapioneer, kwa ajili ya Wapioneer. Je kuna kingine ningekusaidia?"
-  },
-  en: {
-    "what is shalom": "SHALOM is the first Global Super App built on Pi Network. Our mission is to connect 60M+ Pioneers to a real economy. We provide a marketplace, construction services, and business opportunities - all powered by Pi.",
-    "how do we benefit": "Pioneers benefit by: 1. Selling products globally with zero fees 2. Getting construction jobs 3. Earning $SHL token airdrops 4. Building businesses inside the Ecosystem. This is real Web3.",
-    "when will you launch": "We are waiting for Pi Core Team to announce Open Mainnet. The moment it opens, SHALOM will launch all services immediately. We are 100% ready.",
-    "default": "Thank you for your great question. SHALOM is built by Pioneers, for Pioneers. How else can I help?"
-  }
+  sw: {"shalom ni nini": "SHALOM ni Super App ya kwanza ya kimataifa kujengwa juu ya Pi Network.", "default": "Asante kwa swali lako. Je kuna kingine?"},
+  en: {"what is shalom": "SHALOM is the first Global Super App built on Pi Network.", "default": "Thank you for your question. How else can I help?"}
 };
-
 function getAIAnswer(q, lang){
-  q = q.toLowerCase();
-  const brain = aiBrain[lang] || aiBrain['en'];
-  for(let key in brain){ if(q.includes(key)) return brain[key]; }
-  return brain['default'];
+  q = q.toLowerCase(); const brain = aiBrain[lang] || aiBrain['en'];
+  for(let key in brain){ if(q.includes(key)) return brain[key]; } return brain['default'];
 }
-
-document.getElementById('ai-btn').onclick = () => {
-  const box = document.getElementById('ai-chatbox');
-  box.style.display = box.style.display === 'flex'? 'none' : 'flex';
-}
+document.getElementById('ai-btn').onclick = () => { const box = document.getElementById('ai-chatbox'); box.style.display = box.style.display === 'flex'? 'none' : 'flex'; }
 document.getElementById('ai-send').onclick = () => {
   const msg = document.getElementById('ai-input').value.trim(); if(!msg) return;
   const lang = document.getElementById("lang").value;
   document.getElementById('ai-messages').innerHTML += `<div class="msg-user">${msg}</div>`;
-  setTimeout(() => {
-    document.getElementById('ai-messages').innerHTML += `<div class="msg-ai">${getAIAnswer(msg, lang)}</div>`;
-  }, 600);
+  setTimeout(() => { document.getElementById('ai-messages').innerHTML += `<div class="msg-ai">${getAIAnswer(msg, lang)}</div>`; }, 600);
   document.getElementById('ai-input').value = '';
 }
 
-// PI LOGIN YA KIHESHIMA
-Pi.init({version:"2.0", sandbox:true});
+// PI LOGIN + PAYMENT YA TESTNET
+Pi.init({version:"2.0", sandbox:true}); // TRUE = TESTNET
 document.getElementById("loginBtn").onclick = async () => {
   const lang = document.getElementById("lang").value;
   document.getElementById("status").innerText = lang==='sw'?"Tafadhali subiri...":"Connecting...";
@@ -194,11 +216,24 @@ document.getElementById("loginBtn").onclick = async () => {
     document.getElementById("loginBtn").innerText = translations[lang].connected;
     document.getElementById("loginBtn").disabled = true;
     document.getElementById("profileUser").innerText = (lang==='sw'?"Hali: ":"Status: ") + auth.user.username;
-  }catch(e){
-    alert("Please open this app inside Pi Browser");
-  }
+  }catch(e){ alert("Please open this app inside Pi Browser"); }
 }
+
+async function payWithPi(amount, productName) {
+  try{
+    const paymentData = { amount: amount, memo: productName, metadata: { product: productName } };
+    const callbacks = {
+      onReadyForServerApproval: (id)=>alert("Payment Created: "+id),
+      onReadyForServerCompletion: (id, tx)=>alert("Payment Success!"),
+      onCancel: ()=>alert("Cancelled"),
+      onError: (e)=>alert("Error: "+e)
+    };
+    Pi.createPayment(paymentData, callbacks);
+  }catch(e){ alert("Open in Pi Browser"); }
+}
+
 document.getElementById("logoutBtn").onclick = () => location.reload();
+loadProducts(); // pakia mara ya kwanza
 </script>
 </body>
 </html>
