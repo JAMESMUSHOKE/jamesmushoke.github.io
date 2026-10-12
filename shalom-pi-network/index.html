@@ -1,204 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - The Global Pi Marketplace</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --purple:#4c1d95; --gold:#f59e0b; --dark:#1a0033; }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body {font-family:'Roboto',Arial;background:linear-gradient(135deg, var(--purple) 0%, var(--dark) 100%);color:#fff;text-align:center;padding:0;margin:0;padding-bottom:90px;min-height:100vh}
-    
-    .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 15px}
-    .lang-select{padding:8px;background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;border:1px solid var(--gold);font-weight:bold}
-    .logo{width:90px;height:90px;border-radius:50%;border:4px solid var(--gold);background:#fff;margin:-45px auto 10px;box-shadow:0 0 20px var(--gold)}
-    
-    .hero-banner{width:100%;height:180px;object-fit:cover;border-bottom:3px solid var(--gold)}
-    
-    .card{background:rgba(255,255,255,0.95);color:#000;padding:25px;border-radius:20px;max-width:450px;margin:15px auto;box-shadow:0 10px 30px rgba(0,0,0,0.4);border:2px solid var(--gold)}
-    .card h2{font-family:'Orbitron',sans-serif;color:var(--purple);margin-bottom:8px}
-    .btn{padding:18px;background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;border:none;border-radius:15px;font-weight:900;font-size:17px;width:95%;margin:12px auto;cursor:pointer;box-shadow:0 4px 15px rgba(245,158,11,0.4)}
-    .btn:disabled{background:#ccc;box-shadow:none}
-    .protocol-badge{background:linear-gradient(90deg, #10b981, #059669);color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:bold;margin:15px 0}
-    
-    .navbar{position:fixed;bottom:0;left:0;width:100%;background:rgba(26,0,51,0.95);backdrop-filter:blur(10px);display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid var(--gold)}
-    .nav-item{color:#ccc;text-align:center;font-size:11px;cursor:pointer;padding:5px}.nav-item.active{color:var(--gold);font-weight:bold;transform:scale(1.1)}
-    .nav-icon{font-size:24px;display:block}
-    .page{display:none}.page.active{display:block}
-
-    /* AI PREMIUM */
-    #ai-btn{position:fixed;bottom:100px;right:15px;background:linear-gradient(135deg, var(--gold), #ffcc00);border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(245,158,11,0.6)}
-    #ai-chatbox{display:none;position:fixed;bottom:170px;right:15px;width:340px;height:450px;background:#fff;border:3px solid var(--gold);border-radius:20px;flex-direction:column;color:#000;z-index:999;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
-    #ai-header{background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;padding:14px;font-weight:900;font-family:'Orbitron'}
-    #ai-messages{flex:1;overflow-y:auto;padding:12px;text-align:left;font-size:14px}
-    .msg-user{background:var(--gold);color:#000;padding:10px;border-radius:15px 15px 0 15px;margin:6px 0 6px auto;max-width:80%;text-align:right}
-    .msg-ai{background:#f1f1f1;padding:10px;border-radius:15px 15px 15px 0;margin:6px auto 6px 0;max-width:80%}
-    #ai-input-area{display:flex;padding:10px;border-top:1px solid #ddd}
-    #ai-input{flex:1;border:2px solid var(--gold);border-radius:10px;padding:10px;color:#000}
-    #ai-send{background:var(--purple);color:#fff;border:none;border-radius:10px;padding:10px 15px;margin-left:5px;cursor:pointer;font-weight:bold}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHALOM GLOBAL - GCV STORE</title>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<style>
+    * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #F8F9FF; margin:0; color:#001F54; padding-bottom:80px; }
+  .header { background: #001F54; color: white; padding: 15px; text-align:center; font-size:22px; font-weight:bold; position:sticky; top:0; z-index:10; }
+  .slider { display:flex; overflow-x: auto; gap:10px; padding:10px; background: #FFD700; scroll-snap-type: x mandatory; }
+  .slider img { width: 90%; height: 200px; border-radius: 12px; flex-shrink: 0; scroll-snap-align: start; object-fit: cover; }
+  .products { display:grid; grid-template-columns: repeat(2,1fr); gap:12px; padding:12px; }
+  .card { background:white; border-radius:12px; padding:10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .card img { width:100%; height:160px; object-fit:cover; border-radius:8px; }
+  .card h4 { font-size:14px; margin:8px 0 4px 0; min-height:36px; }
+  .price { color:#001F54; font-weight:bold; font-size:20px; margin:4px 0; }
+  .btn { background:#FFD700; color:#001F54; border:none; padding:10px; width:100%; border-radius:8px; font-weight:bold; font-size:15px; cursor:pointer; }
+  .btn:active { background:#E6C200; }
+  .bottom-nav { position:fixed; bottom:0; left:0; width:100%; display:flex; background:#001F54; color:white; box-shadow:0 -2px 5px rgba(0,0,0,0.2); }
+  .bottom-nav div { flex:1; text-align:center; padding:14px 5px; font-size:12px; font-weight:bold; }
+  .note { text-align:center; padding:10px; font-size:12px; color:#555; }
+</style>
 </head>
 <body>
 
-  <div class="topbar">
-    <div style="font-family:Orbitron;color:var(--gold);font-size:18px">SHALOM</div>
-    <select class="lang-select" id="lang" onchange="changeLang()">
-      <option value="en">EN</option><option value="sw">SW</option><option value="fr">FR</option>
-      <option value="zh">中文</option><option value="es">ES</option><option value="ar">AR</option>
-    </select>
-  </div>
+<div class="header">SHALOM GLOBAL</div>
 
-  <img src="banner.jpg" alt="SHALOM Banner" class="hero-banner">
-  <img src="logo.png" alt="Logo" class="logo">
+<div class="slider">
+  <img src="https://via.placeholder.com/800x400/001F54/FFD700?text=LUXURY+VILLA+DUBAI" alt="Villa Dubai">
+  <img src="https://via.placeholder.com/800x400/001F54/FFD700?text=BUGATTI+CHIRON" alt="Bugatti">
+  <img src="https://via.placeholder.com/800x400/001F54/FFD700?text=MALDIVES+ISLAND" alt="Island">
+</div>
 
-  <!-- HOME -->
-  <div id="homePage" class="page active">
-    <div class="card">
-      <div class="protocol-badge" id="protocol">🚀 PROTOCOL 28 READY | BUILDING FOR OPEN MAINNET</div>
-      <h2 id="welcome">The Future of Commerce is Here</h2>
-      <p id="subtitle">Join 60M+ Pioneers. Buy, Sell, and Build with Pi.</p>
-      <button class="btn" id="loginBtn">Connect with Pi Wallet</button>
-      <p id="status" style="color:green;font-size:13px;margin-top:10px"></p>
-    </div>
-  </div>
+<div class="note">All prices calculated using GCV: 1 π = $314,159</div>
 
-  <!-- MARKET -->
-  <div id="marketPage" class="page">
-    <div class="card">
-      <h2 id="marketTitle">🛒 Global Marketplace</h2>
-      <p id="marketDesc">List your products. Pay with Pi. Zero Fees until OM.</p>
-      <button class="btn" onclick="comingSoon()">Become a Seller</button>
-    </div>
-  </div>
+<div class="products" id="products"></div>
 
-  <!-- JENGA -->
-  <div id="jengaPage" class="page">
-    <div class="card">
-      <h2 id="jengaTitle">🏗️ Jenga Bora</h2>
-      <p id="jengaDesc">Construction materials, contractors, and project funding - all on Pi.</p>
-      <button class="btn" onclick="comingSoon()">Explore Materials</button>
-    </div>
-  </div>
-
-  <!-- BOOKING -->
-  <div id="bookingPage" class="page">
-    <div class="card">
-      <h2 id="bookingTitle">📅 Services & Booking</h2>
-      <p id="bookingDesc">Book architects, engineers, and services. Pay securely with Pi.</p>
-      <button class="btn" onclick="comingSoon()">Book Now</button>
-    </div>
-  </div>
-
-  <!-- PROFILE -->
-  <div id="profilePage" class="page">
-    <div class="card">
-      <h2 id="profileTitle">👤 Pioneer Profile</h2>
-      <p id="profileUser">Status: Guest</p>
-      <p id="profilePi">Pi Balance: --</p>
-      <button class="btn" id="logoutBtn" style="background:#dc3545;color:#fff">Disconnect</button>
-    </div>
-  </div>
-
-  <!-- AI PREMIUM -->
-  <button id="ai-btn">🤖</button>
-  <div id="ai-chatbox">
-    <div id="ai-header"><span id="aiTitle">SHALOM AI ASSISTANT</span></div>
-    <div id="ai-messages"><div class="msg-ai" id="aiWelcome">Hello Pioneer! Ask me anything about SHALOM.</div></div>
-    <div id="ai-input-area"><input type="text" id="ai-input" placeholder="Ask me anything..."><button id="ai-send">Send</button></div>
-  </div>
-
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <div class="nav-item active" data-page="homePage"><span class="nav-icon">🏠</span><span id="navHome">Home</span></div>
-    <div class="nav-item" data-page="marketPage"><span class="nav-icon">🛒</span><span id="navMarket">Market</span></div>
-    <div class="nav-item" data-page="jengaPage"><span class="nav-icon">🏗️</span><span id="navJenga">Jenga</span></div>
-    <div class="nav-item" data-page="bookingPage"><span class="nav-icon">📅</span><span id="navBooking">Booking</span></div>
-    <div class="nav-item" data-page="profilePage"><span class="nav-icon">👤</span><span id="navProfile">Profile</span></div>
-  </div>
+<div class="bottom-nav">
+  <div>Home</div>
+  <div>Market</div>
+  <div>Cars</div>
+  <div>Assets</div>
+  <div>Account</div>
+</div>
 
 <script>
-// LUGHA 6 ZA KUANZIA - ZINGINE 6 ZIONGEZWE
-const translations = {
-  en: {protocol:"🚀 PROTOCOL 28 READY | BUILDING FOR OPEN MAINNET",welcome:"The Future of Commerce is Here",subtitle:"Join 60M+ Pioneers. Buy, Sell, and Build with Pi.",login:"Connect with Pi Wallet",connected:"Connected ✓",marketTitle:"🛒 Global Marketplace",marketDesc:"List your products. Pay with Pi. Zero Fees until OM.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Construction materials, contractors, and project funding - all on Pi.",bookingTitle:"📅 Services & Booking",bookingDesc:"Book architects, engineers, and services. Pay securely with Pi.",profileTitle:"👤 Pioneer Profile",profileUser:"Status: Guest",profilePi:"Pi Balance: --",logout:"Disconnect",navHome:"Home",navMarket:"Market",navJenga:"Jenga",navBooking:"Booking",navProfile:"Profile",aiTitle:"SHALOM AI ASSISTANT",aiWelcome:"Hello Pioneer! Ask me anything about SHALOM.",aiPlaceholder:"Ask me anything..."},
-  sw: {protocol:"🚀 PROTOCOL 28 TAYARI | TUNAJENGA KWA OPEN MAINNET",welcome:"Mustakabali wa Biashara Umefika",subtitle:"Jiunge na Wapioneer 60M+. Nunua, Uza, na Jenga kwa Pi.",login:"Unganisha na Wallet ya Pi",connected:"Umeunganishwa ✓",marketTitle:"🛒 Soko la Kimataifa",marketDesc:"Orodhesha bidhaa zako. Lipa kwa Pi. Hakuna Ada hadi OM.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Vifaa vya ujenzi, mafundi, na ufadhili wa miradi - yote kwa Pi.",bookingTitle:"📅 Huduma & Booking",bookingDesc:"Panga wabunifu, wahandisi, na huduma. Lipa kwa usalama kwa Pi.",profileTitle:"👤 Wasifu wa Pioneer",profileUser:"Hali: Mgeni",profilePi:"Salio la Pi: --",logout:"Kata Muunganisho",navHome:"Nyumbani",navMarket:"Soko",navJenga:"Jenga",navBooking:"Booking",navProfile:"Wasifu",aiTitle:"AI MSAIDIZI WA SHALOM",aiWelcome:"Habari Pioneer! Niulize chochote kuhusu SHALOM.",aiPlaceholder:"Niulize chochote..."},
-  fr: {protocol:"🚀 PROTOCOLE 28 PRÊT",welcome:"L'Avenir du Commerce est Là",subtitle:"Rejoignez 60M+ Pionniers. Achetez, Vendez avec Pi.",login:"Connecter avec Portefeuille Pi",connected:"Connecté ✓",marketTitle:"🛒 Marché Mondial",marketDesc:"Listez vos produits. Payez avec Pi.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Matériaux de construction sur Pi.",bookingTitle:"📅 Services",bookingDesc:"Réservez des services.",profileTitle:"👤 Profil",profileUser:"Statut: Invité",profilePi:"Solde Pi: --",logout:"Déconnecter",navHome:"Accueil",navMarket:"Marché",navJenga:"Jenga",navBooking:"Réservation",navProfile:"Profil",aiTitle:"ASSISTANT IA SHALOM",aiWelcome:"Bonjour Pionnier!",aiPlaceholder:"Demandez..."}
-};
+// 12 GLOBAL PRODUCTS - PRICES IN PI ONLY
+const products = [
+  {name:"SHALOM VILLA DUBAI - BURJ VIEW", price:5.0, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=VILLA+DUBAI"},
+  {name:"BUGATTI CHIRON SUPER SPORT", price:10.0, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=BUGATTI+CHIRON"},
+  {name:"TESLA MODEL S PLAID", price:0.2, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=TESLA+MODEL+S"},
+  {name:"IPHONE 17 PRO MAX 1TB", price:0.005, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=IPHONE+17+PRO"},
+  {name:"ROLEX GMT MASTER II", price:0.1, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=ROLEX+GMT"},
+  {name:"MALDIVES PRIVATE ISLAND", price:50.0, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=MALDIVES+ISLAND"},
+  {name:"1KG GOLD BAR 24K", price:0.8, img:"https://via.placeholder.com/600x400/FFD700/001F54?text=1KG+GOLD"},
+  {name:"PRIVATE JET - 1 HOUR FLIGHT", price:0.5, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=PRIVATE+JET"},
+  {name:"BURJ AL ARAB - 1 NIGHT SUITE", price:0.01, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=BURJ+AL+ARAB"},
+  {name:"TEXAS RANCH - 1000 ACRES", price:10.0, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=TEXAS+RANCH"},
+  {name:"HARVARD ONLINE DEGREE", price:0.2, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=HARVARD+EDU"},
+  {name:"LUXURY HEALTH CHECKUP VIP", price:0.5, img:"https://via.placeholder.com/600x400/001F54/FFD700?text=LUXURY+HEALTH"}
+];
 
-function changeLang(){
-  const lang = document.getElementById("lang").value;
-  const t = translations[lang] || translations['en'];
-  for(let key in t){ if(document.getElementById(key)) document.getElementById(key).innerText = t[key]; }
-  document.getElementById("ai-input").placeholder = t.aiPlaceholder;
-}
-
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', function() {
-    const pageId = this.getAttribute('data-page');
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    this.classList.add('active');
+// LOAD PRODUCTS
+function loadProducts() {
+  let html = "";
+  products.forEach(p => {
+    html += `
+    <div class="card">
+      <img src="${p.img}" alt="${p.name}">
+      <h4>${p.name}</h4>
+      <p class="price">π ${p.price}</p>
+      <button class="btn" onclick="payWithPi(${p.price}, '${p.name}')">Pay with Pi</button>
+    </div>`;
   });
-});
-
-function comingSoon(){ alert(translations[document.getElementById("lang").value].lang==='sw'?'Inakuja kwenye Open Mainnet':'Coming on Open Mainnet'); }
-
-// AI YA KIMATAIFA - INAJIBU KWA AKILI
-const aiBrain = {
-  sw: {
-    "shalom ni nini": "SHALOM ni Super App ya kwanza ya kimataifa kujengwa juu ya Pi Network. Dhamira yetu ni kuunganisha Wapioneer 60M+ kwenye uchumi halisi. Tunatoa soko, huduma za ujenzi, na fursa za kibiashara - zote zikiendeshwa na Pi.",
-    "mnafaidika vipi": "Wapioneer wanafaidika kwa: 1. Kuuzia bidhaa zao duniani bila ada 2. Kupata kazi za ujenzi 3. Kupata airdrop ya $SHL token 4. Kujenga biashara ndani ya Ecosystem. Hii ndio Web3 ya kweli.",
-    "lini mtaanza": "Tunangoja Pi Core Team itangaze Open Mainnet. Mara tu ikifunguka, SHALOM itaanza shughuli zote mara moja. Tuko tayari 100%.",
-    "default": "Asante kwa swali lako nzuri. SHALOM inajengwa na Wapioneer, kwa ajili ya Wapioneer. Je kuna kingine ningekusaidia?"
-  },
-  en: {
-    "what is shalom": "SHALOM is the first Global Super App built on Pi Network. Our mission is to connect 60M+ Pioneers to a real economy. We provide a marketplace, construction services, and business opportunities - all powered by Pi.",
-    "how do we benefit": "Pioneers benefit by: 1. Selling products globally with zero fees 2. Getting construction jobs 3. Earning $SHL token airdrops 4. Building businesses inside the Ecosystem. This is real Web3.",
-    "when will you launch": "We are waiting for Pi Core Team to announce Open Mainnet. The moment it opens, SHALOM will launch all services immediately. We are 100% ready.",
-    "default": "Thank you for your great question. SHALOM is built by Pioneers, for Pioneers. How else can I help?"
-  }
-};
-
-function getAIAnswer(q, lang){
-  q = q.toLowerCase();
-  const brain = aiBrain[lang] || aiBrain['en'];
-  for(let key in brain){ if(q.includes(key)) return brain[key]; }
-  return brain['default'];
+  document.getElementById("products").innerHTML = html;
 }
 
-document.getElementById('ai-btn').onclick = () => {
-  const box = document.getElementById('ai-chatbox');
-  box.style.display = box.style.display === 'flex'? 'none' : 'flex';
-}
-document.getElementById('ai-send').onclick = () => {
-  const msg = document.getElementById('ai-input').value.trim(); if(!msg) return;
-  const lang = document.getElementById("lang").value;
-  document.getElementById('ai-messages').innerHTML += `<div class="msg-user">${msg}</div>`;
-  setTimeout(() => {
-    document.getElementById('ai-messages').innerHTML += `<div class="msg-ai">${getAIAnswer(msg, lang)}</div>`;
-  }, 600);
-  document.getElementById('ai-input').value = '';
-}
-
-// PI LOGIN YA KIHESHIMA
-Pi.init({version:"2.0", sandbox:true});
-document.getElementById("loginBtn").onclick = async () => {
-  const lang = document.getElementById("lang").value;
-  document.getElementById("status").innerText = lang==='sw'?"Tafadhali subiri...":"Connecting...";
-  try{
-    const scopes = ['username', 'payments'];
-    const auth = await Pi.authenticate(scopes);
-    document.getElementById("status").innerText = translations[lang].connected + " Pioneer";
-    document.getElementById("loginBtn").innerText = translations[lang].connected;
-    document.getElementById("loginBtn").disabled = true;
-    document.getElementById("profileUser").innerText = (lang==='sw'?"Hali: ":"Status: ") + auth.user.username;
-  }catch(e){
-    alert("Please open this app inside Pi Browser");
+// PI PAYMENT - TESTNET MODE
+async function payWithPi(amount, productName) {
+  try {
+    Pi.init({ version: "2.0", sandbox: true }); // TRUE = TESTNET. Change to FALSE for Mainnet later
+    
+    const paymentData = {
+      amount: amount,
+      memo: productName,
+      metadata: { product: productName, store: "SHALOM GLOBAL" }
+    };
+    
+    const callbacks = {
+      onReadyForServerApproval: function(paymentId) { 
+        alert("Step 1: Payment Created. ID: " + paymentId + "\nNow waiting for approval..."); 
+      },
+      onReadyForServerCompletion: function(paymentId, txid) { 
+        alert("SUCCESS! Payment Completed for: " + productName + "\nTxID: " + txid); 
+      },
+      onCancel: function(paymentId) { 
+        alert("Payment Cancelled for: " + productName); 
+      },
+      onError: function(error) { 
+        alert("Error: " + error); 
+      }
+    };
+    Pi.createPayment(paymentData, callbacks);
+    
+  } catch(err) {
+    alert("Please open this app inside Pi Browser to test payments.");
   }
 }
-document.getElementById("logoutBtn").onclick = () => location.reload();
+
+loadProducts();
 </script>
 </body>
 </html>
