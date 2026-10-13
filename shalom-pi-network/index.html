@@ -4,7 +4,7 @@
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--p:#4c1d95;--g:#f59e0b;--d:#1a0033;--gr:#10b981}*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#4c1d95;--g:#f59e0b;--d:#1a0033}*{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Roboto';background:linear-gradient(135deg,var(--p) 0%,var(--d) 100%);color:#fff;text-align:center;padding-bottom:90px}
 .top{display:flex;justify-content:space-between;padding:12px}
 .lang{padding:8px;background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;border:1px solid var(--g)}
@@ -17,8 +17,7 @@ body{font-family:'Roboto';background:linear-gradient(135deg,var(--p) 0%,var(--d)
 .page{display:none}.active{display:block}
 .nav{position:fixed;bottom:0;left:0;width:100%;background:rgba(26,0,51,0.95);display:flex;justify-content:space-around;padding:10px;border-top:2px solid var(--g)}
 .item{color:#ccc;text-align:center;font-size:11px;cursor:pointer}.item.act{color:var(--g);font-weight:bold}
-#ai{position:fixed;bottom:100px;right:15px;background:var(--g);border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;z-index:999}
-#box{display:none;position:fixed;bottom:170px;right:15px;width:340px;height:400px;background:#fff;border:3px solid var(--g);border-radius:20px;flex-direction:column;color:#000;z-index:999}
+.badge{background:var(--g);color:#000;padding:10px;border-radius:10px;margin:10px 0;font-weight:bold}
 </style></head><body>
 <div class="top"><div style="font-family:Orbitron;color:var(--g)">SHALOM</div>
 <select class="lang" id="lang" onchange="changeLang()">
@@ -31,19 +30,14 @@ body{font-family:'Roboto';background:linear-gradient(135deg,var(--p) 0%,var(--d)
 <img src="https://via.placeholder.com/1200x300/4c1d95/f59e0b?text=SHALOM+MARKETPLACE" class="logo">
 
 <div id="h" class="page active"><div class="card">
-<div style="background:var(--gr);color:#fff;padding:10px;border-radius:10px;margin-bottom:10px" id="t1"></div>
-<div style="background:var(--gr);color:#fff;padding:10px;border-radius:10px;margin-bottom:10px" id="t2"></div>
+<div class="badge" id="t1"></div><div class="badge" style="background:#10b981;color:#fff" id="t2"></div>
 <h2 id="w"></h2><p id="s"></p><button class="btn" id="login"></button><p id="st" style="color:green"></p>
 </div></div>
 
 <div id="m" class="page"><div class="card"><h2 id="mt"></h2><p id="md"></p></div><div class="grid" id="prods"></div></div>
-<div id="j" class="page"><div class="card"><h2 id="jt"></h2><p id="jd"></p><button class="btn" onclick="alert('Coming')">Explore</button></div></div>
-<div id="b" class="page"><div class="card"><h2 id="bt"></h2><p id="bd"></p><button class="btn" onclick="alert('Coming')">Book</button></div></div>
+<div id="j" class="page"><div class="card"><h2 id="jt"></h2><p id="jd"></p></div></div>
+<div id="b" class="page"><div class="card"><h2 id="bt"></h2><p id="bd"></p></div></div>
 <div id="pr" class="page"><div class="card"><h2 id="pt"></h2><p id="pu"></p><p id="pp"></p><button class="btn" id="out" style="background:#dc3545;color:#fff"></button></div></div>
-
-<button id="ai">🤖</button><div id="box"><div style="background:var(--g);padding:12px;font-weight:900" id="at"></div>
-<div id="amsg" style="flex:1;overflow-y:auto;padding:12px;text-align:left"></div>
-<div style="display:flex;padding:10px"><input id="ain" style="flex:1;border:2px solid var(--g);border-radius:10px;padding:10px"><button id="asend" style="background:var(--p);color:#fff;border:none;border-radius:10px;padding:10px">Send</button></div></div>
 
 <div class="nav">
 <div class="item act" data-p="h"><span>🏠</span><span id="n1"></span></div>
@@ -54,18 +48,8 @@ body{font-family:'Roboto';background:linear-gradient(135deg,var(--p) 0%,var(--d)
 </div>
 
 <script>
-const T={en:{t1:"⚠️ TESTNET MODE",t2:"🚀 PROTOCOL 28 READY",w:"Future of Commerce",s:"Join 60M+ Pioneers.",login:"Connect Pi Wallet",con:"Connected ✓",mt:"🛒 Marketplace",md:"Pay with Pi Testnet.",jt:"🏗️ Jenga",jd:"Construction materials.",bt:"📅 Booking",bd:"Book services.",pt:"👤 Profile",pu:"Status: Guest",pp:"Pi: --",out:"Disconnect",n1:"Home",n2:"Market",n3:"Jenga",n4:"Booking",n5:"Profile",at:"AI ASSISTANT",aw:"Hello Pioneer!",pay:"Pay with Pi",test:"TESTNET Mode"},
-sw:{t1:"⚠️ MODI YA MAJARIBIO",t2:"🚀 PROTOCOL 28 TAYARI",w:"Mustakabali wa Biashara",s:"Jiunge na Wapioneer 60M+.",login:"Unganisha Wallet ya Pi",con:"Umeunganishwa ✓",mt:"🛒 Soko",md:"Lipa kwa Pi Testnet.",jt:"🏗️ Jenga",jd:"Vifaa vya ujenzi.",bt:"📅 Uchapishaji",bd:"Panga huduma.",pt:"👤 Wasifu",pu:"Hali: Mgeni",pp:"Pi: --",out:"Kata",n1:"Nyumbani",n2:"Soko",n3:"Jenga",n4:"Uchapishaji",n5:"Wasifu",at:"AI MSAIDIZI",aw:"Habari Pioneer!",pay:"Lipa kwa Pi",test:"Hii ni TESTNET."},
-fr:{t1:"⚠️ MODE TEST",t2:"🚀 PROTOCOLE 28",w:"Avenir Commerce",s:"60M+ Pionniers.",login:"Connecter Pi",con:"Connecté ✓",mt:"🛒 Marché",md:"Payer Pi Testnet.",jt:"🏗️ Construction",jd:"Matériaux.",bt:"📅 Services",bd:"Réserver.",pt:"👤 Profil",pu:"Invité",pp:"Pi: --",out:"Déconnecter",n1:"Accueil",n2:"Marché",n3:"Jenga",n4:"Réservation",n5:"Profil",at:"ASSISTANT IA",aw:"Bonjour!",pay:"Payer Pi",test:"TESTNET"},
-zh:{t1:"⚠️ 测试网",t2:"🚀 协议28",w:"商业未来",s:"6000万先锋。",login:"连接Pi",con:"已连接",mt:"🛒 市场",md:"Pi测试网支付。",jt:"🏗️ 建设",jd:"建筑材料。",bt:"📅 服务",bd:"预订。",pt:"👤 档案",pu:"访客",pp:"Pi:--",out:"断开",n1:"首页",n2:"市场",n3:"建设",n4:"预订",n5:"个人",at:"AI助手",aw:"你好!",pay:"Pi支付",test:"测试网"},
-es:{t1:"⚠️ TESTNET",t2:"🚀 PROTOCOLO 28",w:"Futuro Comercio",s:"60M+ Pioneros.",login:"Conectar Pi",con:"Conectado",mt:"🛒 Mercado",md:"Pagar Pi Testnet.",jt:"🏗️ Construcción",jd:"Materiales.",bt:"📅 Servicios",bd:"Reservar.",pt:"👤 Perfil",pu:"Invitado",pp:"Pi:--",out:"Salir",n1:"Inicio",n2:"Mercado",n3:"Construir",n4:"Reserva",n5:"Perfil",at:"ASISTENTE",aw:"Hola!",pay:"Pagar Pi",test:"TESTNET"},
-ar:{t1:"⚠️ اختبار",t2:"🚀 بروتوكول 28",w:"مستقبل التجارة",s:"60 مليون.",login:"اتصال Pi",con:"متصل",mt:"🛒 السوق",md:"دفع Pi.",jt:"🏗️ البناء",jd:"مواد.",bt:"📅 خدمات",bd:"حجز.",pt:"👤 ملف",pu:"ضيف",pp:"Pi:--",out:"خروج",n1:"الرئيسية",n2:"السوق",n3:"البناء",n4:"الحجز",n5:"الملف",at:"مساعد",aw:"مرحبا!",pay:"دفع Pi",test:"اختبار"},
-pt:{t1:"⚠️ TESTNET",t2:"🚀 PROTOCOLO 28",w:"Futuro Comercio",s:"60M+ Pioneiros.",login:"Conectar Pi",con:"Conectado",mt:"🛒 Mercado",md:"Pagar Pi.",jt:"🏗️ Construção",jd:"Materiais.",bt:"📅 Serviços",bd:"Reservar.",pt:"👤 Perfil",pu:"Convidado",pp:"Pi:--",out:"Sair",n1:"Início",n2:"Mercado",n3:"Construir",n4:"Reserva",n5:"Perfil",at:"ASSISTENTE",aw:"Olá!",pay:"Pagar Pi",test:"TESTNET"},
-ru:{t1:"⚠️ ТЕСТ",t2:"🚀 ПРОТОКОЛ 28",w:"Будущее",s:"60M+.",login:"Подключить Pi",con:"Подключено",mt:"🛒 Рынок",md:"Оплата Pi.",jt:"🏗️ Стройка",jd:"Материалы.",bt:"📅 Услуги",bd:"Бронь.",pt:"👤 Профиль",pu:"Гость",pp:"Pi:--",out:"Выход",n1:"Главная",n2:"Рынок",n3:"Стройка",n4:"Бронь",n5:"Профиль",at:"АССИСТЕНТ",aw:"Привет!",pay:"Оплатить",test:"ТЕСТ"},
-de:{t1:"⚠️ TESTNET",t2:"🚀 PROTOKOLL 28",w:"Zukunft",s:"60M+.",login:"Pi verbinden",con:"Verbunden",mt:"🛒 Markt",md:"Mit Pi zahlen.",jt:"🏗️ Bauen",jd:"Material.",bt:"📅 Service",bd:"Buchen.",pt:"👤 Profil",pu:"Gast",pp:"Pi:--",out:"Trennen",n1:"Start",n2:"Markt",n3:"Bauen",n4:"Buchung",n5:"Profil",at:"KI",aw:"Hallo!",pay:"Mit Pi",test:"TESTNET"},
-hi:{t1:"⚠️ TESTNET",t2:"🚀 प्रोटोकॉल 28",w:"भविष्य",s:"60M+.",login:"Pi कनेक्ट",con:"कनेक्टेड",mt:"🛒 बाजार",md:"Pi भुगतान।",jt:"🏗️ निर्माण",jd:"सामग्री।",bt:"📅 सेवाएं",bd:"बुक करें।",pt:"👤 प्रोफ़ाइल",pu:"अतिथि",pp:"Pi:--",out:"डिस्कनेक्ट",n1:"होम",n2:"बाजार",n3:"निर्माण",n4:"बुकिंग",n5:"प्रोफ़ाइल",at:"AI",aw:"नमस्ते!",pay:"Pi भुगतान",test:"TESTNET"},
-jp:{t1:"⚠️ テスト",t2:"🚀 プロトコル28",w:"未来",s:"6000万。",login:"Pi接続",con:"接続済",mt:"🛒 市場",md:"Pi支払い。",jt:"🏗️ 建設",jd:"資材。",bt:"📅 サービス",bd:"予約。",pt:"👤 プロフ",pu:"ゲスト",pp:"Pi:--",out:"切断",n1:"ホーム",n2:"市場",n3:"建設",n4:"予約",n5:"プロフ",at:"AI",aw:"こんにちは!",pay:"Pi支払",test:"テスト"},
-ko:{t1:"⚠️ 테스트",t2:"🚀 프로토콜28",w:"미래",s:"6000만.",login:"Pi 연결",con:"연결됨",mt:"🛒 마켓",md:"Pi 결제.",jt:"🏗️ 건설",jd:"자재.",bt:"📅 서비스",bd:"예약.",pt:"👤 프로필",pu:"게스트",pp:"Pi:--",out:"해제",n1:"홈",n2:"마켓",n3:"건설",n4:"예약",n5:"프로필",at:"AI",aw:"안녕!",pay:"Pi 결제",test:"테스트"}};
+const T={en:{t1:"⚠️ DEMO MODE - NO REAL PAYMENT",t2:"🚀 BUILDING FOR MAINNET",w:"Future of Commerce",s:"Join 60M+ Pioneers.",login:"Connect Pi Wallet",con:"Connected ✓",mt:"🛒 Marketplace",md:"Demo Mode. Click to test order.",jt:"🏗️ Jenga",jd:"Construction materials.",bt:"📅 Booking",bd:"Book services.",pt:"👤 Profile",pu:"Status: Guest",pp:"Pi: --",out:"Disconnect",n1:"Home",n2:"Market",n3:"Jenga",n4:"Booking",n5:"Profile",pay:"Order Now",success:"✅ Order Placed! Demo Order ID"},
+sw:{t1:"⚠️ MODI YA MAJARIBIO",t2:"🚀 TUNAJENGA KWA MAINNET",w:"Mustakabali wa Biashara",s:"Jiunge na Wapioneer 60M+.",login:"Unganisha Wallet ya Pi",con:"Umeunganishwa ✓",mt:"🛒 Soko",md:"Demo Mode. Bofya kujaribu oda.",jt:"🏗️ Jenga",jd:"Vifaa vya ujenzi.",bt:"📅 Uchapishaji",bd:"Panga huduma.",pt:"👤 Wasifu",pu:"Hali: Mgeni",pp:"Pi: --",out:"Kata",n1:"Nyumbani",n2:"Soko",n3:"Jenga",n4:"Uchapishaji",n5:"Wasifu",pay:"Agiza Sasa",success:"✅ Oda Imetumwa! Demo ID"}};
 
 const P=[{n:"VILLA DUBAI",p:5,i:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=VILLA"},
 {n:"BUGATTI",p:10,i:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=BUGATTI"},
@@ -80,22 +64,21 @@ const P=[{n:"VILLA DUBAI",p:5,i:"https://via.placeholder.com/400x300/4c1d95/f59e
 {n:"HARVARD",p:0.2,i:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HARVARD"},
 {n:"HEALTH",p:0.5,i:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HEALTH"}];
 
-function loadP(){const l=document.getElementById("lang").value;const t=T[l];let h="";P.forEach((x,i)=>{h+=`<div class="prod"><img src="${x.i}"><h4>${x.n}</h4><p style="color:var(--p);font-weight:900">π ${x.p}</p><button class="btn" onclick="pay(${x.p},${i})">${t.pay}</button></div>`});document.getElementById("prods").innerHTML=h}
+function loadP(){const l=document.getElementById("lang").value;const t=T[l];let h="";P.forEach((x,i)=>{h+=`<div class="prod"><img src="${x.i}"><h4>${x.n}</h4><p style="color:var(--p);font-weight:900">π ${x.p}</p><button class="btn" onclick="demoOrder('${x.n}',${x.p})">${t.pay}</button></div>`});document.getElementById("prods").innerHTML=h}
 function changeLang(){const l=document.getElementById("lang").value;const t=T[l];for(let k in t){if(document.getElementById(k))document.getElementById(k).innerText=t[k]}loadP()}
 document.querySelectorAll('.item').forEach(i=>{i.onclick=function(){const p=this.dataset.p;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');document.querySelectorAll('.item').forEach(x=>x.classList.remove('act'));this.classList.add('act');if(p=='m')loadP()}})
 
+// TUMEONDOA PI.createPayment KABISA HAPA
 Pi.init({version:"2.0",sandbox:true});
-document.getElementById("login").onclick=async()=>{const l=document.getElementById("lang").value;try{const a=await Pi.authenticate(['username','payments']);document.getElementById("st").innerText=T[l].con;document.getElementById("login").disabled=true;document.getElementById("pu").innerText="Status: "+a.user.username}catch(e){alert("Open in Pi Browser")}}
+document.getElementById("login").onclick=async()=>{const l=document.getElementById("lang").value;try{const a=await Pi.authenticate(['username']);document.getElementById("st").innerText=T[l].con;document.getElementById("login").disabled=true;document.getElementById("pu").innerText="Status: "+a.user.username}catch(e){alert("Open in Pi Browser")}}
 
-function pay(a,i){const l=document.getElementById("lang").value;const t=T[l];const x=P[i];if(!confirm(`${x.n}\nAmount: π ${a}\n\n${t.test}`))return;Pi.createPayment({amount:a,memo:"TEST:"+x.n},{
-onReadyForServerApproval:id=>setTimeout(()=>Pi.approvePayment(id),500),
-onReadyForServerCompletion:(id,tx)=>alert("✅ Success! Tx:"+tx),
-onCancel:()=>alert("Cancelled"),
-onError:e=>alert("Error:"+e)
-})}
+function demoOrder(name,amount){const l=document.getElementById("lang").value;const t=T[l];
+if(!confirm(`${name}\nAmount: π ${amount}\n\n${t.t1}`))return;
+setTimeout(()=>{
+  alert(`${t.success} SHALOM-${Date.now()}\nProduct: ${name}\nAmount: π ${amount}`);
+},500);
+}
 
-document.getElementById('ai').onclick=()=>{const b=document.getElementById('box');b.style.display=b.style.display=='flex'?'none':'flex';document.getElementById('amsg').innerHTML=`<div>${T[document.getElementById("lang").value].aw}</div>`}
-document.getElementById('asend').onclick=()=>{const m=document.getElementById('ain').value;if(!m)return;document.getElementById('amsg').innerHTML+=`<div style="text-align:right;background:var(--g);padding:8px;border-radius:10px;margin:5px 0">${m}</div>`;setTimeout(()=>{document.getElementById('amsg').innerHTML+=`<div style="background:#eee;padding:8px;border-radius:10px;margin:5px 0">I help with SHALOM</div>`},500);document.getElementById('ain').value=""}
 document.getElementById("out").onclick=()=>location.reload();
 changeLang();
 </script></body></html>
