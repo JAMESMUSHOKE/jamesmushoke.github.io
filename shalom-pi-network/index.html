@@ -1,148 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHALOM - The Global Pi Marketplace</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --purple:#4c1d95; --gold:#f59e0b; --dark:#1a0033; --green:#10b981; }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body {font-family:'Roboto',Arial;background:linear-gradient(135deg, var(--purple) 0%, var(--dark) 100%);color:#fff;text-align:center;padding:0;margin:0;padding-bottom:90px;min-height:100vh}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHALOM - Global Pi Marketplace</title>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--purple:#4c1d95;--gold:#f59e0b;--dark:#1a0033;--green:#10b981}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Roboto',Arial;background:linear-gradient(135deg,var(--purple) 0%,var(--dark) 100%);color:#fff;text-align:center;padding-bottom:90px;min-height:100vh}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 15px}
 .lang-select{padding:8px;background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;border:1px solid var(--gold);font-weight:bold}
 .logo{width:90px;height:90px;border-radius:50%;border:4px solid var(--gold);background:#fff;margin:-45px auto 10px;box-shadow:0 0 20px var(--gold)}
 .hero-banner{width:100%;height:180px;object-fit:cover;border-bottom:3px solid var(--gold)}
-.card{background:rgba(255,255,255,0.95);color:#000;padding:25px;border-radius:20px;max-width:450px;margin:15px auto;box-shadow:0 10px 30px rgba(0,0,0,0.4);border:2px solid var(--gold)}
-.card h2{font-family:'Orbitron',sans-serif;color:var(--purple);margin-bottom:8px}
-.btn{padding:18px;background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;border:none;border-radius:15px;font-weight:900;font-size:17px;width:95%;margin:12px auto;cursor:pointer;box-shadow:0 4px 15px rgba(245,158,11,0.4)}
-.btn:disabled{background:#ccc;box-shadow:none}
-.testnet-badge{background:linear-gradient(90deg, var(--green), #059669);color:#fff;padding:12px;border-radius:10px;font-size:13px;font-weight:bold;margin:15px 0}
-.protocol-badge{background:linear-gradient(90deg, #10b981, #059669);color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:bold;margin:15px 0}
-.navbar{position:fixed;bottom:0;left:0;width:100%;background:rgba(26,0,51,0.95);backdrop-filter:blur(10px);display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid var(--gold)}
-.nav-item{color:#ccc;text-align:center;font-size:11px;cursor:pointer;padding:5px}.nav-item.active{color:var(--gold);font-weight:bold;transform:scale(1.1)}
-.nav-icon{font-size:24px;display:block}
+.card{background:rgba(255,255,255,0.95);color:#000;padding:25px;border-radius:20px;max-width:450px;margin:15px auto;border:2px solid var(--gold)}
+.card h2{font-family:'Orbitron',sans-serif;color:var(--purple)}
+.btn{padding:18px;background:linear-gradient(90deg,var(--gold),#ffcc00);color:#000;border:none;border-radius:15px;font-weight:900;width:95%;margin:12px auto;cursor:pointer}
+.testnet-badge,.protocol-badge{color:#fff;padding:12px;border-radius:10px;font-weight:bold;margin:15px 0}
+.testnet-badge{background:linear-gradient(90deg,var(--green),#059669)}
+.protocol-badge{background:linear-gradient(90deg,#10b981,#059669)}
+.navbar{position:fixed;bottom:0;left:0;width:100%;background:rgba(26,0,51,0.95);display:flex;justify-content:space-around;padding:10px 0;border-top:2px solid var(--gold)}
+.nav-item{color:#ccc;text-align:center;font-size:11px;cursor:pointer}.nav-item.active{color:var(--gold);font-weight:bold}
 .page{display:none}.page.active{display:block}
 .products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:12px;max-width:500px;margin:0 auto}
-.product-card{background:#fff;color:#000;border-radius:15px;padding:10px;text-align:left;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+.product-card{background:#fff;color:#000;border-radius:15px;padding:10px;text-align:left}
 .product-card img{width:100%;height:120px;object-fit:cover;border-radius:10px}
-.product-card h4{font-size:13px;margin:6px 0;min-height:32px}
 .product-price{color:var(--purple);font-weight:900;font-size:18px}
-.btn-pay{background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000}
-.btn-cart{background:#fff;color:var(--purple);border:2px solid var(--purple);margin-top:5px}
-.product-btn{padding:10px;width:100%;font-size:14px;border-radius:10px;font-weight:bold}
- #ai-btn{position:fixed;bottom:100px;right:15px;background:linear-gradient(135deg, var(--gold), #ffcc00);border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(245,158,11,0.6)}
- #ai-chatbox{display:none;position:fixed;bottom:170px;right:15px;width:340px;height:450px;background:#fff;border:3px solid var(--gold);border-radius:20px;flex-direction:column;color:#000;z-index:999;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
- #ai-header{background:linear-gradient(90deg, var(--gold), #ffcc00);color:#000;padding:14px;font-weight:900;font-family:'Orbitron'}
- #ai-messages{flex:1;overflow-y:auto;padding:12px;text-align:left;font-size:14px}
-.msg-user{background:var(--gold);color:#000;padding:10px;border-radius:15px 15px 0 15px;margin:6px 0 6px auto;max-width:80%;text-align:right}
-.msg-ai{background:#f1f1f1;padding:10px;border-radius:15px 15px 15px 0;margin:6px auto 6px 0;max-width:80%}
- #ai-input-area{display:flex;padding:10px;border-top:1px solid #ddd}
- #ai-input{flex:1;border:2px solid var(--gold);border-radius:10px;padding:10px;color:#000}
- #ai-send{background:var(--purple);color:#fff;border:none;border-radius:10px;padding:10px 15px;margin-left:5px;cursor:pointer;font-weight:bold}
-  </style>
+.product-btn{padding:10px;width:100%;font-size:14px;border-radius:10px;font-weight:bold;margin-top:5px}
+#ai-btn{position:fixed;bottom:100px;right:15px;background:var(--gold);border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;z-index:999}
+#ai-chatbox{display:none;position:fixed;bottom:170px;right:15px;width:340px;height:450px;background:#fff;border:3px solid var(--gold);border-radius:20px;flex-direction:column;color:#000;z-index:999}
+</style>
 </head>
 <body>
-  <div class="topbar">
-    <div style="font-family:Orbitron;color:var(--gold);font-size:18px">SHALOM</div>
-    <select class="lang-select" id="lang" onchange="changeLang()">
-      <option value="en">EN</option><option value="sw">SW</option><option value="fr">FR</option>
-      <option value="zh">中文</option><option value="es">ES</option><option value="ar">AR</option>
-      <option value="pt">PT</option><option value="ru">RU</option><option value="de">DE</option>
-      <option value="hi">HI</option><option value="jp">JP</option><option value="ko">KO</option>
-    </select>
-  </div>
+<div class="topbar"><div style="font-family:Orbitron;color:var(--gold);font-size:18px">SHALOM</div>
+<select class="lang-select" id="lang" onchange="changeLang()">
+<option value="en">EN</option><option value="sw">SW</option><option value="fr">FR</option>
+<option value="zh">中文</option><option value="es">ES</option><option value="ar">AR</option>
+<option value="pt">PT</option><option value="ru">RU</option><option value="de">DE</option>
+<option value="hi">HI</option><option value="jp">JP</option><option value="ko">KO</option>
+</select></div>
 
-  <img src="https://via.placeholder.com/1200x300/4c1d95/f59e0b?text=SHALOM+GLOBAL+MARKETPLACE" alt="SHALOM Banner" class="hero-banner">
-  <img src="https://via.placeholder.com/200/ffffff/4c1d95?text=S" alt="Logo" class="logo">
+<img src="https://via.placeholder.com/1200x300/4c1d95/f59e0b?text=SHALOM+MARKETPLACE" class="hero-banner">
+<img src="https://via.placeholder.com/200/ffffff/4c1d95?text=S" class="logo">
 
-  <!-- PAGES ZOTE ZILE -->
-  <div id="homePage" class="page active"><div class="card"><div class="testnet-badge" id="testnetBadge"></div><div class="protocol-badge" id="protocol"></div><h2 id="welcome"></h2><p id="subtitle"></p><button class="btn" id="loginBtn"></button><p id="status" style="color:green;font-size:13px;margin-top:10px"></p></div></div>
-  <div id="marketPage" class="page"><div class="card"><h2 id="marketTitle"></h2><p id="marketDesc"></p></div><div class="products-grid" id="productsGrid"></div></div>
-  <div id="jengaPage" class="page"><div class="card"><h2 id="jengaTitle"></h2><p id="jengaDesc"></p><button class="btn" onclick="comingSoon()">Explore</button></div></div>
-  <div id="bookingPage" class="page"><div class="card"><h2 id="bookingTitle"></h2><p id="bookingDesc"></p><button class="btn" onclick="comingSoon()">Book</button></div></div>
-  <div id="profilePage" class="page"><div class="card"><h2 id="profileTitle"></h2><p id="profileUser"></p><p id="profilePi"></p><button class="btn" id="logoutBtn" style="background:#dc3545;color:#fff"></button></div></div>
-  <button id="ai-btn">🤖</button><div id="ai-chatbox"><div id="ai-header"><span id="aiTitle"></span></div><div id="ai-messages"><div class="msg-ai" id="aiWelcome"></div></div><div id="ai-input-area"><input type="text" id="ai-input"><button id="ai-send">Send</button></div></div>
-  <div class="navbar"><div class="nav-item active" data-page="homePage"><span class="nav-icon">🏠</span><span id="navHome"></span></div><div class="nav-item" data-page="marketPage"><span class="nav-icon">🛒</span><span id="navMarket"></span></div><div class="nav-item" data-page="jengaPage"><span class="nav-icon">🏗️</span><span id="navJenga"></span></div><div class="nav-item" data-page="bookingPage"><span class="nav-icon">📅</span><span id="navBooking"></span></div><div class="nav-item" data-page="profilePage"><span class="nav-icon">👤</span><span id="navProfile"></span></div></div>
+<div id="homePage" class="page active"><div class="card"><div class="testnet-badge" id="testnetBadge"></div><div class="protocol-badge" id="protocol"></div><h2 id="welcome"></h2><p id="subtitle"></p><button class="btn" id="loginBtn"></button><p id="status" style="color:green"></p></div></div>
+<div id="marketPage" class="page"><div class="card"><h2 id="marketTitle"></h2><p id="marketDesc"></p></div><div class="products-grid" id="productsGrid"></div></div>
+<div id="jengaPage" class="page"><div class="card"><h2 id="jengaTitle"></h2><p id="jengaDesc"></p><button class="btn" onclick="comingSoon()">Explore</button></div></div>
+<div id="bookingPage" class="page"><div class="card"><h2 id="bookingTitle"></h2><p id="bookingDesc"></p><button class="btn" onclick="comingSoon()">Book</button></div></div>
+<div id="profilePage" class="page"><div class="card"><h2 id="profileTitle"></h2><p id="profileUser"></p><p id="profilePi"></p><button class="btn" id="logoutBtn" style="background:#dc3545;color:#fff"></button></div></div>
+<button id="ai-btn">🤖</button><div id="ai-chatbox"><div style="background:var(--gold);padding:14px;font-weight:900"><span id="aiTitle"></span></div><div id="ai-messages" style="flex:1;overflow-y:auto;padding:12px;text-align:left"><div id="aiWelcome"></div></div><div style="display:flex;padding:10px"><input type="text" id="ai-input" style="flex:1;border:2px solid var(--gold);border-radius:10px;padding:10px"><button id="ai-send" style="background:var(--purple);color:#fff;border:none;border-radius:10px;padding:10px">Send</button></div></div>
+<div class="navbar"><div class="nav-item active" data-page="homePage"><span>🏠</span><span id="navHome"></span></div><div class="nav-item" data-page="marketPage"><span>🛒</span><span id="navMarket"></span></div><div class="nav-item" data-page="jengaPage"><span>🏗️</span><span id="navJenga"></span></div><div class="nav-item" data-page="bookingPage"><span>📅</span><span id="navBooking"></span></div><div class="nav-item" data-page="profilePage"><span>👤</span><span id="navProfile"></span></div></div>
 
 <script>
-// LUGHA 12 KAMILI ZIMERUDI
-const translations = {
-  en: {testnet:"⚠️ TESTNET MODE - NO REAL PI WILL BE SPENT",protocol:"🚀 PROTOCOL 28 READY | BUILDING FOR OPEN MAINNET",welcome:"The Future of Commerce is Here",subtitle:"Join 60M+ Pioneers. Buy, Sell, and Build with Pi.",login:"Connect with Pi Wallet",connected:"Connected ✓",marketTitle:"🛒 Global Marketplace",marketDesc:"Pay with Pi Testnet. All prices in π only.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Construction materials, contractors, and project funding - all on Pi.",bookingTitle:"📅 Services & Booking",bookingDesc:"Book architects, engineers, and services. Pay securely with Pi.",profileTitle:"👤 Pioneer Profile",profileUser:"Status: Guest",profilePi:"Pi Balance: --",logout:"Disconnect",navHome:"Home",navMarket:"Market",navJenga:"Jenga",navBooking:"Booking",navProfile:"Profile",aiTitle:"SHALOM AI ASSISTANT",aiWelcome:"Hello Pioneer! Ask me anything about SHALOM.",aiPlaceholder:"Ask me anything...",payBtn:"Pay with Pi",testAlert:"This is TESTNET. No real Pi will be spent."},
-  sw: {testnet:"⚠️ MODI YA MAJARIBIO - HAKUNA PI HALISI ITAKATWA",protocol:"🚀 PROTOCOL 28 TAYARI | TUNAJENGA KWA OPEN MAINNET",welcome:"Mustakabali wa Biashara Umefika",subtitle:"Jiunge na Wapioneer 60M+. Nunua, Uza, na Jenga kwa Pi.",login:"Unganisha na Wallet ya Pi",connected:"Umeunganishwa ✓",marketTitle:"🛒 Soko la Kimataifa",marketDesc:"Lipa kwa Pi Testnet. Bei zote ni π tu.",jengaTitle:"🏗️ Jenga Bora",jengaDesc:"Vifaa vya ujenzi, mafundi, na ufadhili wa miradi - yote kwa Pi.",bookingTitle:"📅 Huduma & Uchapishaji",bookingDesc:"Panga wabunifu, wahandisi, na huduma. Lipa kwa usalama kwa Pi.",profileTitle:"👤 Wasifu wa Pioneer",profileUser:"Hali: Mgeni",profilePi:"Salio la Pi: --",logout:"Kata Muunganisho",navHome:"Nyumbani",navMarket:"Soko",navJenga:"Jenga",navBooking:"Uchapishaji",navProfile:"Wasifu",aiTitle:"AI MSAIDIZI WA SHALOM",aiWelcome:"Habari Pioneer! Niulize chochote kuhusu SHALOM.",aiPlaceholder:"Niulize chochote...",payBtn:"Lipa kwa Pi",testAlert:"Hii ni TESTNET. Hakuna Pi halisi itakatwa."},
-  fr: {testnet:"⚠️ MODE TESTNET - AUCUN PI RÉEL",protocol:"🚀 PROTOCOLE 28 PRÊT",welcome:"L'Avenir du Commerce",subtitle:"Rejoignez 60M+ Pionniers.",login:"Connecter Portefeuille Pi",connected:"Connecté ✓",marketTitle:"🛒 Marché Mondial",marketDesc:"Payer avec Pi Testnet.",jengaTitle:"🏗️ Construction",jengaDesc:"Matériaux.",bookingTitle:"📅 Services",bookingDesc:"Réservez.",profileTitle:"👤 Profil",profileUser:"Statut: Invité",profilePi:"Solde Pi: --",logout:"Déconnecter",navHome:"Accueil",navMarket:"Marché",navJenga:"Jenga",navBooking:"Réservation",navProfile:"Profil",aiTitle:"ASSISTANT IA",aiWelcome:"Bonjour Pionnier!",aiPlaceholder:"Demandez...",payBtn:"Payer avec Pi",testAlert:"Ceci est TESTNET."},
-  zh: {testnet:"⚠️ 测试网模式",protocol:"🚀 协议28就绪",welcome:"商业的未来",subtitle:"加入6000万先锋。",login:"连接Pi钱包",connected:"已连接 ✓",marketTitle:"🛒 全球市场",marketDesc:"使用Pi测试网支付。",jengaTitle:"🏗️ 建设",jengaDesc:"建筑材料。",bookingTitle:"📅 服务",bookingDesc:"预订服务。",profileTitle:"👤 档案",profileUser:"状态: 访客",profilePi:"Pi余额: --",logout:"断开",navHome:"首页",navMarket:"市场",navJenga:"建设",navBooking:"预订",navProfile:"个人",aiTitle:"SHALOM AI助手",aiWelcome:"你好先锋！",aiPlaceholder:"问我...",payBtn:"用Pi支付",testAlert:"这是测试网。"},
-  es: {testnet:"⚠️ MODO TESTNET",protocol:"🚀 PROTOCOLO 28 LISTO",welcome:"El Futuro del Comercio",subtitle:"Únete a 60M+ Pioneros.",login:"Conectar Billetera Pi",connected:"Conectado ✓",marketTitle:"🛒 Mercado Global",marketDesc:"Paga con Pi Testnet.",jengaTitle:"🏗️ Construcción",jengaDesc:"Materiales.",bookingTitle:"📅 Servicios",bookingDesc:"Reserva.",profileTitle:"👤 Perfil",profileUser:"Estado: Invitado",profilePi:"Saldo Pi: --",logout:"Desconectar",navHome:"Inicio",navMarket:"Mercado",navJenga:"Construir",navBooking:"Reserva",navProfile:"Perfil",aiTitle:"ASISTENTE IA",aiWelcome:"Hola Pionero!",aiPlaceholder:"Pregunta...",payBtn:"Pagar con Pi",testAlert:"Esto es TESTNET."},
-  ar: {testnet:"⚠️ وضع الاختبار",protocol:"🚀 البروتوكول 28",welcome:"مستقبل التجارة",subtitle:"انضم إلى 60 مليون.",login:"الاتصال بمحفظة Pi",connected:"متصل ✓",marketTitle:"🛒 السوق العالمية",marketDesc:"ادفع ب Pi Testnet.",jengaTitle:"🏗️ البناء",jengaDesc:"مواد البناء.",bookingTitle:"📅 الخدمات",bookingDesc:"حجز.",profileTitle:"👤 الملف",profileUser:"الحالة: ضيف",profilePi:"رصيد Pi: --",logout:"قطع الاتصال",navHome:"الرئيسية",navMarket:"السوق",navJenga:"البناء",navBooking:"الحجز",navProfile:"الملف",aiTitle:"مساعد SHALOM",aiWelcome:"مرحبا رائد!",aiPlaceholder:"اسأل...",payBtn:"ادفع ب Pi",testAlert:"هذا TESTNET."},
-  pt: {testnet:"⚠️ MODO TESTNET",protocol:"🚀 PROTOCOLO 28",welcome:"O Futuro do Comércio",subtitle:"Junte-se a 60M+ Pioneiros.",login:"Conectar Carteira Pi",connected:"Conectado ✓",marketTitle:"🛒 Mercado Global",marketDesc:"Pague com Pi Testnet.",jengaTitle:"🏗️ Construção",jengaDesc:"Materiais.",bookingTitle:"📅 Serviços",bookingDesc:"Reserve.",profileTitle:"👤 Perfil",profileUser:"Status: Convidado",profilePi:"Saldo Pi: --",logout:"Sair",navHome:"Início",navMarket:"Mercado",navJenga:"Construir",navBooking:"Reserva",navProfile:"Perfil",aiTitle:"ASSISTENTE IA",aiWelcome:"Olá Pioneiro!",aiPlaceholder:"Pergunte...",payBtn:"Pagar com Pi",testAlert:"Isto é TESTNET."},
-  ru: {testnet:"⚠️ РЕЖИМ TESTNET",protocol:"🚀 ПРОТОКОЛ 28",welcome:"Будущее Коммерции",subtitle:"60M+ Пионеров.",login:"Подключить Pi Кошелек",connected:"Подключено ✓",marketTitle:"🛒 Глобальный Рынок",marketDesc:"Оплата Pi Testnet.",jengaTitle:"🏗️ Строительство",jengaDesc:"Материалы.",bookingTitle:"📅 Услуги",bookingDesc:"Бронирование.",profileTitle:"👤 Профиль",profileUser:"Статус: Гость",profilePi:"Баланс Pi: --",logout:"Выйти",navHome:"Главная",navMarket:"Рынок",navJenga:"Стройка",navBooking:"Бронь",navProfile:"Профиль",aiTitle:"AI АССИСТЕНТ",aiWelcome:"Привет Пионер!",aiPlaceholder:"Спросить...",payBtn:"Оплатить Pi",testAlert:"Это TESTNET."},
-  de: {testnet:"⚠️ TESTNET MODUS",protocol:"🚀 PROTOKOLL 28",welcome:"Zukunft des Handels",subtitle:"Tritt 60M+ Pionieren bei.",login:"Mit Pi Wallet verbinden",connected:"Verbunden ✓",marketTitle:"🛒 Globaler Marktplatz",marketDesc:"Mit Pi Testnet bezahlen.",jengaTitle:"🏗️ Bauen",jengaDesc:"Materialien.",bookingTitle:"📅 Dienstleistungen",bookingDesc:"Buchen.",profileTitle:"👤 Profil",profileUser:"Status: Gast",profilePi:"Pi Guthaben: --",logout:"Trennen",navHome:"Start",navMarket:"Markt",navJenga:"Bauen",navBooking:"Buchung",navProfile:"Profil",aiTitle:"KI ASSISTENT",aiWelcome:"Hallo Pionier!",aiPlaceholder:"Fragen...",payBtn:"Mit Pi bezahlen",testAlert:"Dies ist TESTNET."},
-  hi: {testnet:"⚠️ TESTNET मोड",protocol:"🚀 प्रोटोकॉल 28",welcome:"वाणिज्य का भविष्य",subtitle:"60M+ अग्रदूतों से जुड़ें।",login:"Pi वॉलेट कनेक्ट करें",connected:"कनेक्टेड ✓",marketTitle:"🛒 ग्लोबल मार्केट",marketDesc:"Pi Testnet से भुगतान।",jengaTitle:"🏗️ निर्माण",jengaDesc:"निर्माण सामग्री।",bookingTitle:"📅 सेवाएँ",bookingDesc:"सेवाएं बुक करें।",profileTitle:"👤 प्रोफ़ाइल",profileUser:"स्थिति: अतिथि",profilePi:"Pi बैलेंस: --",logout:"डिस्कनेक्ट",navHome:"होम",navMarket:"बाजार",navJenga:"निर्माण",navBooking:"बुकिंग",navProfile:"प्रोफ़ाइल",aiTitle:"AI सहायक",aiWelcome:"नमस्ते अग्रदूत!",aiPlaceholder:"पूछें...",payBtn:"Pi से भुगतान",testAlert:"यह TESTNET है।"},
-  jp: {testnet:"⚠️ テストネットモード",protocol:"🚀 プロトコル28",welcome:"商取引の未来",subtitle:"6000万パイオニア。",login:"Piウォレット接続",connected:"接続済み ✓",marketTitle:"🛒 グローバルマーケット",marketDesc:"Piテストネットで支払い。",jengaTitle:"🏗️ 建設",jengaDesc:"建築資材。",bookingTitle:"📅 サービス",bookingDesc:"サービス予約。",profileTitle:"👤 プロフィール",profileUser:"ステータス: ゲスト",profilePi:"Pi残高: --",logout:"切断",navHome:"ホーム",navMarket:"市場",navJenga:"建設",navBooking:"予約",navProfile:"プロフィール",aiTitle:"AIアシスタント",aiWelcome:"こんにちはパイオニア！",aiPlaceholder:"質問...",payBtn:"Piで支払う",testAlert:"これはテストネットです。"},
-  ko: {testnet:"⚠️ 테스트넷 모드",protocol:"🚀 프로토콜 28",welcome:"상거래의 미래",subtitle:"6000만 파이오니어.",login:"Pi 지갑 연결",connected:"연결됨 ✓",marketTitle:"🛒 글로벌 마켓",marketDesc:"Pi 테스트넷 결제.",jengaTitle:"🏗️ 건설",jengaDesc:"건축 자재.",bookingTitle:"📅 서비스",bookingDesc:"서비스 예약.",profileTitle:"👤 프로필",profileUser:"상태: 게스트",profilePi:"Pi 잔액: --",logout:"연결 해제",navHome:"홈",navMarket:"마켓",navJenga:"건설",navBooking:"예약",navProfile:"프로필",aiTitle:"AI 어시스턴트",aiWelcome:"안녕하세요 파이오니어!",aiPlaceholder:"질문...",payBtn:"Pi로 결제",testAlert:"이것은 테스트넷입니다."}
+const translations={
+en:{testnet:"⚠️ TESTNET MODE - NO REAL PI",protocol:"🚀 PROTOCOL 28 READY",welcome:"Future of Commerce",subtitle:"Join 60M+ Pioneers.",login:"Connect Pi Wallet",connected:"Connected ✓",marketTitle:"🛒 Marketplace",marketDesc:"Pay with Pi Testnet.",jengaTitle:"🏗️ Jenga",jengaDesc:"Construction materials.",bookingTitle:"📅 Booking",bookingDesc:"Book services.",profileTitle:"👤 Profile",profileUser:"Status: Guest",profilePi:"Pi Balance: --",logout:"Disconnect",navHome:"Home",navMarket:"Market",navJenga:"Jenga",navBooking:"Booking",navProfile:"Profile",aiTitle:"AI ASSISTANT",aiWelcome:"Hello Pioneer!",aiPlaceholder:"Ask...",payBtn:"Pay with Pi",testAlert:"TESTNET Mode."},
+sw:{testnet:"⚠️ MODI YA MAJARIBIO",protocol:"🚀 PROTOCOL 28 TAYARI",welcome:"Mustakabali wa Biashara",subtitle:"Jiunge na Wapioneer 60M+.",login:"Unganisha Wallet ya Pi",connected:"Umeunganishwa ✓",marketTitle:"🛒 Soko",marketDesc:"Lipa kwa Pi Testnet.",jengaTitle:"🏗️ Jenga",jengaDesc:"Vifaa vya ujenzi.",bookingTitle:"📅 Uchapishaji",bookingDesc:"Panga huduma.",profileTitle:"👤 Wasifu",profileUser:"Hali: Mgeni",profilePi:"Salio: --",logout:"Kata",navHome:"Nyumbani",navMarket:"Soko",navJenga:"Jenga",navBooking:"Uchapishaji",navProfile:"Wasifu",aiTitle:"AI MSAIDIZI",aiWelcome:"Habari Pioneer!",aiPlaceholder:"Niulize...",payBtn:"Lipa kwa Pi",testAlert:"Hii ni TESTNET."},
+fr:{testnet:"⚠️ MODE TEST",protocol:"🚀 PROTOCOLE 28",welcome:"Avenir du Commerce",subtitle:"60M+ Pionniers.",login:"Connecter Pi",connected:"Connecté ✓",marketTitle:"🛒 Marché",marketDesc:"Payer Pi Testnet.",jengaTitle:"🏗️ Construction",jengaDesc:"Matériaux.",bookingTitle:"📅 Services",bookingDesc:"Réserver.",profileTitle:"👤 Profil",profileUser:"Statut: Invité",profilePi:"Solde: --",logout:"Déconnecter",navHome:"Accueil",navMarket:"Marché",navJenga:"Jenga",navBooking:"Réservation",navProfile:"Profil",aiTitle:"ASSISTANT IA",aiWelcome:"Bonjour!",aiPlaceholder:"Demandez...",payBtn:"Payer Pi",testAlert:"TESTNET."},
+zh:{testnet:"⚠️ 测试网",protocol:"🚀 协议28",welcome:"商业未来",subtitle:"6000万先锋。",login:"连接Pi",connected:"已连接",marketTitle:"🛒 市场",marketDesc:"Pi测试网支付。",jengaTitle:"🏗️ 建设",jengaDesc:"建筑材料。",bookingTitle:"📅 服务",bookingDesc:"预订。",profileTitle:"👤 档案",profileUser:"访客",profilePi:"余额:--",logout:"断开",navHome:"首页",navMarket:"市场",navJenga:"建设",navBooking:"预订",navProfile:"个人",aiTitle:"AI助手",aiWelcome:"你好!",aiPlaceholder:"问...",payBtn:"Pi支付",testAlert:"测试网。"},
+es:{testnet:"⚠️ TESTNET",protocol:"🚀 PROTOCOLO 28",welcome:"Futuro del Comercio",subtitle:"60M+ Pioneros.",login:"Conectar Pi",connected:"Conectado",marketTitle:"🛒 Mercado",marketDesc:"Pagar Pi Testnet.",jengaTitle:"🏗️ Construcción",jengaDesc:"Materiales.",bookingTitle:"📅 Servicios",bookingDesc:"Reservar.",profileTitle:"👤 Perfil",profileUser:"Invitado",profilePi:"Saldo:--",logout:"Salir",navHome:"Inicio",navMarket:"Mercado",navJenga:"Construir",navBooking:"Reserva",navProfile:"Perfil",aiTitle:"ASISTENTE",aiWelcome:"Hola!",aiPlaceholder:"Pregunta...",payBtn:"Pagar Pi",testAlert:"TESTNET."},
+ar:{testnet:"⚠️ اختبار",protocol:"🚀 بروتوكول 28",welcome:"مستقبل التجارة",subtitle:"60 مليون.",login:"اتصال Pi",connected:"متصل",marketTitle:"🛒 السوق",marketDesc:"دفع Pi.",jengaTitle:"🏗️ البناء",jengaDesc:"مواد.",bookingTitle:"📅 خدمات",bookingDesc:"حجز.",profileTitle:"👤 ملف",profileUser:"ضيف",profilePi:"رصيد:--",logout:"خروج",navHome:"الرئيسية",navMarket:"السوق",navJenga:"البناء",navBooking:"الحجز",navProfile:"الملف",aiTitle:"مساعد",aiWelcome:"مرحبا!",aiPlaceholder:"اسأل...",payBtn:"دفع Pi",testAlert:"اختبار."},
+pt:{testnet:"⚠️ TESTNET",protocol:"🚀 PROTOCOLO 28",welcome:"Futuro Comercio",subtitle:"60M+ Pioneiros.",login:"Conectar Pi",connected:"Conectado",marketTitle:"🛒 Mercado",marketDesc:"Pagar Pi.",jengaTitle:"🏗️ Construção",jengaDesc:"Materiais.",bookingTitle:"📅 Serviços",bookingDesc:"Reservar.",profileTitle:"👤 Perfil",profileUser:"Convidado",profilePi:"Saldo:--",logout:"Sair",navHome:"Início",navMarket:"Mercado",navJenga:"Construir",navBooking:"Reserva",navProfile:"Perfil",aiTitle:"ASSISTENTE",aiWelcome:"Olá!",aiPlaceholder:"Pergunte...",payBtn:"Pagar Pi",testAlert:"TESTNET."},
+ru:{testnet:"⚠️ ТЕСТ",protocol:"🚀 ПРОТОКОЛ 28",welcome:"Будущее",subtitle:"60M+.",login:"Подключить Pi",connected:"Подключено",marketTitle:"🛒 Рынок",marketDesc:"Оплата Pi.",jengaTitle:"🏗️ Стройка",jengaDesc:"Материалы.",bookingTitle:"📅 Услуги",bookingDesc:"Бронь.",profileTitle:"👤 Профиль",profileUser:"Гость",profilePi:"Баланс:--",logout:"Выход",navHome:"Главная",navMarket:"Рынок",navJenga:"Стройка",navBooking:"Бронь",navProfile:"Профиль",aiTitle:"АССИСТЕНТ",aiWelcome:"Привет!",aiPlaceholder:"Спросить...",payBtn:"Оплатить",testAlert:"ТЕСТ."},
+de:{testnet:"⚠️ TESTNET",protocol:"🚀 PROTOKOLL 28",welcome:"Zukunft",subtitle:"60M+.",login:"Pi verbinden",connected:"Verbunden",marketTitle:"🛒 Markt",marketDesc:"Mit Pi zahlen.",jengaTitle:"🏗️ Bauen",jengaDesc:"Material.",bookingTitle:"📅 Service",bookingDesc:"Buchen.",profileTitle:"👤 Profil",profileUser:"Gast",profilePi:"Guthaben:--",logout:"Trennen",navHome:"Start",navMarket:"Markt",navJenga:"Bauen",navBooking:"Buchung",navProfile:"Profil",aiTitle:"KI",aiWelcome:"Hallo!",aiPlaceholder:"Frage...",payBtn:"Mit Pi",testAlert:"TESTNET."},
+hi:{testnet:"⚠️ TESTNET",protocol:"🚀 प्रोटोकॉल 28",welcome:"भविष्य",subtitle:"60M+.",login:"Pi कनेक्ट",connected:"कनेक्टेड",marketTitle:"🛒 बाजार",marketDesc:"Pi भुगतान।",jengaTitle:"🏗️ निर्माण",jengaDesc:"सामग्री।",bookingTitle:"📅 सेवाएं",bookingDesc:"बुक करें।",profileTitle:"👤 प्रोफ़ाइल",profileUser:"अतिथि",profilePi:"बैलेंस:--",logout:"डिस्कनेक्ट",navHome:"होम",navMarket:"बाजार",navJenga:"निर्माण",navBooking:"बुकिंग",navProfile:"प्रोफ़ाइल",aiTitle:"AI",aiWelcome:"नमस्ते!",aiPlaceholder:"पूछें...",payBtn:"Pi भुगतान",testAlert:"TESTNET।"},
+jp:{testnet:"⚠️ テスト",protocol:"🚀 プロトコル28",welcome:"未来",subtitle:"6000万。",login:"Pi接続",connected:"接続済",marketTitle:"🛒 市場",marketDesc:"Pi支払い。",jengaTitle:"🏗️ 建設",jengaDesc:"資材。",bookingTitle:"📅 サービス",bookingDesc:"予約。",profileTitle:"👤 プロフ",profileUser:"ゲスト",profilePi:"残高:--",logout:"切断",navHome:"ホーム",navMarket:"市場",navJenga:"建設",navBooking:"予約",navProfile:"プロフ",aiTitle:"AI",aiWelcome:"こんにちは!",aiPlaceholder:"質問...",payBtn:"Pi支払",testAlert:"テスト。"},
+ko:{testnet:"⚠️ 테스트",protocol:"🚀 프로토콜28",welcome:"미래",subtitle:"6000만.",login:"Pi 연결",connected:"연결됨",marketTitle:"🛒 마켓",marketDesc:"Pi 결제.",jengaTitle:"🏗️ 건설",jengaDesc:"자재.",bookingTitle:"📅 서비스",bookingDesc:"예약.",profileTitle:"👤 프로필",profileUser:"게스트",profilePi:"잔액:--",logout:"해제",navHome:"홈",navMarket:"마켓",navJenga:"건설",navBooking:"예약",navProfile:"프로필",aiTitle:"AI",aiWelcome:"안녕!",aiPlaceholder:"질문...",payBtn:"Pi 결제",testAlert:"테스트."}
 };
 
-// PICHA 12 ZINAZOFANYA KAZI NDANI YA PI BROWSER
-const products = [
-  {name:"SHALOM VILLA DUBAI", price:5.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=VILLA+DUBAI"},
-  {name:"BUGATTI CHIRON", price:10.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=BUGATTI"},
-  {name:"TESLA MODEL S", price:0.2, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=TESLA"},
-  {name:"IPHONE 17 PRO MAX", price:0.005, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=IPHONE+17"},
-  {name:"ROLEX GMT MASTER", price:0.1, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=ROLEX"},
-  {name:"MALDIVES ISLAND", price:50.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=MALDIVES"},
-  {name:"1KG GOLD BAR", price:0.8, img:"https://via.placeholder.com/400x300/f59e0b/4c1d95?text=GOLD+BAR"},
-  {name:"PRIVATE JET 1H", price:0.5, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=PRIVATE+JET"},
-  {name:"BURJ AL ARAB 1 NIGHT", price:0.01, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=BURJ+AL+ARAB"},
-  {name:"TEXAS RANCH 1000AC", price:10.0, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=TEXAS+RANCH"},
-  {name:"HARVARD COURSE", price:0.2, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HARVARD"},
-  {name:"LUXURY HEALTH CHECK", price:0.5, img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HEALTH+CHECK"}
+const products=[
+{name:"VILLA DUBAI",price:5,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=VILLA"},
+{name:"BUGATTI",price:10,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=BUGATTI"},
+{name:"TESLA",price:0.2,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=TESLA"},
+{name:"IPHONE 17",price:0.005,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=IPHONE"},
+{name:"ROLEX",price:0.1,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=ROLEX"},
+{name:"MALDIVES",price:50,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=ISLAND"},
+{name:"GOLD 1KG",price:0.8,img:"https://via.placeholder.com/400x300/f59e0b/4c1d95?text=GOLD"},
+{name:"PRIVATE JET",price:0.5,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=JET"},
+{name:"BURJ AL ARAB",price:0.01,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HOTEL"},
+{name:"TEXAS RANCH",price:10,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=RANCH"},
+{name:"HARVARD",price:0.2,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HARVARD"},
+{name:"HEALTH CHECK",price:0.5,img:"https://via.placeholder.com/400x300/4c1d95/f59e0b?text=HEALTH"}
 ];
 
-function loadProducts(){
-  const lang = document.getElementById("lang").value; const t = translations[lang];
-  let html = ""; products.forEach(p=>{ html += `<div class="product-card"><img src="${p.img}"><h4>${p.name}</h4><p class="product-price">π ${p.price}</p><button class="btn product-btn btn-pay" onclick="payWithPi(${p.price}, '${p.name}')">${t.payBtn}</button><button class="btn product-btn btn-cart" onclick="addToCart('${p.name}', ${p.price})">🛒 Add to Cart</button></div>`; });
-  document.getElementById("productsGrid").innerHTML = html;
-}
+function loadProducts(){const lang=document.getElementById("lang").value;const t=translations[lang];let html="";products.forEach((p,i)=>{html+=`<div class="product-card"><img src="${p.img}"><h4>${p.name}</h4><p class="product-price">π ${p.price}</p><button class="btn product-btn" onclick="payWithPi(${p.price},${i})">${t.payBtn}</button><button class="btn product-btn" style="background:#fff;color:var(--purple);border:2px solid var(--purple)" onclick="addToCart(${i})">🛒 Cart</button></div>`});document.getElementById("productsGrid").innerHTML=html}
+function changeLang(){const lang=document.getElementById("lang").value;const t=translations[lang];for(let k in t){if(document.getElementById(k))document.getElementById(k).innerText=t[k]}loadProducts()}
+document.querySelectorAll('.nav-item').forEach(i=>{i.addEventListener('click',function(){const p=this.dataset.page;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));this.classList.add('active');if(p=='marketPage')loadProducts()})})
+function comingSoon(){alert('Coming on Mainnet')}
 
-function changeLang(){ const lang = document.getElementById("lang").value; const t = translations[lang]; for(let key in t){ if(document.getElementById(key)) document.getElementById(key).innerText = t[key]; } document.getElementById("ai-input").placeholder = t.aiPlaceholder; loadProducts(); }
+Pi.init({version:"2.0",sandbox:true});
+document.getElementById("loginBtn").onclick=async()=>{const lang=document.getElementById("lang").value;try{const auth=await Pi.authenticate(['username','payments']);document.getElementById("status").innerText=translations[lang].connected;document.getElementById("loginBtn").disabled=true;document.getElementById("profileUser").innerText="Status: "+auth.user.username}catch(e){alert("Open in Pi Browser")}}
 
-document.querySelectorAll('.nav-item').forEach(item => { item.addEventListener('click', function() { const pageId = this.getAttribute('data-page'); document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(pageId).classList.add('active'); document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); this.classList.add('active'); if(pageId === 'marketPage') loadProducts(); }); });
-function comingSoon(){ alert('Coming on Open Mainnet'); }
+async function payWithPi(amount,index){const lang=document.getElementById("lang").value;const t=translations[lang];const p=products[index];if(!confirm(`Pay ${p.name}\nAmount: π ${amount}\n\n${t.testAlert}`))return;Pi.createPayment({amount:amount,memo:"TEST:"+p.name},{
+onReadyForServerApproval:(id)=>Pi.approvePayment(id),
+onReadyForServerCompletion:(id,tx)=>alert("✅ Payment Complete!"),
+onCancel:()=>alert("Cancelled"),
+onError:(e)=>alert("Error: "+e)
+})}
 
-// AI CODE
-const aiBrain = { en: {"what is shalom": "SHALOM is the first Global Super App built on Pi Network.", "default": "Thank you for your question."}, sw: {"shalom ni nini": "SHALOM ni Super App ya kwanza kujengwa juu ya Pi Network.", "default": "Asante kwa swali lako."} };
-function getAIAnswer(q, lang){ q = q.toLowerCase(); const brain = aiBrain[lang] || aiBrain['en']; for(let key in brain){ if(q.includes(key)) return brain[key]; } return brain['default']; }
-document.getElementById('ai-btn').onclick = () => { const box = document.getElementById('ai-chatbox'); box.style.display = box.style.display === 'flex'? 'none' : 'flex'; }
-document.getElementById('ai-send').onclick = () => { const msg = document.getElementById('ai-input').value.trim(); if(!msg) return; const lang = document.getElementById("lang").value; document.getElementById('ai-messages').innerHTML += `<div class="msg-user">${msg}</div>`; setTimeout(() => { document.getElementById('ai-messages').innerHTML += `<div class="msg-ai">${getAIAnswer(msg, lang)}</div>`; }, 600); document.getElementById('ai-input').value = ''; }
-
-// PI LOGIN + MALIPO YANAYOFANYA KAZI BILA SERVER
-Pi.init({version:"2.0", sandbox:true});
-document.getElementById("loginBtn").onclick = async () => { const lang = document.getElementById("lang").value; document.getElementById("status").innerText = "Connecting..."; try{ const auth = await Pi.authenticate(['username', 'payments']); document.getElementById("status").innerText = translations[lang].connected; document.getElementById("loginBtn").innerText = translations[lang].connected; document.getElementById("loginBtn").disabled = true; document.getElementById("profileUser").innerText = "Status: " + auth.user.username; }catch(e){ alert("Please open this app inside Pi Browser"); } }
-
-async function payWithPi(amount, productName) {
-  const lang = document.getElementById("lang").value; const t = translations[lang];
-  const fee = 0.01; const total = (amount + fee).toFixed(3);
-  const confirm = window.confirm(`Confirm Payment\nProduct: ${productName}\nAmount: π ${amount}\nFee: π ${fee}\nTotal: π ${total}\n\n${t.testAlert}`);
-  if(!confirm) return;
-  try{
-    Pi.createPayment({amount: amount, memo: "TESTNET: "+productName, metadata: { product: productName }}, {
-      onReadyForServerApproval: (paymentId) => {
-        // HII NDIO SIRI: TUNAJITHIBITISHA MOJA KWA MOJA BILA SERVER
-        Pi.approvePayment(paymentId);
-      },
-      onReadyForServerCompletion: (paymentId, txid) => {
-        alert("✅ Payment Complete! Thank you for testing SHALOM");
-      },
-      onCancel: () => alert("Cancelled"),
-      onError: (error) => alert("Error: " + error)
-    });
-  }catch(e){ alert("Open in Pi Browser"); }
-}
-
-let cart = []; function addToCart(name, price){ cart.push({name, price}); alert(`🛒 ${name} added to cart. Total: ${cart.length}`); }
-document.getElementById("logoutBtn").onclick = () => location.reload();
-changeLang(); // pakia lugha mara ya kwanza
-</script>
-</body>
-</html>
+let cart=[];function addToCart(i){cart.push(products[i]);alert(`Added to cart. Total: ${cart.length}`)}
+document.getElementById("logoutBtn").onclick=()=>location.reload();
+document.getElementById('ai-btn').onclick=()=>{const b=document.getElementById('ai-chatbox');b.style.display=b.style.display=='flex'?'none':'flex'}
+changeLang();
+</script></body></html>
